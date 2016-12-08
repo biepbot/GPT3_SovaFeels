@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         playerController = GetComponent<PlayerController>();
-        if (MobileHelper.OnTouchDevice)
+        if (MobileHelper.OnMobileDevice)
         {
             Instantiate(Resources.Load("MobileSingleStickControl"));
         }
@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
         //If the player is pressing the positive vertical axis input, or jump input, the character needs to jump
         bool doJump = false;
 
-        if (MobileHelper.OnTouchDevice)
+        if (MobileHelper.OnMobileDevice)
         {
             doJump = CrossPlatformInputManager.GetButton("Jump") ||
                 CrossPlatformInputManager.GetButton("Jump") && (int)CrossPlatformInputManager.GetAxis("Horizontal") != 0 ||
@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
     private void CheckXMovement()
     {
         int inputX;
-        if (MobileHelper.OnTouchDevice)
+        if (MobileHelper.OnMobileDevice)
         {
             inputX = (int)CrossPlatformInputManager.GetAxis("Horizontal");
         }
