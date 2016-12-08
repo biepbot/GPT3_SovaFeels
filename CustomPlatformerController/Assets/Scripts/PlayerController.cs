@@ -30,14 +30,18 @@ public class PlayerController : BaseController
     public void Move(Vector3 velocity)
     {
         velocity *= Time.deltaTime;
+
+        //Update the raycast and reset collissions
         rayCaster.UpdateRayCastOrigins(InnerBounds());
         collInfo.Reset();
 
-        if (velocity.x != 0) HorizontalCollision(ref velocity);
-        if (velocity.y != 0) VerticalCollision(ref velocity);
+        //Handle the collissions for both horizontal as vertical
+        HandleCollision(ref velocity);
 
+        //Translate the new speed
         thisTransform.Translate(velocity);
 
+        //Check if after moving, a NPC is in range
         CheckInteractable();
     }
 
@@ -49,7 +53,7 @@ public class PlayerController : BaseController
     public void PlatformMove(Vector3 velocity)
     {
         rayCaster.UpdateRayCastOrigins(InnerBounds());
-        HorizontalCollision(ref velocity);
+        HandleCollision(ref velocity, true);
         thisTransform.Translate(velocity);
     }
 
@@ -89,30 +93,20 @@ public class PlayerController : BaseController
     }
 
     /// <summary>
-    /// Checks for colisions to the players left and right.
-    /// Direction depends on the velocity.
+    /// Handles the collissions for the speed, both horizontal as vertical
     /// </summary>
-    /// <param name="velocity"></param>
-    private void HorizontalCollision(ref Vector3 velocity)
+    /// <param name="velocity">The speed</param>
+    private void HandleCollision(ref Vector3 velocity)
     {
-        HandleCollision(ref velocity, false);
+        if (velocity.x != 0) HandleCollision(ref velocity, false);
+        if (velocity.y != 0) HandleCollision(ref velocity, true);
     }
 
     /// <summary>
-    /// Checks for colisions to the players top and bottom.
-    /// Direction depends on the velocity.
+    /// Handles the collissions for the speed
     /// </summary>
-    /// <param name="velocity"></param>
-    private void VerticalCollision(ref Vector3 velocity)
-    {
-        HandleCollision(ref velocity, true);
-    }
-
-    /// <summary>
-    /// Handles the collissions
-    /// </summary>
-    /// <param name="velocity"></param>
-    /// <param name="vertical"></param>
+    /// <param name="velocity">The speed</param>
+    /// <param name="vertical">Wether it is a vertical or horizontal collission</param>
     private void HandleCollision(ref Vector3 velocity, bool vertical)
     {
         float vel = vertical ? velocity.y : velocity.x;
