@@ -10,16 +10,16 @@ using UnityEngine;
 public class SaveSystem : ISave
 {
     private static int defaultSize = 16;
-    private static string defaultPath = "/SaveData/";
-    private static string fileName = "data.dat";
+    private static string defaultPath = "/SaveData";
+    private static string fileName = "/data.dat";
 
 
     private int size;
     private int itemCount;
 
-    private SaveSystem instance = null;
+    private static SaveSystem instance = null;
 
-    public SaveSystem Instance { get { return instance = (instance == null) ? new SaveSystem() : instance; } }
+    public static SaveSystem Instance { get { return instance = (instance == null) ? new SaveSystem() : instance; } }
 
     private List<object> objects;
 
@@ -47,15 +47,19 @@ public class SaveSystem : ISave
 
     public void Save()
     {
+        string path = Application.persistentDataPath + /*defaultPath +*/ fileName;
+        if (File.Exists(path))
+            File.Delete(path);
+
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream fs = new FileStream(Application.persistentDataPath + defaultPath + fileName, FileMode.Open);
+        FileStream fs = new FileStream(path, FileMode.CreateNew);
         bf.Serialize(fs, objects);
         fs.Close();
     }
 
     public void Load()
     {
-        string path = Application.persistentDataPath + defaultPath + fileName;
+        string path = Application.persistentDataPath /*+ defaultPath*/+ fileName;
         if (File.Exists(path))
         {
             BinaryFormatter bf = new BinaryFormatter();
