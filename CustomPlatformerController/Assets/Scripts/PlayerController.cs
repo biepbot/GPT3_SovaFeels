@@ -21,10 +21,13 @@ public class PlayerController : BaseController
 		base.Awake();
 		canvasScript = canvas.GetComponent<CanvasScript>();
 	}
-
-	// This is the standard move method.
-	// Takes the velocity at which the player should be moved.
-	public void Move(Vector3 velocity)
+    
+    /// <summary>
+    /// This is the standard move method.
+    /// Takes the velocity at which the player should be moved.
+    /// </summary>
+    /// <param name="velocity"></param>
+    public void Move(Vector3 velocity)
 	{
 		velocity *= Time.deltaTime;
 		rayCaster.UpdateRayCastOrigins(InnerBounds());
@@ -37,28 +40,35 @@ public class PlayerController : BaseController
 
 		CheckInteractable();
 	}
-
-	// Moves the player when on a platform.
-	// Takes the platform velocity to move the player at equal speed.
-	public void PlatformMove(Vector3 velocity)
+    
+    /// <summary>
+    /// Moves the player when on a platform.
+    /// Takes the platform velocity to move the player at equal speed.
+    /// </summary>
+    /// <param name="velocity"></param>
+    public void PlatformMove(Vector3 velocity)
 	{
 		rayCaster.UpdateRayCastOrigins(InnerBounds());
 		HorizontalColision(ref velocity);
 		thisTransform.Translate(velocity);
 	}
-
-	// If there is an item to interact with, interact with it.
-	public void Interact()
+    
+    /// <summary>
+    /// If there is an item to interact with, interact with it.
+    /// </summary>
+    public void Interact()
 	{
 		if (interactable != null)
 		{
 			interactable.GetComponent<NPCController>().Talk();
 		}
 	}
-
-	// Looks at the players right and left for the closest interactable object.
-	// This object will be saved in interactable.
-	private void CheckInteractable()
+    
+    /// <summary>
+    /// Looks at the players right and left for the closest interactable object.
+    /// This object will be saved in interactable.
+    /// </summary>
+    private void CheckInteractable()
 	{
 		interactable = null;
 		for (int i = 0; i < rayCaster.horizontalRayCount; i++)
@@ -77,10 +87,13 @@ public class PlayerController : BaseController
 		}
 		canvasScript.RemoveDialog();
 	}
-
-	// Checks for colisions to the players left and right.
-	// Direction depends on the velocity.
-	private void HorizontalColision(ref Vector3 velocity)
+    
+    /// <summary>
+    /// Checks for colisions to the players left and right.
+    /// Direction depends on the velocity.
+    /// </summary>
+    /// <param name="velocity"></param>
+    private void HorizontalColision(ref Vector3 velocity)
 	{
 		float directionX = Mathf.Sign(velocity.x);
 		float rayLength = Mathf.Abs(velocity.x) + skinWidth;
@@ -101,10 +114,13 @@ public class PlayerController : BaseController
 			}
 		}
 	}
-
-	// Checks for colisions to the players top and bottom.
-	// Direction depends on the velocity.
-	private void VerticalColision(ref Vector3 velocity)
+    
+    /// <summary>
+    /// Checks for colisions to the players top and bottom.
+    /// Direction depends on the velocity.
+    /// </summary>
+    /// <param name="velocity"></param>
+    private void VerticalColision(ref Vector3 velocity)
 	{
 		float directionY = Mathf.Sign(velocity.y);
 		float rayLength = Mathf.Abs(velocity.y) + skinWidth;
