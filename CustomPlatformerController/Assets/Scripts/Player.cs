@@ -5,30 +5,30 @@ using UnityStandardAssets.CrossPlatformInput;
 [RequireComponent(typeof(PlayerController))]
 public class Player : MonoBehaviour
 {
-	public float moveSpeed = 5f;
-	public float jumpingHeight = 15f;
-	public float gravity = 30f;
-	public float smoothTime = 0.15f;
+    public float moveSpeed = 5f;
+    public float jumpingHeight = 15f;
+    public float gravity = 30f;
+    public float smoothTime = 0.15f;
 
-	public PlayerInfo playerInfo;
+    public PlayerInfo playerInfo;
 
-	private Vector3 velocity;
-	private float velocityTarget;
-	private float smoothVelocity;
+    private Vector3 velocity;
+    private float velocityTarget;
+    private float smoothVelocity;
 
-	private PlayerController playerController;
+    private PlayerController playerController;
 
-	void Awake()
-	{
-		playerController = GetComponent<PlayerController>();
+    void Awake()
+    {
+        playerController = GetComponent<PlayerController>();
         if (MobileHelper.OnTouchDevice)
         {
             Instantiate(Resources.Load("MobileSingleStickControl"));
         }
-	}
+    }
 
-	void Update()
-	{
+    void Update()
+    {
         CheckYBump();
 
         CheckXMovement();
@@ -36,14 +36,14 @@ public class Player : MonoBehaviour
         CheckJump();
 
         //Enable gravity to the player, if the player is not standing on a platform
-		if (!playerController.collInfo.below) velocity.y -= gravity * Time.deltaTime;
+        if (!playerController.collInfo.below) velocity.y -= gravity * Time.deltaTime;
 
         //Move the player with the adjusted speeds
         playerController.Move(velocity);
 
-		if (Input.GetAxis("Interact") == 1) playerController.Interact();
+        if (Input.GetAxis("Interact") == 1) playerController.Interact();
 
-	}
+    }
 
     /// <summary>
     /// Checks if the player is holding any buttons to jump
@@ -51,7 +51,18 @@ public class Player : MonoBehaviour
     private void CheckJump()
     {
         //If the player is pressing the positive vertical axis input, or jump input, the character needs to jump
-        bool doJump = Input.GetAxis("Vertical") == 1 || Input.GetAxis("Jump") == 1 || CrossPlatformInputManager.GetButtonDown("Jump");
+        bool doJump = false;
+
+        if (MobileHelper.OnTouchDevice)
+        {
+            doJump = CrossPlatformInputManager.GetButton("Jump") ||
+                CrossPlatformInputManager.GetButton("Jump") && (int)CrossPlatformInputManager.GetAxis("Horizontal") != 0 ||
+                (int)CrossPlatformInputManager.GetAxis("Horizontal") != 0 && CrossPlatformInputManager.GetButton("Jump");
+        }
+        else
+        {
+            doJump = Input.GetAxis("Vertical") == 1 || Input.GetAxis("Jump") == 1;
+        }
 
         //If the player needs to jump, and is able to, jump.
         if (doJump && playerController.collInfo.below) velocity.y = jumpingHeight;
@@ -87,13 +98,13 @@ public class Player : MonoBehaviour
         if (playerController.collInfo.below || playerController.collInfo.above) velocity.y = 0;
     }
 
-	public void PlatformMove(Vector3 velocity)
-	{
-		playerController.PlatformMove(velocity);
-	}
+    public void PlatformMove(Vector3 velocity)
+    {
+        playerController.PlatformMove(velocity);
+    }
 
-	public struct PlayerInfo
-	{
-		public int direction; // Left: -1; Right: 1;
-	}
+    public struct PlayerInfo
+    {
+        public int direction; // Left: -1; Right: 1;
+    }
 }
