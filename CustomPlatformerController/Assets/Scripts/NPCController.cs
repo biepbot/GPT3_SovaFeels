@@ -8,12 +8,10 @@ public class NPCController : MonoBehaviour
 	public GameObject canvas;
 	private CanvasScript canvasScript;
 
-	public string badEndResponse;
-	public string goodEndResponse;
-
-	public List<Dialog> dialogList;
-	private int currentDialog = 0;
-
+	public Dialog[] dialogList;
+	public int currentDialogNumber = 0;
+	private Option lastOption;
+	public string MontyFeedBack;
 
 	public void Awake()
 	{
@@ -22,24 +20,80 @@ public class NPCController : MonoBehaviour
 
 	public void Talk()
 	{
-		string[] dialog = new string[5];
-		dialog[0] = dialogList[currentDialog].initialDialog;
-		dialogList[currentDialog].answers.CopyTo(dialog, 1);
-		canvasScript.SetDialog(dialog);
+		if (currentDialogNumber == -1)
+		{
+			canvasScript.DisableAllButtons();
+			canvasScript.SetDialogBox(lastOption.charaterResponse);
+		}
+		else
+		{
+			canvasScript.EnableAllButtons();
+			Dialog currentDialog = dialogList[currentDialogNumber];
+			canvasScript.SetDialogBox(currentDialog.initialDialog);
+
+			for (int i = 0; i < 4; i++)
+			{
+				canvasScript.answerButtons[i].onClick.RemoveAllListeners();
+				LoadDialog(i, currentDialog);
+
+				//if (currentDialog.answers[i].answerType != SolutionTypes.Confrontation)
+				//{
+				//	canvasScript.answerButtons[i].transform.GetChild(0).GetComponent<Text>().text = currentDialog.answers[i].buttonText;
+					
+				//	canvasScript.answerButtons[i].onClick.AddListener(delegate { RespondBad(currentDialog.answers[i]); });
+				//}
+				//else
+				//{
+				//	canvasScript.answerButtons[i].transform.GetChild(0).GetComponent<Text>().text = currentDialog.answers[i].buttonText;
+				//	canvasScript.answerButtons[i].onClick.AddListener(delegate { RespondGood(currentDialog.answers[i]); });
+				//}
+			}
+			
+		}
+
 	}
 
-	public void RespondGood()
+	private void LoadDialog(int i, Dialog currentDialog)
 	{
-		string[] dialog = new string[1];
-		dialog[0] = goodEndResponse;
-		canvasScript.SetDialog(dialog);
+		if (currentDialog.answers[i].answerType != SolutionTypes.Confrontation)
+		{
+			canvasScript.answerButtons[i].transform.GetChild(0).GetComponent<Text>().text = currentDialog.answers[i].buttonText;
+
+			canvasScript.answerButtons[i].onClick.AddListener(delegate { RespondBad(currentDialog.answers[i]); });
+		}
+		else
+		{
+			canvasScript.answerButtons[i].transform.GetChild(0).GetComponent<Text>().text = currentDialog.answers[i].buttonText;
+			canvasScript.answerButtons[i].onClick.AddListener(delegate { RespondGood(currentDialog.answers[i]); });
+		}
+	}
+
+	public void RespondGood(Option selectedResponse)
+	{
+		currentDialogNumber++;
+
+		if (currentDialogNumber >= dialogList.Length)
+		{
+			lastOption = selectedResponse;
+			currentDialogNumber = -1;
+		}
+
+		Talk();
+	}
+
+	public void RespondBad(Option selectedResponse)
+	{
+		lastOption = selectedResponse;
+		currentDialogNumber = -1;
+		Talk();
+
 	}
 
 	[System.Serializable]
 	public class Dialog
 	{
 		public string initialDialog;
-		public string[] answers; // !!! Must be 4 big !!!
+		public Option[] answers;
 	}
 
 	[System.Serializable]

@@ -7,7 +7,7 @@ public class CanvasScript : MonoBehaviour
 	public Camera playerCamera;
 	public GameObject interactableIcon;
 	public Text saidField;
-	public Button[] awnserButtons = new Button[4];
+	public Button[] answerButtons = new Button[4];
 
 	public GameObject dialogPannel;
 
@@ -32,26 +32,35 @@ public class CanvasScript : MonoBehaviour
 		interactableTransform.position = NewPos;
 	}
 
-	public void SetDialog(string[] textInfo)
+	public void SetDialogBox(string text)
 	{
-		saidField.text = textInfo[0];
-		if (textInfo.Length > 1)
-		{
-			awnserButtons[0].transform.GetChild(0).GetComponent<Text>().text = textInfo[1];
-			awnserButtons[1].transform.GetChild(0).GetComponent<Text>().text = textInfo[2];
-			awnserButtons[2].transform.GetChild(0).GetComponent<Text>().text = textInfo[3];
-			awnserButtons[3].transform.GetChild(0).GetComponent<Text>().text = textInfo[4];
-		}
-		else
-		{
-		}
-
+		saidField.text = text;
 		dialogPannel.SetActive(true);
 
 	}
 
+	public void DisableAllButtons()
+	{
+		foreach (Button b in answerButtons)
+		{
+			b.gameObject.SetActive(false);
+		}
+	}
+
+	public void EnableAllButtons()
+	{
+		foreach (Button b in answerButtons)
+		{
+			b.gameObject.SetActive(true);
+		}
+	}
+
 	public void RemoveDialog()
 	{
-		dialogPannel.SetActive(false);
+		if (dialogPannel.activeSelf)
+		{
+			dialogPannel.SetActive(false);
+			DisableAllButtons();
+		}
 	}
 }
