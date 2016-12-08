@@ -27,28 +27,21 @@ public class Player : MonoBehaviour
 		if (playerController.collInfo.below || playerController.collInfo.above) velocity.y = 0;
 		int inputX = 0;
 
-		if (Input.GetKey(KeyCode.LeftArrow))
-		{
-			inputX -= 1;
-			playerInfo.direction = -1;
-		}
-		if (Input.GetKey(KeyCode.RightArrow))
-		{
-			inputX += 1;
-			playerInfo.direction = 1;
-		}
+        inputX = (int)Input.GetAxis("Horizontal");
+        playerInfo.direction = (int)Input.GetAxis("Horizontal");
 
-		if (Input.GetKey(KeyCode.UpArrow) && playerController.collInfo.below) velocity.y = jumpingHeight;
+        bool doJump = Input.GetAxis("Vertical") == 1 || Input.GetAxis("Jump") == 1;
+
+		if (doJump && playerController.collInfo.below) velocity.y = jumpingHeight;
 
 		velocityTarget = inputX * moveSpeed; // Time.deltaTime in PlayerController
-
 		velocity.x = Mathf.SmoothDamp(velocity.x, velocityTarget, ref smoothVelocity, smoothTime);
 
 		if (!playerController.collInfo.below) velocity.y -= gravity * Time.deltaTime;
 
 		playerController.Move(velocity);
 
-		if (Input.GetKeyDown(KeyCode.Space)) playerController.Interact();
+		if (Input.GetAxis("Interact") == 1) playerController.Interact();
 
 	}
 
