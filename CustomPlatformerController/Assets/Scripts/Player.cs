@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
+using Assets.Scripts.Base;
+using UnityStandardAssets.CrossPlatformInput;
 
 [RequireComponent(typeof(PlayerController))]
 public class Player : MonoBehaviour
@@ -20,6 +21,10 @@ public class Player : MonoBehaviour
 	void Awake()
 	{
 		playerController = GetComponent<PlayerController>();
+        if (MobileHelper.OnTouchDevice)
+        {
+            Instantiate(Resources.Load("MobileSingleStickControl"));
+        }
 	}
 
 	void Update()
@@ -46,7 +51,7 @@ public class Player : MonoBehaviour
     private void CheckJump()
     {
         //If the player is pressing the positive vertical axis input, or jump input, the character needs to jump
-        bool doJump = Input.GetAxis("Vertical") == 1 || Input.GetAxis("Jump") == 1;
+        bool doJump = Input.GetAxis("Vertical") == 1 || Input.GetAxis("Jump") == 1 || CrossPlatformInputManager.GetButtonDown("Jump");
 
         //If the player needs to jump, and is able to, jump.
         if (doJump && playerController.collInfo.below) velocity.y = jumpingHeight;
@@ -57,7 +62,15 @@ public class Player : MonoBehaviour
     /// </summary>
     private void CheckXMovement()
     {
-        int inputX = (int)Input.GetAxis("Horizontal");
+        int inputX;
+        if (MobileHelper.OnTouchDevice)
+        {
+            inputX = (int)CrossPlatformInputManager.GetAxis("Horizontal");
+        }
+        else
+        {
+            inputX = (int)Input.GetAxis("Horizontal");
+        }
 
         //The movement over the X axis is defined by the input of the Horizontal axis
         playerInfo.direction = inputX;
