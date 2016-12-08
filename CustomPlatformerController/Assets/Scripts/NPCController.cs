@@ -8,7 +8,6 @@ public class NPCController : MonoBehaviour
 	public GameObject canvas;
 	private CanvasScript canvasScript;
 
-
 	public string badEndResponse;
 	public string goodEndResponse;
 
@@ -41,5 +40,20 @@ public class NPCController : MonoBehaviour
 	{
 		public string initialDialog;
 		public string[] answers; // !!! Must be 4 big !!!
+	}
+
+	[System.Serializable]
+	public class Option
+	{
+		public string buttonText;
+		public SolutionTypes answerType;
+		public string charaterResponse;
+	}
+
+	public enum SolutionTypes
+	{
+		Fight,
+		Flight,
+		Confrontation
 	}
 }
