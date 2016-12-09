@@ -35,18 +35,6 @@ public class NPCController : MonoBehaviour
 			{
 				canvasScript.answerButtons[i].onClick.RemoveAllListeners();
 				LoadDialog(i, currentDialog);
-
-				//if (currentDialog.answers[i].answerType != SolutionTypes.Confrontation)
-				//{
-				//	canvasScript.answerButtons[i].transform.GetChild(0).GetComponent<Text>().text = currentDialog.answers[i].buttonText;
-					
-				//	canvasScript.answerButtons[i].onClick.AddListener(delegate { RespondBad(currentDialog.answers[i]); });
-				//}
-				//else
-				//{
-				//	canvasScript.answerButtons[i].transform.GetChild(0).GetComponent<Text>().text = currentDialog.answers[i].buttonText;
-				//	canvasScript.answerButtons[i].onClick.AddListener(delegate { RespondGood(currentDialog.answers[i]); });
-				//}
 			}
 			
 		}
