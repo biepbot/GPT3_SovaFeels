@@ -215,6 +215,7 @@ public class SaveSystem : ISave
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream fs = File.OpenRead(path);
+
             List<object> deserializedObjects = (List<object>)bf.Deserialize(fs);
             foreach (object o in deserializedObjects)
             {
