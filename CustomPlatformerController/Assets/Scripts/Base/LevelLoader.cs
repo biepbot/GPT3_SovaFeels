@@ -8,6 +8,7 @@ namespace Assets.Scripts.Base
     public abstract class LevelLoader
     {
         private static List<Scene> AllScenes = new List<Scene>();
+        private static Playthrough currentPlayThrough;
 
         static LevelLoader()
         {
@@ -22,8 +23,6 @@ namespace Assets.Scripts.Base
         public const string OPTIONSCENE_NAME = "options";
         public const string MAINMENUSCENE_NAME = "mainmenu";
         public const string TUTORIALSCENE_NAME = "tutoral";
-
-        public readonly static Playthrough currentPlayThrough = new Playthrough();
 
         /// <summary>
         /// Loads the first scene in the builder
@@ -47,6 +46,33 @@ namespace Assets.Scripts.Base
         public static void LoadOptions()
         {
             SceneManager.LoadScene(FindLevel(OPTIONSCENE_NAME));
+        }
+
+        /// <summary>
+        /// Alternative for LoadRandomLevelSet(bool, true, DEFAULT_LEVEL_AMOUNT, true);
+        /// Creates a new playthrough
+        /// </summary>
+        /// <param name="instantplay">Whether to launch a level from the set</param>
+        public static void NewPlayThrough(bool instantplay)
+        {
+            LoadRandomLevelSet(instantplay, true, DEFAULT_LEVEL_AMOUNT, true);
+        }
+
+        /// <summary>
+        /// Loads a playthrough from file, or creates a new one from scratch
+        /// </summary>
+        public static void LoadPlayThrough(bool instantplay)
+        {
+            //TODO
+            //Prevent duplicate load in SaveSystem instance
+            SaveSystem.Instance.Clear();
+            SaveSystem.Instance.Load();
+
+            currentPlayThrough = SaveSystem.Instance.GetObject<Playthrough>();
+            if (currentPlayThrough == null)
+            {
+                NewPlayThrough(instantplay);
+            }
         }
 
         /// <summary>
@@ -102,6 +128,15 @@ namespace Assets.Scripts.Base
             {
                 return !currentPlayThrough.NoMoreLevels;
             }
+        }
+
+        /// <summary>
+        /// Loads the current level. Also known as a reset, or reload
+        /// </summary>
+        public static void LoadCurrentLevel()
+        {
+            LoadRandomLevelSet(false);
+            SceneManager.LoadScene(currentPlayThrough.CurrentLevel);
         }
 
         /// <summary>

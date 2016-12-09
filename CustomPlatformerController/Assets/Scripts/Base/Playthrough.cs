@@ -41,6 +41,14 @@ namespace Assets.Scripts.Base
             }
         }
 
+        public int CurrentLevel
+        {
+            get
+            {
+                return currentLevel == -1? 0 : currentLevel;
+            }
+        }
+
         private int currentLevel = -1;
 
         public Playthrough()

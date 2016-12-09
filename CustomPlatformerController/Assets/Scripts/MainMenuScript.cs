@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Assets.Scripts.Base;
 
 public class MainMenuScript : MonoBehaviour
 {
@@ -11,13 +12,13 @@ public class MainMenuScript : MonoBehaviour
 
     public void StartNewPlaythrough()
     {
-        SceneManager.LoadScene("Pauzetestscene");
-        // ToDo: generate a new playthrough and load the first level of that playthrough, right now its just set to load up my testscene
+        //Forces a new playthrough
+        LevelLoader.NewPlayThrough(true);
     }
 
     public void ContinueOldPlaythrough()
     {
-        SceneManager.LoadScene("Pauzetestscene");// just set to load my testscene just like the above method
-        // ToDo: make it possible to select an old playthrough? or is there only one playthrough at a time if so then just load up that one
+        //Loads the old, if any, else, loads a new one
+        LevelLoader.LoadPlayThrough(true);
     }
 }
