@@ -23,6 +23,7 @@ namespace Assets.Scripts.Base
         }
 
         public const int DEFAULT_LEVEL_AMOUNT = 5;
+        public const string STATSSCENE_NAME = "stats";
         public const string RANDOMLEVEL_NAME = "level";
         public const string OPTIONSCENE_NAME = "options";
         public const string MAINMENUSCENE_NAME = "mainmenu";
@@ -43,6 +44,14 @@ namespace Assets.Scripts.Base
         public static void LoadTutorial()
         {
             SceneManager.LoadScene(FindLevel(TUTORIALSCENE_NAME));
+        }
+
+        /// <summary>
+        /// Loads the tutorial in the builder
+        /// </summary>
+        public static void LoadStatistics()
+        {
+            SceneManager.LoadScene(FindLevel(STATSSCENE_NAME));
         }
 
         /// <summary>
