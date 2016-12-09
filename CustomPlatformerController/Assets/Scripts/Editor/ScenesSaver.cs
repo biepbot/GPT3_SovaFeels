@@ -21,6 +21,8 @@ public class ScenesSaver : MonoBehaviour
 
     static void Update()
     {
+        if (!Application.isEditor) return;
+
         if(++currentwait == wait)
         {
             EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
