@@ -50,7 +50,7 @@ public class SaveSystem : ISave
     }
 
     /// <summary>
-    /// Instead of adding the list to the save buffer at each object in the list individually to the save buffer.
+    /// Instead of adding the list to the save buffer add each object in the list individually to the save buffer.
     /// </summary>
     /// <param name="elements">The list of objects you want to add individually</param>
     public void AddObjectsIndivually(List<object> elements)
@@ -67,27 +67,6 @@ public class SaveSystem : ISave
             }
         }
     }
-
-    /*
-    /// <summary>
-    /// Replaces the object in the array based on hashcode.
-    /// Will add the object if it doesn't exist.
-    /// </summary>
-    /// <param name="element">The object you want to replace.</param>
-    public void Replace(object element)
-    {
-        bool replaced = false;
-        for (int i = 0; i < objects.Count; i++)
-        {
-            if (objects[i].Equals(element))
-            {
-                objects[i] = element;
-                replaced = true;
-            }
-        }
-
-        if (!replaced) Add(element);
-    }*/
 
     /// <summary>
     /// Works the same as replace <see cref="Replace(object)"/> excepts this method give you control of the add when the object you want to replace doesn't exist.
