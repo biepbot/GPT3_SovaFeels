@@ -68,6 +68,7 @@ public class SaveSystem : ISave
         }
     }
 
+    /*
     /// <summary>
     /// Replaces the object in the array based on hashcode.
     /// Will add the object if it doesn't exist.
@@ -78,7 +79,7 @@ public class SaveSystem : ISave
         bool replaced = false;
         for (int i = 0; i < objects.Count; i++)
         {
-            if (UnityEngine.Object.ReferenceEquals(objects[i], element))
+            if (objects[i].Equals(element))
             {
                 objects[i] = element;
                 replaced = true;
@@ -86,19 +87,19 @@ public class SaveSystem : ISave
         }
 
         if (!replaced) Add(element);
-    }
+    }*/
 
     /// <summary>
     /// Works the same as replace <see cref="Replace(object)"/> excepts this method give you control of the add when the object you want to replace doesn't exist.
     /// </summary>
     /// <param name="element">The object you want to replace.</param>
     /// <param name="addWhenNotInBuffer">Wether you want to add the object to the buffer or not when it hasn't been found in the buffer.</param>
-    public void Replace(object element, bool addWhenNotInBuffer)
+    public void Replace(object element, bool addWhenNotInBuffer = true)
     {
         bool replaced = false;
         for (int i = 0; i < objects.Count; i++)
         {
-            if (objects[i].GetHashCode() == element.GetHashCode())
+            if (objects[i].Equals(element))
             {
                 objects[i] = element;
                 replaced = true;
