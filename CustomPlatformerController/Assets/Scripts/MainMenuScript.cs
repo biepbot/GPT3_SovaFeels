@@ -9,6 +9,7 @@ public class MainMenuScript : MonoBehaviour
 {
     public Button startnew;
     public Button continueold;
+    public Button viewStats;
 
     public void StartNewPlaythrough()
     {
@@ -20,5 +21,11 @@ public class MainMenuScript : MonoBehaviour
     {
         //Loads the old, if any, else, loads a new one
         LevelLoader.LoadPlayThrough(true);
+    }
+
+    public void ViewStats()
+    {
+        //Loads the statistics scene
+        SceneManager.LoadScene("StatsScene");
     }
 }
