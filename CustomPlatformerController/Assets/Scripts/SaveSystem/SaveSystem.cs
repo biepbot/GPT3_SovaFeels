@@ -12,9 +12,10 @@ public class SaveSystem : ISave
     private static string defaultPath = "/SaveData/";
     private static string defaultFileName = "data.dat";
 
+    /*
     private static SaveSystem instance = null;
 
-    /*
+    
     /// <summary>
     /// Gets the singleton of the SaveSystem.
     /// </summary>
@@ -46,6 +47,65 @@ public class SaveSystem : ISave
         {
             throw new SerializationException("The given object is not serializable");
         }
+    }
+
+    /// <summary>
+    /// Instead of adding the list to the save buffer at each object in the list individually to the save buffer.
+    /// </summary>
+    /// <param name="elements">The list of objects you want to add individually</param>
+    public void AddObjectsIndivually(List<object> elements)
+    {
+        foreach (object o in elements)
+        {
+            if (o.IsSerializable())
+            {
+                objects.Add(o);
+            }
+            else
+            {
+                throw new SerializationException("The given object is not serializable");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Replaces the object in the array based on hashcode.
+    /// Will add the object if it doesn't exist.
+    /// </summary>
+    /// <param name="element">The object you want to replace.</param>
+    public void Replace(object element)
+    {
+        bool replaced = false;
+        for (int i = 0; i < objects.Count; i++)
+        {
+            if (objects[i].GetHashCode() == element.GetHashCode())
+            {
+                objects[i] = element;
+                replaced = true;
+            }
+        }
+
+        if (!replaced) Add(element);
+    }
+
+    /// <summary>
+    /// Works the same as replace <see cref="Replace(object)"/> excepts this method give you control of the add when the object you want to replace doesn't exist.
+    /// </summary>
+    /// <param name="element">The object you want to replace.</param>
+    /// <param name="addWhenNotInBuffer">Wether you want to add the object to the buffer or not when it hasn't been found in the buffer.</param>
+    public void Replace(object element, bool addWhenNotInBuffer)
+    {
+        bool replaced = false;
+        for (int i = 0; i < objects.Count; i++)
+        {
+            if (objects[i].GetHashCode() == element.GetHashCode())
+            {
+                objects[i] = element;
+                replaced = true;
+            }
+        }
+
+        if (!replaced && addWhenNotInBuffer) Add(element);
     }
 
     /// <summary>
@@ -276,6 +336,58 @@ public class TestData
         this.test3 = test3;
         this.test4 = test4;
     }
+
+    public int Test1
+    {
+        get
+        {
+            return test1;
+        }
+
+        set
+        {
+            test1 = value;
+        }
+    }
+
+    public int Test2
+    {
+        get
+        {
+            return test2;
+        }
+
+        set
+        {
+            test2 = value;
+        }
+    }
+
+    public string Test3
+    {
+        get
+        {
+            return test3;
+        }
+
+        set
+        {
+            test3 = value;
+        }
+    }
+
+    public float Test4
+    {
+        get
+        {
+            return test4;
+        }
+
+        set
+        {
+            test4 = value;
+        }
+    }
 }
 
 [System.Serializable]
@@ -290,5 +402,44 @@ public class TestData2
         this.test1 = test1;
         this.test3 = test3;
         this.test4 = test4;
+    }
+
+    public int Test1
+    {
+        get
+        {
+            return test1;
+        }
+
+        set
+        {
+            test1 = value;
+        }
+    }
+
+    public string Test3
+    {
+        get
+        {
+            return test3;
+        }
+
+        set
+        {
+            test3 = value;
+        }
+    }
+
+    public float Test4
+    {
+        get
+        {
+            return test4;
+        }
+
+        set
+        {
+            test4 = value;
+        }
     }
 }
