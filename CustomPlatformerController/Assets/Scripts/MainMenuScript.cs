@@ -7,10 +7,6 @@ using Assets.Scripts.Base;
 
 public class MainMenuScript : MonoBehaviour
 {
-    public Button startnew;
-    public Button continueold;
-    public Button viewStats;
-
     public void StartNewPlaythrough()
     {
         //Forces a new playthrough
