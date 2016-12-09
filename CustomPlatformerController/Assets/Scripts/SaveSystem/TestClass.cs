@@ -18,6 +18,9 @@ public class TestClass : MonoBehaviour {
         ss.Load(); //
         TestData2 l1 = ss.GetObject<TestData2>();
         List<TestData> l2 = ss.GetObjects<TestData>();
+        List<object> objects = ss.GetObjects();
+        ss.RemoveAll<TestData>();
+        List<object> objects2 = ss.GetObjects();
 
         Debug.Log("Did it works?");
     }
