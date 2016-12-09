@@ -94,6 +94,17 @@ namespace Assets.Scripts.Base
         }
 
         /// <summary>
+        /// Whether the playthrough is able to continue after this level or not
+        /// </summary>
+        public static bool HasMoreLevels
+        {
+            get
+            {
+                return !currentPlayThrough.NoMoreLevels;
+            }
+        }
+
+        /// <summary>
         /// Loads the next level from the set
         /// Generates a new set if no set was present
         /// </summary>

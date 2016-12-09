@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Base.Exceptions;
+using System;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Base
@@ -32,6 +33,14 @@ namespace Assets.Scripts.Base
             }
         }
 
+        public bool NoMoreLevels
+        {
+            get
+            {
+                return currentLevel == levels.Count - 1;
+            }
+        }
+
         private int currentLevel = -1;
 
         public Playthrough()
@@ -45,6 +54,10 @@ namespace Assets.Scripts.Base
         /// <returns></returns>
         public int NextLevel()
         {
+            if (NoMoreLevels)
+            {
+                throw new NotEnoughLevelsException();
+            }
             return currentLevel++;
         }
     }
