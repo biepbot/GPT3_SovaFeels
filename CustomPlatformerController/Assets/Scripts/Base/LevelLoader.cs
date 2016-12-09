@@ -14,7 +14,9 @@ namespace Assets.Scripts.Base
         {
             for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
             {
-                AllScenes.Add(SceneManager.GetSceneByBuildIndex(i));
+                Scene s = SceneManager.GetSceneByBuildIndex(i);
+                if (s.name != null)
+                    AllScenes.Add(s);
             }
         }
 
@@ -55,6 +57,7 @@ namespace Assets.Scripts.Base
         /// <param name="instantplay">Whether to launch a level from the set</param>
         public static void NewPlayThrough(bool instantplay)
         {
+            currentPlayThrough = new Playthrough();
             LoadRandomLevelSet(instantplay, true, DEFAULT_LEVEL_AMOUNT, true);
         }
 
