@@ -7,19 +7,18 @@ namespace Assets.Scripts.Base
 {
     public abstract class LevelLoader
     {
-        private static List<Scene> AllScenes = new List<Scene>();
+        private static List<TinyScene> AllScenes = new List<TinyScene>();
         private static Playthrough currentPlayThrough;
         private static SaveSystem saveSystem;
 
         static LevelLoader()
         {
             saveSystem = new SaveSystem();
-            for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
-            {
-                Scene s = SceneManager.GetSceneByBuildIndex(i);
-                if (s.name != null)
-                    AllScenes.Add(s);
-            }
+
+            saveSystem.Clear();
+            saveSystem.Load("Levels.data");
+            AllScenes = saveSystem.GetObject<List<TinyScene>>();
+            saveSystem.Clear();
         }
 
         public const int DEFAULT_LEVEL_AMOUNT = 5;
@@ -195,7 +194,7 @@ namespace Assets.Scripts.Base
         {
             bool found = false;
             int c = -1;
-            foreach (Scene s in AllScenes)
+            foreach (TinyScene s in AllScenes)
             {
                 c++;
                 if (s.name.ToLower().Contains(contains))
@@ -230,7 +229,7 @@ namespace Assets.Scripts.Base
         {
             List<int> ret = new List<int>();
             int c = -1;
-            foreach (Scene s in AllScenes)
+            foreach (TinyScene s in AllScenes)
             {
                 c++;
                 if (s.name.ToLower().Contains(contains))
