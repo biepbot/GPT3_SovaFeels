@@ -25,6 +25,7 @@ namespace Assets.Scripts.Base
         public const string OPTIONSCENE_NAME = "options";
         public const string MAINMENUSCENE_NAME = "mainmenu";
         public const string TUTORIALSCENE_NAME = "tutoral";
+        public const string SAVE_NAME = "Playthrough.dat";
 
         /// <summary>
         /// Loads the first scene in the builder
@@ -66,16 +67,28 @@ namespace Assets.Scripts.Base
         /// </summary>
         public static void LoadPlayThrough(bool instantplay)
         {
-            //TODO
             //Prevent duplicate load in SaveSystem instance
             SaveSystem.Instance.Clear();
-            SaveSystem.Instance.Load();
+            SaveSystem.Instance.Load(SAVE_NAME);
 
             currentPlayThrough = SaveSystem.Instance.GetObject<Playthrough>();
             if (currentPlayThrough == null)
             {
+                SaveSystem.Instance.Clear();
                 NewPlayThrough(instantplay);
             }
+        }
+
+        /// <summary>
+        /// Saves the playthrough to a file
+        /// </summary>
+        public static void SavePlayThrough()
+        {
+            //Prevent saving more than just the playthrough
+            SaveSystem.Instance.Clear();
+            SaveSystem.Instance.Add(currentPlayThrough);
+            SaveSystem.Instance.Save(SAVE_NAME);
+            SaveSystem.Instance.Clear();
         }
 
         /// <summary>
@@ -150,6 +163,7 @@ namespace Assets.Scripts.Base
         {
             LoadRandomLevelSet(false);
             SceneManager.LoadScene(currentPlayThrough.NextLevel());
+            SavePlayThrough();
         }
 
         /// <summary>
