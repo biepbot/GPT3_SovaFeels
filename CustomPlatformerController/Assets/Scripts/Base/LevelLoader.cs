@@ -7,6 +7,16 @@ namespace Assets.Scripts.Base
 {
     public abstract class LevelLoader
     {
+        private static List<Scene> AllScenes = new List<Scene>();
+
+        static LevelLoader()
+        {
+            for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+            {
+                AllScenes.Add(SceneManager.GetSceneByBuildIndex(i));
+            }
+        }
+
         public const int DEFAULT_LEVEL_AMOUNT = 5;
         public const string RANDOMLEVEL_NAME = "level";
         public const string OPTIONSCENE_NAME = "options";
@@ -40,15 +50,15 @@ namespace Assets.Scripts.Base
         }
 
         /// <summary>
-        /// Loads a set of levels into memory, and starts the first one
+        /// Loads a random set of levels
         /// </summary>
-        /// <param name="instantplay">Whether to launch the level after generating</param>
+        /// <param name="instantplay">Whether to launch a level from the set</param>
         /// <param name="newsetIfIsRequired">Whether to generate a new levelset if no set was generated before</param>
         /// <param name="newset">Whether to force a new levelset</param>
         /// <param name="amount">The amount of levels to generate, defaults to DEFAULT_LEVEL_AMOUNT</param>
         public static void LoadRandomLevelSet(bool instantplay, bool newsetIfIsRequired = true, int amount = DEFAULT_LEVEL_AMOUNT, bool newset = false)
         {
-            if (currentPlayThrough.LacksLevels  && newsetIfIsRequired || newset)
+            if (currentPlayThrough.LacksLevels && newsetIfIsRequired || newset)
             {
                 List<int> selectable = FindLevels(RANDOMLEVEL_NAME);
 
@@ -69,15 +79,17 @@ namespace Assets.Scripts.Base
                     currentPlayThrough.Levels.Add(pick);
                     selectable.RemoveAt(index);
                 }
-
-                if (instantplay)
-                {
-                    LoadNextLevel();
-                }
             }
             else
             {
-                throw new NoLevelsLoadedException();
+                if (currentPlayThrough.LacksLevels)
+                {
+                    throw new NoLevelsLoadedException();
+                }
+            }
+            if (instantplay)
+            {
+                LoadNextLevel();
             }
         }
 
@@ -109,7 +121,7 @@ namespace Assets.Scripts.Base
         {
             bool found = false;
             int c = -1;
-            foreach (Scene s in GetAllScenes())
+            foreach (Scene s in AllScenes)
             {
                 c++;
                 if (s.name.ToLower().Contains(contains))
@@ -144,7 +156,7 @@ namespace Assets.Scripts.Base
         {
             List<int> ret = new List<int>();
             int c = -1;
-            foreach (Scene s in GetAllScenes())
+            foreach (Scene s in AllScenes)
             {
                 c++;
                 if (s.name.ToLower().Contains(contains))
@@ -160,20 +172,6 @@ namespace Assets.Scripts.Base
             {
                 return ret;
             }
-        }
-
-        /// <summary>
-        /// Returns all scenes in the builder
-        /// </summary>
-        /// <returns></returns>
-        private static List<Scene> GetAllScenes()
-        {
-            List<Scene> scenes = new List<Scene>();
-            for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
-            {
-                scenes.Add(SceneManager.GetSceneByBuildIndex(i));
-            }
-            return scenes;
         }
     }
 }
