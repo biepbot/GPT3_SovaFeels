@@ -14,16 +14,22 @@ public class SaveSystem : ISave
 
     private static SaveSystem instance = null;
 
+    /*
     /// <summary>
     /// Gets the singleton of the SaveSystem.
     /// </summary>
-    public static SaveSystem Instance { get { return instance = (instance == null) ? new SaveSystem() : instance; } }
+    public static SaveSystem Instance { get { return instance = (instance == null) ? new SaveSystem() : instance; } } */
 
     private List<object> objects;
 
-    protected SaveSystem()
+    public SaveSystem()
     {
         objects = new List<object>();
+    }
+
+    public SaveSystem(List<object> objects)
+    {
+        this.objects = objects;
     }
 
     /// <summary>
@@ -137,7 +143,7 @@ public class SaveSystem : ISave
         {
             Directory.CreateDirectory(path);
         }
-        path += defaultFileName;
+        path += fileName;
 
         if (File.Exists(path))
         {
