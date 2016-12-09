@@ -78,7 +78,7 @@ public class SaveSystem : ISave
         bool replaced = false;
         for (int i = 0; i < objects.Count; i++)
         {
-            if (objects[i].GetHashCode() == element.GetHashCode())
+            if (UnityEngine.Object.ReferenceEquals(objects[i], element))
             {
                 objects[i] = element;
                 replaced = true;
@@ -198,7 +198,7 @@ public class SaveSystem : ISave
     /// <param name="fileName">The name of the file you want to save the objects to.</param>
     public void Save(string fileName)
     {
-        string path = Application.persistentDataPath + fileName;
+        string path = Application.persistentDataPath + defaultPath;
         if (!Directory.Exists(path))
         {
             Directory.CreateDirectory(path);
