@@ -9,9 +9,11 @@ namespace Assets.Scripts.Base
     {
         private static List<Scene> AllScenes = new List<Scene>();
         private static Playthrough currentPlayThrough;
+        private static SaveSystem saveSystem;
 
         static LevelLoader()
         {
+            saveSystem = new SaveSystem();
             for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
             {
                 Scene s = SceneManager.GetSceneByBuildIndex(i);
@@ -68,13 +70,13 @@ namespace Assets.Scripts.Base
         public static void LoadPlayThrough(bool instantplay)
         {
             //Prevent duplicate load in SaveSystem instance
-            SaveSystem.Instance.Clear();
-            SaveSystem.Instance.Load(SAVE_NAME);
+            saveSystem.Clear();
+            saveSystem.Load(SAVE_NAME);
 
-            currentPlayThrough = SaveSystem.Instance.GetObject<Playthrough>();
+            currentPlayThrough = saveSystem.GetObject<Playthrough>();
             if (currentPlayThrough == null)
             {
-                SaveSystem.Instance.Clear();
+                saveSystem.Clear();
                 NewPlayThrough(instantplay);
             }
         }
@@ -85,10 +87,10 @@ namespace Assets.Scripts.Base
         public static void SavePlayThrough()
         {
             //Prevent saving more than just the playthrough
-            SaveSystem.Instance.Clear();
-            SaveSystem.Instance.Add(currentPlayThrough);
-            SaveSystem.Instance.Save(SAVE_NAME);
-            SaveSystem.Instance.Clear();
+            saveSystem.Clear();
+            saveSystem.Add(currentPlayThrough);
+            saveSystem.Save(SAVE_NAME);
+            saveSystem.Clear();
         }
 
         /// <summary>
