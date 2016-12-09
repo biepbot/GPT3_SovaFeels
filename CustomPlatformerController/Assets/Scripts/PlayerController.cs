@@ -64,7 +64,7 @@ public class PlayerController : BaseController
     {
         if (interactable != null)
         {
-            interactable.GetComponent<NPCController>().Talk();
+            if(interactable.CompareTag("NPC")) interactable.GetComponent<NPCController>().Talk();
         }
     }
 
@@ -84,8 +84,11 @@ public class PlayerController : BaseController
             if (hit)
             {
                 interactable = hit.transform.gameObject;
-                Vector3 interactablePos = interactable.transform.position;
-                canvasScript.SetInteractable(new Vector3(interactablePos.x, interactablePos.y + 2, interactablePos.z));
+				if (!interactable.CompareTag("Monty")) 
+				{
+					Vector3 interactablePos = interactable.transform.position;
+					canvasScript.SetInteractable(new Vector3(interactablePos.x, interactablePos.y + 2, interactablePos.z));
+				}
                 return;
             }
         }

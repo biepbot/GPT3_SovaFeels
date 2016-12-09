@@ -6,12 +6,13 @@ using System.Collections.Generic;
 public class NPCController : MonoBehaviour
 {
 	public GameObject canvas;
-	private CanvasScript canvasScript;
-
 	public Dialog[] dialogList;
-	public int currentDialogNumber = 0;
+	public Emotion currentEmotion;
+
+	private CanvasScript canvasScript;
+	private int currentDialogNumber = 0;
 	private Option lastOption;
-	public string MontyFeedBack;
+	
 
 	public void Awake()
 	{
@@ -36,9 +37,7 @@ public class NPCController : MonoBehaviour
 				canvasScript.answerButtons[i].onClick.RemoveAllListeners();
 				LoadDialog(i, currentDialog);
 			}
-			
 		}
-
 	}
 
 	private void LoadDialog(int i, Dialog currentDialog)
@@ -65,7 +64,7 @@ public class NPCController : MonoBehaviour
 			lastOption = selectedResponse;
 			currentDialogNumber = -1;
 		}
-
+		currentEmotion = lastOption.resultedEmotion;
 		Talk();
 	}
 
@@ -73,8 +72,19 @@ public class NPCController : MonoBehaviour
 	{
 		lastOption = selectedResponse;
 		currentDialogNumber = -1;
+		currentEmotion = lastOption.resultedEmotion;
 		Talk();
 
+	}
+
+	public SolutionTypes GetSolution()
+	{
+		if (lastOption == null)
+		{
+			return SolutionTypes.Ignore;
+		}
+
+		return lastOption.answerType;
 	}
 
 	[System.Serializable]
@@ -89,6 +99,7 @@ public class NPCController : MonoBehaviour
 	{
 		public string buttonText;
 		public SolutionTypes answerType;
+		public Emotion resultedEmotion;
 		public string charaterResponse;
 	}
 
@@ -96,6 +107,15 @@ public class NPCController : MonoBehaviour
 	{
 		Fight,
 		Flight,
-		Confrontation
+		Confrontation,
+		Ignore
+	}
+
+	public enum Emotion
+	{
+		Happy,
+		Sad,
+		Scared,
+		Angry
 	}
 }
