@@ -6,14 +6,9 @@ using UnityEngine;
 [InitializeOnLoad]
 public class ScenesSaver : MonoBehaviour
 {
-    private static SaveSystem saveSystem;
-    private static int sceneAmount;
-
-    static ScenesSaver()
-    {
-        saveSystem = new SaveSystem();
-        SaveScenes();
-    }
+    private static SaveSystem saveSystem = new SaveSystem();
+    private static int sceneAmount = 0;
+    private static bool locking = false;
 
     static void Update()
     {
@@ -26,9 +21,13 @@ public class ScenesSaver : MonoBehaviour
 
     private static void SaveScenes()
     {
+        if (locking) return;
+
+        locking = true;
         Debug.Log("Saving Unity scenes to file");
         List<TinyScene> saveData = new List<TinyScene>();
         EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
+        sceneAmount = scenes.Length;
         for (int i = 0; i < scenes.Length; ++i)
         {
             if (scenes[i].enabled)
@@ -45,11 +44,11 @@ public class ScenesSaver : MonoBehaviour
                 Debug.LogWarning("Scene #" + i + " : " + scenes[i].path + " is not enabled\r\nIf you want to be able to load this scene, enable it");
             }
         }
-        sceneAmount = saveData.Count;
 
         saveSystem.Clear();
         saveSystem.Add(saveData);
         saveSystem.Save("Levels.data");
         saveSystem.Clear();
+        locking = false;
     }
 }
