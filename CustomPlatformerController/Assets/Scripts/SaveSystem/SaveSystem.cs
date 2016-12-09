@@ -10,7 +10,7 @@ using UnityEngine;
 public class SaveSystem : ISave
 {
     private static string defaultPath = "/SaveData/";
-    private static string fileName = "data.dat";
+    private static string defaultFileName = "data.dat";
 
     private static SaveSystem instance = null;
 
@@ -123,12 +123,21 @@ public class SaveSystem : ISave
     /// </summary>
     public void Save()
     {
-        string path = Application.persistentDataPath + defaultPath;
+        Save(defaultFileName);
+    }
+
+    /// <summary>
+    /// Saves the buffer of objects to a file with the given filename.
+    /// </summary>
+    /// <param name="fileName">The name of the file you want to save the objects to.</param>
+    public void Save(string fileName)
+    {
+        string path = Application.persistentDataPath + fileName;
         if (!Directory.Exists(path))
         {
             Directory.CreateDirectory(path);
         }
-        path += fileName;
+        path += defaultFileName;
 
         if (File.Exists(path))
         {
@@ -141,13 +150,21 @@ public class SaveSystem : ISave
         fs.Close();
     }
 
-
     /// <summary>
     /// Loads all the objects from a serialized file.
     /// </summary>
     public void Load()
     {
-        string path = Application.persistentDataPath + defaultPath + fileName;
+        Load(defaultFileName);
+    }
+
+    /// <summary>
+    /// Loads all objects from the given FileName.
+    /// </summary>
+    /// <param name="FileName">The name of the file you want to load.</param>
+    public void Load(string FileName)
+    {
+        string path = Application.persistentDataPath + defaultPath + FileName;
         if (File.Exists(path))
         {
             BinaryFormatter bf = new BinaryFormatter();
