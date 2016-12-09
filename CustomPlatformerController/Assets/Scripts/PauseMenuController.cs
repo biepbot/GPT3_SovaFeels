@@ -16,13 +16,15 @@ public class PauseMenuController : MonoBehaviour
         pausepanel.SetActive(true);
         pausebutton.gameObject.SetActive(false);
 
-        // ToDo: disable player controls and maybe also pause the game(stop all moving things and stuff) instead of just showing a menu overlay
+        Time.timeScale = 0;
     }
 
     public void ResumeGame()
     {
         pausepanel.SetActive(false);
         pausebutton.gameObject.SetActive(true);
+
+        Time.timeScale = 1;
     }
 
     public void ReturnToMain()
