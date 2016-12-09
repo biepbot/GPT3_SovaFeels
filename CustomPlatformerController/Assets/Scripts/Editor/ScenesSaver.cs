@@ -47,7 +47,7 @@ public class ScenesSaver : MonoBehaviour
 
         saveSystem.Clear();
         saveSystem.Add(saveData);
-        saveSystem.Save("Levels.data");
+        saveSystem.Save(Files.SCENES_FNAME);
         saveSystem.Clear();
         locking = false;
     }

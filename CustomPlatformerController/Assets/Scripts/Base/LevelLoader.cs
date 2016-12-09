@@ -16,7 +16,7 @@ namespace Assets.Scripts.Base
             saveSystem = new SaveSystem();
 
             saveSystem.Clear();
-            saveSystem.Load("Levels.data");
+            saveSystem.Load(Files.SCENES_FNAME);
             AllScenes = saveSystem.GetObject<List<TinyScene>>();
             saveSystem.Clear();
         }
@@ -27,7 +27,6 @@ namespace Assets.Scripts.Base
         public const string OPTIONSCENE_NAME = "options";
         public const string MAINMENUSCENE_NAME = "mainmenu";
         public const string TUTORIALSCENE_NAME = "tutoral";
-        public const string SAVE_NAME = "Playthrough.dat";
 
         /// <summary>
         /// Loads the first scene in the builder
@@ -79,7 +78,7 @@ namespace Assets.Scripts.Base
         {
             //Prevent duplicate load in SaveSystem instance
             saveSystem.Clear();
-            saveSystem.Load(SAVE_NAME);
+            saveSystem.Load(Files.PLAYTHROUGH_FNAME);
 
             currentPlayThrough = saveSystem.GetObject<Playthrough>();
             if (currentPlayThrough == null)
@@ -97,7 +96,7 @@ namespace Assets.Scripts.Base
             //Prevent saving more than just the playthrough
             saveSystem.Clear();
             saveSystem.Add(currentPlayThrough);
-            saveSystem.Save(SAVE_NAME);
+            saveSystem.Save(Files.PLAYTHROUGH_FNAME);
             saveSystem.Clear();
         }
 
