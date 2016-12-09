@@ -6,16 +6,29 @@ using UnityEngine;
 [InitializeOnLoad]
 public class ScenesSaver : MonoBehaviour
 {
+#if UNITY_EDITOR
     private static SaveSystem saveSystem = new SaveSystem();
     private static int sceneAmount = 0;
     private static bool locking = false;
 
+    private const int wait = 300;
+    private static int currentwait = 0;
+
+    static ScenesSaver()
+    {
+        EditorApplication.update += Update;
+    }
+
     static void Update()
     {
-        EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
-        if (scenes.Length != sceneAmount)
+        if(++currentwait == wait)
         {
-            SaveScenes();
+            EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
+            if (scenes.Length != sceneAmount)
+            {
+                SaveScenes();
+            }
+            currentwait = 0;
         }
     }
 
@@ -45,10 +58,10 @@ public class ScenesSaver : MonoBehaviour
             }
         }
 
-        saveSystem.Clear();
         saveSystem.Add(saveData);
         saveSystem.Save(Files.SCENES_FNAME);
         saveSystem.Clear();
         locking = false;
     }
+#endif
 }
