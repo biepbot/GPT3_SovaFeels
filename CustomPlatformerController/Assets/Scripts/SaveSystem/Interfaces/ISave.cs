@@ -5,12 +5,12 @@ using UnityEngine;
 public interface ISave {
     void Add(object element);
     void Remove(object element);
+    void RemoveAll<T>();
+    bool Exists(object element);
+    void Clear();
     void Save();
     void Load();
-    void Clear();
     T GetObject<T>();
-    T GetObject<T>(T element);
-    object GetObject(object element);
     List<T> GetObjects<T>();
     List<object> GetObjects();
 }

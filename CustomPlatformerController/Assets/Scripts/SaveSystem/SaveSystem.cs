@@ -9,28 +9,30 @@ using UnityEngine;
 
 public class SaveSystem : ISave
 {
-    private static int defaultSize = 16;
-    private static string defaultPath = "/SaveData";
-    private static string fileName = "/data.dat";
-
-
-    private int size;
-    private int itemCount;
+    private static string defaultPath = "/SaveData/";
+    private static string fileName = "data.dat";
 
     private static SaveSystem instance = null;
 
+    /// <summary>
+    /// Gets the singleton of the SaveSystem.
+    /// </summary>
     public static SaveSystem Instance { get { return instance = (instance == null) ? new SaveSystem() : instance; } }
 
     private List<object> objects;
 
     protected SaveSystem()
     {
-        this.objects = new List<object>();
+        objects = new List<object>();
     }
 
+    /// <summary>
+    /// Adds the given object to the save buffer if it's serializable.
+    /// </summary>
+    /// <param name="element">The object you want to save.</param>
     public void Add(object element)
     {
-        if (ExtensionMethods.IsSerializable(element))
+        if (element.IsSerializable())
         {
             objects.Add(element);
         }
@@ -40,48 +42,136 @@ public class SaveSystem : ISave
         }
     }
 
+    /// <summary>
+    /// Checks if the given object exists within the save buffer.
+    /// </summary>
+    /// <param name="element">The object you want to check.</param>
+    /// <returns>Wether the object exists within the save buffer.</returns>
+    public bool Exists(object element)
+    {
+        foreach (object o in objects)
+        {
+            if (o.Equals(element))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Checks wether an object of the given type exists within the save buffer.
+    /// </summary>
+    /// <typeparam name="T">The type you want to check.</typeparam>
+    /// <returns>Wether an object exists within the buffer.</returns>
+    public bool Exists<T>()
+    {
+        foreach (object o in objects)
+        {
+            if (o.GetType() == typeof(T))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if multiple objects of the same type exist within the save buffer.
+    /// </summary>
+    /// <typeparam name="T">The type you want to check.</typeparam>
+    /// <returns>Wether the buffer has multiple objects of the given type.</returns>
+    public bool MultipleExists<T>()
+    {
+        bool found = false;
+        foreach (object o in objects)
+        {
+            if (o.GetType() == typeof(T))
+            {
+                if (found)
+                {
+                    return true;
+                }
+                else
+                {
+                    found = true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Removes the given object from the save buffer.
+    /// </summary>
+    /// <param name="element">The object you want to remove.</param>
     public void Remove(object element)
     {
         objects.Remove(element);
     }
 
+    /// <summary>
+    /// Clears the buffer.
+    /// </summary>
+    public void Clear()
+    {
+        this.objects.Clear();
+    }
+
+    /// <summary>
+    /// Saves the objects from the save buffer to a file.
+    /// </summary>
     public void Save()
     {
-        string path = Application.persistentDataPath + /*defaultPath +*/ fileName;
-        if (File.Exists(path))
-            File.Delete(path);
+        string path = Application.persistentDataPath + defaultPath;
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+        path += fileName;
 
-        BinaryFormatter bf = new BinaryFormatter();
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+        }
+
         FileStream fs = new FileStream(path, FileMode.CreateNew);
+        BinaryFormatter bf = new BinaryFormatter();
         bf.Serialize(fs, objects);
         fs.Close();
     }
 
+
+    /// <summary>
+    /// Loads all the objects from a serialized file.
+    /// </summary>
     public void Load()
     {
-        string path = Application.persistentDataPath /*+ defaultPath*/+ fileName;
+        string path = Application.persistentDataPath + defaultPath + fileName;
         if (File.Exists(path))
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream fs = File.OpenRead(path);
             List<object> deserializedObjects = (List<object>)bf.Deserialize(fs);
-            foreach(object o in deserializedObjects)
+            foreach (object o in deserializedObjects)
             {
                 objects.Add(o);
             }
         }
     }
 
-    public void Clear()
-    {
-        this.objects.Clear();
-    }
-
+    /// <summary>
+    /// Gets the first object with the given type. 
+    /// You might want to check for multiple objects of a type before using this unless you are absolutely sure there is nothing in the save buffer.
+    /// <see cref="MultipleExists{T}"/>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public T GetObject<T>()
     {
-        foreach(object o in objects)
+        foreach (object o in objects)
         {
-            if(o.GetType() == typeof(T))
+            if (o.GetType() == typeof(T))
             {
                 return (T)o;
             }
@@ -89,36 +179,17 @@ public class SaveSystem : ISave
         return default(T);
     }
 
-    public T GetObject<T>(T element)
-    {
-        foreach(object o in objects)
-        {
-            if (element.Equals(o))
-            {
-                return (T)o;
-            }
-        }
-        return default(T);
-    }
-
-    public object GetObject(object element)
-    {
-        foreach(object o in objects)
-        {
-            if (o.Equals(element))
-            {
-                return o;
-            }
-        }
-        return null;
-    }
-
+    /// <summary>
+    /// Gets a list with objects with a certain type.
+    /// </summary>
+    /// <typeparam name="T">The type of object you want a list from.</typeparam>
+    /// <returns></returns>
     public List<T> GetObjects<T>()
     {
         List<T> types = new List<T>();
-        foreach(object o in objects)
+        foreach (object o in objects)
         {
-            if(o.GetType() == typeof(T))
+            if (o.GetType() == typeof(T))
             {
                 types.Add((T)o);
             }
@@ -126,9 +197,28 @@ public class SaveSystem : ISave
         return types;
     }
 
+    /// <summary>
+    /// Gets all the objects currently in the save buffer.
+    /// </summary>
+    /// <returns>A list with all the objects currently in the save buffer.</returns>
     public List<object> GetObjects()
     {
-        return objects;
+        return new List<object>(objects);
+    }
+
+    /// <summary>
+    /// Removes all objects in the object save buffer of a certain type.
+    /// </summary>
+    /// <typeparam name="T">The type of object you want to delete.</typeparam>
+    public void RemoveAll<T>()
+    {
+        foreach (object o in objects.ToArray())
+        {
+            if (o.GetType() == typeof(T))
+            {
+                objects.Remove(o);
+            }
+        }
     }
 }
 
