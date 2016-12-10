@@ -3,12 +3,17 @@
 namespace Assets.Scripts.Base
 {
     [Serializable]
-    public struct CategorySettings
+    public struct Stats
     {
         public string categoryName;
         public int handle;
         public int fight;
         public int hide;
+        public int levelDifficulty;
+        public int coins;
+        public int amountOfPlaythroughs;
+        public DateTime lastFinishedPlaythrough;
+
         public int Total
         {
             get

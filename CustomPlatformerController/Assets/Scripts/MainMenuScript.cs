@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.Base;
+using Random = UnityEngine.Random;
 
 public class MainMenuScript : MonoBehaviour
 { 
@@ -22,14 +24,15 @@ public class MainMenuScript : MonoBehaviour
     public void ViewStats()
     {
         //Loads the statistics scene
-        SceneManager.LoadScene("StatsScene");
-        SaveStats();
+        LevelLoader.LoadStatistics();
+        SaveStats(); // Delete this later on
     }
 
-    // Temporary fields and method to create stats file with dummy data
+    // Delete this later on. Temporary fields used for creating a stats file.
     private static SaveSystem saveSystem = new SaveSystem();
     private static bool locking = false;
 
+    // Delete this later on. Temporary method to create stats file with dummy data.
     private void SaveStats()
     {
         if (locking) return;
@@ -37,107 +40,35 @@ public class MainMenuScript : MonoBehaviour
         locking = true;
         saveSystem.Clear();
         Debug.Log("Saving dummy data to stats file");
-        //List<CategorySettings> saveData = new List<CategorySettings>();
-        List<CategorySettings> saveData = new List<CategorySettings>();
+        List<Stats> saveData = new List<Stats>();
 
-        saveData.Add(new CategorySettings()
+        saveData.Add(new Stats()
         {
-            categoryName = "je moeder einz", //nee zeggen
-            fight = 4,
-            handle = 1,
-            hide = 3
+            levelDifficulty = Random.Range(1, 4),
+            coins = Random.Range(15, 67),
+            amountOfPlaythroughs = Random.Range(9, 21),
+            lastFinishedPlaythrough = DateTime.Now
         });
 
-        saveData.Add(new CategorySettings()
+        for (int i = 0; i < 10; i++)
         {
-            categoryName = "je moeder zwei", //in je recht staan
-            fight = 1,
-            handle = 5,
-            hide = 2
-        });
+            saveData.Add(new Stats()
+            {
+                categoryName = "Nee zeggen",
+                fight = Random.Range(1, 8),
+                handle = Random.Range(1, 8),
+                hide = Random.Range(1, 8)
+            });
 
-        saveData.Add(new CategorySettings()
-        {
-            categoryName = "je moeder einz", //nee zeggen
-            fight = 4,
-            handle = 1,
-            hide = 3
-        });
+            saveData.Add(new Stats()
+            {
+                categoryName = "In je recht staan",
+                fight = Random.Range(1, 8),
+                handle = Random.Range(1, 8),
+                hide = Random.Range(1, 8)
+            });
+        }
 
-        saveData.Add(new CategorySettings()
-        {
-            categoryName = "je moeder zwei", //in je recht staan
-            fight = 1,
-            handle = 5,
-            hide = 2
-        });
-
-        saveData.Add(new CategorySettings()
-        {
-            categoryName = "je moeder einz", //nee zeggen
-            fight = 4,
-            handle = 1,
-            hide = 3
-        });
-
-        saveData.Add(new CategorySettings()
-        {
-            categoryName = "je moeder zwei", //in je recht staan
-            fight = 1,
-            handle = 5,
-            hide = 2
-        });
-
-        saveData.Add(new CategorySettings()
-        {
-            categoryName = "je moeder einz", //nee zeggen
-            fight = 4,
-            handle = 1,
-            hide = 3
-        });
-
-        saveData.Add(new CategorySettings()
-        {
-            categoryName = "je moeder zwei", //in je recht staan
-            fight = 1,
-            handle = 5,
-            hide = 2
-        });
-
-        saveData.Add(new CategorySettings()
-        {
-            categoryName = "je moeder einz", //nee zeggen
-            fight = 4,
-            handle = 1,
-            hide = 3
-        });
-
-        saveData.Add(new CategorySettings()
-        {
-            categoryName = "je moeder zwei", //in je recht staan
-            fight = 1,
-            handle = 5,
-            hide = 2
-        });
-
-        saveData.Add(new CategorySettings()
-        {
-            categoryName = "je moeder einz", //nee zeggen
-            fight = 4,
-            handle = 1,
-            hide = 3
-        });
-
-        saveData.Add(new CategorySettings()
-        {
-            categoryName = "je moeder zwei", //in je recht staan
-            fight = 1,
-            handle = 5,
-            hide = 2
-        });
-
-
-        //saveSystem.AddObjectsIndivually(saveData);
         saveSystem.Add(saveData);
         saveSystem.Save(Files.STATS_FNAME);
         saveSystem.Clear();
