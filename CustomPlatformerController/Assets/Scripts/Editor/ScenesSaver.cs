@@ -33,14 +33,9 @@ public class ScenesSaver : MonoBehaviour
             currentwait = 0;
         }
     }
-
+    
     [MenuItem("Scenes/Save")]
-    static void DoSomething()
-    {
-        SaveScenes();
-    }
-
-    private static void SaveScenes()
+    static void SaveScenes()
     {
         if (locking) return;
 
