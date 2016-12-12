@@ -34,19 +34,26 @@ public class ScenesSaver : MonoBehaviour
         }
     }
 
+    [MenuItem("Scenes/Save")]
+    static void DoSomething()
+    {
+        SaveScenes();
+    }
+
     private static void SaveScenes()
     {
         if (locking) return;
 
         locking = true;
-        Debug.Log("Saving Unity scenes to file");
         List<TinyScene> saveData = new List<TinyScene>();
         EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
         sceneAmount = scenes.Length;
+        int j = 0;
         for (int i = 0; i < scenes.Length; ++i)
         {
             if (scenes[i].enabled)
             {
+                j++;
                 int ind = i;
                 saveData.Add(new TinyScene()
                 {
@@ -59,6 +66,7 @@ public class ScenesSaver : MonoBehaviour
                 Debug.LogWarning("Scene #" + i + " : " + scenes[i].path + " is not enabled\r\nIf you want to be able to load this scene, enable it");
             }
         }
+        Debug.Log(j + " scenes saved to file");
 
         saveSystem.Add(saveData);
         saveSystem.Save(Files.SCENES_FNAME);
