@@ -5,12 +5,15 @@ using System.Collections;
 public class PlayerController : BaseController
 {
     public float interactRange = 1f;
+    public float exitRange = 0.5f;
 
     public CollisionInfo collInfo;
 
     public LayerMask interactMask;
+    public LayerMask exitMask;
 
     private GameObject interactable;
+    private GameObject exit;
 
     public GameObject canvas;
 
@@ -53,6 +56,9 @@ public class PlayerController : BaseController
 
         //Check if after moving, a NPC is in range
         CheckInteractable();
+
+        //Check if after moving, the exit is in range
+        CheckForExit();
     }
 
     /// <summary>
@@ -77,6 +83,31 @@ public class PlayerController : BaseController
             if(interactable.CompareTag("NPC")) interactable.GetComponent<NPCController>().Talk();
 			if (interactable.CompareTag("Lever")) interactable.GetComponent<LeverController>().Hit();
 		}
+    }
+
+    /// <summary>
+    /// Looks at the players right and left for the closest interactable object.
+    /// This object will be saved in interactable.
+    /// </summary>
+    private void CheckForExit()
+    {
+        exit = null;
+        for (int i = 0; i < rayCaster.horizontalRayCount; i++)
+        {
+            Vector2 rayOffset = Vector2.up * (rayCaster.horizontalSpacing * i);
+            RaycastHit2D hit = Physics2D.Raycast(rayCaster.rayCastOrigins.bottomRight + rayOffset, Vector2.right, exitRange, exitMask);
+            if (!hit) hit = Physics2D.Raycast(rayCaster.rayCastOrigins.bottomLeft + rayOffset, Vector2.right * -1, exitRange, exitMask);
+
+            if (hit)
+            {
+                exit = hit.transform.gameObject;
+                if (exit.CompareTag("Finish"))
+                {
+                    exit.GetComponent<ExitController>().NextLevel();
+                }
+                return;
+            }
+        }
     }
 
     /// <summary>
