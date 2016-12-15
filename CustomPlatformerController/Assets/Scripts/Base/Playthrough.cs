@@ -45,7 +45,7 @@ namespace Assets.Scripts.Base
         {
             get
             {
-                return currentLevel == -1? 0 : currentLevel;
+                return currentLevel == -1? levels[0] : levels[currentLevel];
             }
         }
 
