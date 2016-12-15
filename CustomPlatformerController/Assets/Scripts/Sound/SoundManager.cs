@@ -41,12 +41,7 @@ public class SoundManager : MonoBehaviour
     {
         objectSounds = FindObjectsOfType<ObjectSound>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    
 
     private void FixedUpdate()
     {
@@ -199,7 +194,7 @@ public class SoundManager : MonoBehaviour
         float mixerVolume;
         audioMixer.GetFloat(Volume.GetVolumeParamater(ap), out mixerVolume);
 
-        if (volume != (int)mixerVolume)
+        if ((volume - 80) != (int)mixerVolume)
         {
             SetVolume(ap, volume);
             return volume;
