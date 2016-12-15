@@ -38,6 +38,11 @@ public class SoundManager : MonoBehaviour
 
     public ObjectSound[] ObjectSounds { get { return objectSounds; } }
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
+
     // Use this for initialization
     void Start()
     {
