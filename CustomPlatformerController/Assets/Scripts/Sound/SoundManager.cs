@@ -36,6 +36,8 @@ public class SoundManager : MonoBehaviour
 
     private ObjectSound[] objectSounds;
 
+    public ObjectSound[] ObjectSounds { get { return objectSounds; } }
+
     // Use this for initialization
     void Start()
     {
