@@ -8,6 +8,9 @@ public class SoundManager : MonoBehaviour
 
     public AudioMixer audioMixer;
 
+    private static SoundManager instance = null;
+    public static SoundManager Instance { get { return instance; } }
+
 #if UNITY_EDITOR
     [Range(0, 100)]
     public int master = 80;
@@ -40,6 +43,15 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            instance = this;
+        }
         DontDestroyOnLoad(this.gameObject);
     }
 
@@ -48,7 +60,7 @@ public class SoundManager : MonoBehaviour
     {
         objectSounds = FindObjectsOfType<ObjectSound>();
     }
-    
+
 
     private void FixedUpdate()
     {
