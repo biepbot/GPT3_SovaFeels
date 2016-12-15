@@ -38,6 +38,17 @@ public class TestClass : MonoBehaviour {
         List<object> objects2 = ss.GetObjects();
 
         Debug.Log("Did it works?");
+
+        /*
+        SaveSystem saveSystem = new SaveSystem(); //Verkrijgen instantie van het save systeem.
+        saveSystem.Clear(); //Legen van de buffer in saveSystem. (Leegt dus alle objecten, ze bestaan nog wel in de file vanwege het opslaan.)
+        TestData td = new TestData(1, 1, "test", 0.5f);
+        saveSystem.Add(td); //Een object toevoegen.
+        saveSystem.Save("Jou file naam"); //Jou object wordt opgeslagen naar een file met de door jou gegeven naam.
+        saveSystem.Clear(); //SaveSystem wordt geleegd dus er zit niks meer in.
+        saveSystem.Load("Jou file naam"); //Nu wordt het bestand wat je hebt opgeslagen ingeladen mits je de juiste filename geeft.
+        TestData Loaded = saveSystem.GetObject<TestData>(); //Verkrijg het bestand wat je had opgeslagen.
+        */
     }
 
     // Update is called once per frame
