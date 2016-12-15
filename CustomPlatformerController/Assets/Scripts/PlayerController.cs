@@ -19,6 +19,12 @@ public class PlayerController : BaseController
     protected override void Awake()
     {
         base.Awake();
+
+        if (canvas == null)
+        {
+            canvas = (GameObject)Instantiate(Resources.Load("PlayerMenu"));
+        }
+
         canvasScript = canvas.GetComponent<CanvasScript>();
     }
 

@@ -21,6 +21,13 @@ public class Player : MonoBehaviour
     void Awake()
     {
         playerController = GetComponent<PlayerController>();
+
+        if (Camera.main.GetComponent<CameraController>() == null)
+        {
+            CameraController c = Camera.main.gameObject.AddComponent<CameraController>();
+            c.AddPlayer(this.gameObject);
+        }
+
         if (MobileHelper.OnMobileDevice)
         {
             Instantiate(Resources.Load("MobileSingleStickControl"));

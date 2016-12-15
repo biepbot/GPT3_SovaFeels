@@ -17,23 +17,26 @@ public class CameraController : MonoBehaviour
 	private Vector3 currentPos;
 	private Vector3 smoothPos;
 
+    private bool isStarted = false;
 
-	void Awake ()
-	{
-		playerTransfrom = player.transform;
-		playerScript = player.GetComponent<Player>();
+    public void AddPlayer(GameObject player)
+    {
+        this.player = player;
 
-		thisTransfrom = this.transform;
-	}
+        thisTransfrom = this.transform;
 
-	void Start()
-	{
-		currentPos = thisTransfrom.position;
-	}
+        currentPos = thisTransfrom.position;
+        playerTransfrom = player.transform;
+        playerScript = player.GetComponent<Player>();
+
+        isStarted = true;
+    }
 	
 	// Update is called once per frame
 	void LateUpdate ()
 	{
+        if (!isStarted) return;
+
 		tragetPos = new Vector3(playerTransfrom.position.x + cameraOffset * playerScript.playerInfo.direction, playerTransfrom.position.y, thisTransfrom.position.z);
 		currentPos.x = Mathf.SmoothDamp(currentPos.x, tragetPos.x, ref smoothPos.x, horizontalMoveSpeed);
 		currentPos.y = Mathf.SmoothDamp(currentPos.y, tragetPos.y, ref smoothPos.y, verticleMoveSpeed);
