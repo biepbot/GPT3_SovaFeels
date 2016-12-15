@@ -45,7 +45,6 @@ public class NPCController : MonoBehaviour
 		if (currentDialog.answers[i].answerType != SolutionTypes.Confrontation)
 		{
 			canvasScript.answerButtons[i].transform.GetChild(0).GetComponent<Text>().text = currentDialog.answers[i].buttonText;
-
 			canvasScript.answerButtons[i].onClick.AddListener(delegate { RespondBad(currentDialog.answers[i]); });
 		}
 		else

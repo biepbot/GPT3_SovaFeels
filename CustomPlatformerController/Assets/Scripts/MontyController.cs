@@ -8,7 +8,7 @@ public class MontyController : BaseController
 	public GameObject canvas;
 
 	public float range = 1f;
-
+	public string defaultTalk;
 	public string ignoreMontyFeedBack;
 	public string fightMontyFeedBack;
 	public string flightMontyFeedBack;
@@ -21,7 +21,7 @@ public class MontyController : BaseController
 	protected override void Awake()
 	{
 		base.Awake();
-		NPCScript = NPC.GetComponent<NPCController>();
+		if (NPC != null) NPCScript = NPC.GetComponent<NPCController>();
 		canvasScript = canvas.GetComponent<CanvasScript>();
 	}
 
@@ -31,7 +31,7 @@ public class MontyController : BaseController
 		rayCaster.UpdateRayCastOrigins(InnerBounds());
 	}
 
-	void Update()
+	void LateUpdate()
 	{
 		CheckForPlayer();
 	}
@@ -50,16 +50,24 @@ public class MontyController : BaseController
 
 	private void GiveFeedback()
 	{
-		NPCController.SolutionTypes solution = NPCScript.GetSolution();
-		if (solution == NPCController.SolutionTypes.Ignore)
+		
+		if (NPC != null)
 		{
-			canvasScript.SetDialogBox(ignoreMontyFeedBack);
-			NPC.SetActive(false);
-		}
+			NPCController.SolutionTypes solution = NPCScript.GetSolution();
+			if (solution == NPCController.SolutionTypes.Ignore)
+			{
+				canvasScript.SetDialogBox(ignoreMontyFeedBack);
+				NPC.SetActive(false);
+			}
 
-		if (solution == NPCController.SolutionTypes.Flight) canvasScript.SetDialogBox(flightMontyFeedBack);
-		if (solution == NPCController.SolutionTypes.Fight) canvasScript.SetDialogBox(fightMontyFeedBack);
-		if (solution == NPCController.SolutionTypes.Confrontation) canvasScript.SetDialogBox(confrontMontyFeedBack);
+			if (solution == NPCController.SolutionTypes.Flight) canvasScript.SetDialogBox(flightMontyFeedBack);
+			if (solution == NPCController.SolutionTypes.Fight) canvasScript.SetDialogBox(fightMontyFeedBack);
+			if (solution == NPCController.SolutionTypes.Confrontation) canvasScript.SetDialogBox(confrontMontyFeedBack);
+		}
+		else
+		{
+			canvasScript.SetDialogBox(defaultTalk);
+		}
 		canvasScript.DisableAllButtons();
 	}
 }
