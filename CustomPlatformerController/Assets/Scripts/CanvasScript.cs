@@ -14,12 +14,13 @@ public class CanvasScript : MonoBehaviour
 	private bool isActive = false;
 	private Transform interactableTransform;
 
-	private void Awake()
+	void Start()
 	{
 		interactableTransform = interactableIcon.transform;
-	}
+        playerCamera = Camera.main;
+    }
 
-	private void LateUpdate()
+	void LateUpdate()
 	{
 		interactableIcon.SetActive(isActive);
 		isActive = false;

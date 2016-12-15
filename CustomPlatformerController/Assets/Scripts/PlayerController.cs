@@ -26,6 +26,10 @@ public class PlayerController : BaseController
         }
 
         canvasScript = canvas.GetComponent<CanvasScript>();
+        foreach (GameObject c in GameObject.FindGameObjectsWithTag("NPC"))
+        {
+            c.GetComponent<NPCController>().SetCanvas(canvasScript);
+        }
     }
 
     /// <summary>

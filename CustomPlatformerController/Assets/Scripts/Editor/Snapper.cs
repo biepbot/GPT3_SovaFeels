@@ -1,15 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
-using System;
 
 [InitializeOnLoad]
 public class Snapper : MonoBehaviour
 {
     static Vector3 prevPosition;
     public const float snapValue = 0.5f;
-    static bool doSnap = false;
+    static bool doSnap = true;
 
     static Snapper()
     {
