@@ -27,6 +27,8 @@ public class PlayerController : BaseController
         {
             canvas = (GameObject)Instantiate(Resources.Load("PlayerMenu"));
         }
+        
+        Instantiate(Resources.Load("LevelDetails"));
 
         canvasScript = canvas.GetComponent<CanvasScript>();
         foreach (GameObject c in GameObject.FindGameObjectsWithTag("NPC"))
