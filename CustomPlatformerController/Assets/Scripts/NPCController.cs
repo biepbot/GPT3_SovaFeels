@@ -64,7 +64,7 @@ public class NPCController : MonoBehaviour
 			lastOption = selectedResponse;
 			currentDialogNumber = -1;
 		}
-		currentEmotion = lastOption.resultedEmotion;
+		currentEmotion = selectedResponse.resultedEmotion;
 		Talk();
 	}
 
