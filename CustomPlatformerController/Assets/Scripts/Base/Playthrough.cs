@@ -66,7 +66,7 @@ namespace Assets.Scripts.Base
             {
                 throw new NotEnoughLevelsException();
             }
-            return currentLevel++;
+            return levels[++currentLevel];
         }
     }
 }

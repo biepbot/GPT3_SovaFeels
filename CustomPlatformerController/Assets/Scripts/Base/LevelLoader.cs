@@ -86,6 +86,10 @@ namespace Assets.Scripts.Base
                 saveSystem.Clear();
                 NewPlayThrough(instantplay);
             }
+            else
+            {
+                LoadCurrentLevel();
+            }
         }
 
         /// <summary>
