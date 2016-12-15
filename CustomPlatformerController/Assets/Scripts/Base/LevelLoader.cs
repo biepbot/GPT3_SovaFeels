@@ -155,7 +155,7 @@ namespace Assets.Scripts.Base
         {
             get
             {
-                return !currentPlayThrough.NoMoreLevels;
+                return currentPlayThrough == null || !currentPlayThrough.NoMoreLevels;
             }
         }
 
