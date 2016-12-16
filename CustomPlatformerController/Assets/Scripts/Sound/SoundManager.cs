@@ -308,6 +308,31 @@ public static class Volume
                 return null;
         }
     }
+
+    public static AudioMixerGroup GetMixerParentGroup(AudioMixer mixer, AudioParamater ap)
+    {
+        switch (ap)
+        {
+            case AudioParamater.Ambient:
+                return mixer.FindMatchingGroups(GAMEPATH)[0];
+            case AudioParamater.Characters:
+                return mixer.FindMatchingGroups(GAMEPATH)[0];
+            case AudioParamater.Game:
+                return mixer.FindMatchingGroups(MASTERPATH)[0];
+            case AudioParamater.Helper:
+                return mixer.FindMatchingGroups(GAMEPATH)[0];
+            case AudioParamater.Master:
+                return mixer.FindMatchingGroups(MASTERPATH)[0];
+            case AudioParamater.Menu:
+                return mixer.FindMatchingGroups(MASTERPATH)[0];
+            case AudioParamater.Music:
+                return mixer.FindMatchingGroups(MASTERPATH)[0];
+            case AudioParamater.Player:
+                return mixer.FindMatchingGroups(GAMEPATH)[0];
+            default:
+                return null;
+        }
+    }
 }
 
 public enum AudioParamater
