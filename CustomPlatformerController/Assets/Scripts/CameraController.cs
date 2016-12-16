@@ -9,8 +9,8 @@ public class CameraController : MonoBehaviour
 
     public float cameraOffset;
 
-    public float horizontalMoveSpeed;
-    public float verticleMoveSpeed;
+    public float horizontalMoveSpeed = 0.5f;
+    public float verticleMoveSpeed = 0.1f;
 
     private Transform thisTransfrom;
     private Vector3 tragetPos;

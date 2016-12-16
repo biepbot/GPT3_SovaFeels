@@ -23,6 +23,12 @@ public class ShopManager : MonoBehaviour
         loadCoins();
     }
 
+    public void saveData()
+    {
+        saveItems();
+        saveCoins();
+    }
+
     public void loadItems()
     {
         saveSystem.Clear();
@@ -65,11 +71,11 @@ public class ShopManager : MonoBehaviour
                 }
             }
         }
-        else
-        {
+        //else
+        //{
             //for testing only, remove when coins are earned by playing the game
-            coins = 100;
-        }
+        //    coins = 100;
+        //}
     }
 
     public void saveCoins()
