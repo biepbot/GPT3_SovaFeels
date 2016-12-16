@@ -13,12 +13,24 @@ namespace Assets.Scripts.Base
 
         static LevelLoader()
         {
+#if UNITY_EDITOR
             saveSystem = new SaveSystem();
-
-            saveSystem.Clear();
             saveSystem.Load(Files.SCENES_FNAME);
             AllScenes = saveSystem.GetObject<List<TinyScene>>();
             saveSystem.Clear();
+#else
+            var numScenes = SceneManager.sceneCount;
+            List<TinyScene> saveData = new List<TinyScene>(numScenes);
+
+            for (int i = 0; i < numScenes; ++i)
+            {
+                saveData.Add(new TinyScene()
+                    {
+                        name = SceneManager.GetSceneAt(i).name,
+                        index = i
+                    });
+            }
+#endif
         }
 
         public const int DEFAULT_LEVEL_AMOUNT = 5;
