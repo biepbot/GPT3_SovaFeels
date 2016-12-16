@@ -7,89 +7,44 @@ public class ShopManager : MonoBehaviour
 {
     private SaveSystem saveSystem;
     public GameStats gameStats;
-
-    private List<Stats> categories;
-
-    public List<ShopItem> items { get; set; }
+    public ItemManager itemManager;
 
     void Awake()
     {
         saveSystem = new SaveSystem();
-    }
+        itemManager = GameObject.FindObjectOfType<ItemManager>();
 
-    public void loadData()
-    {
-        loadItems();
+        if (itemManager== null)
+        {
+            itemManager = (Instantiate(Resources.Load("Items/ItemManager", typeof(GameObject))) as GameObject).GetComponent<ItemManager>();
+        }
+
     }
 
     public void saveData()
     {
-        saveItems();
-        saveCoins();
-    }
-
-    public void loadItems()
-    {
-        saveSystem.Clear();
-        saveSystem.Load(Files.ITEMS_FNAME);
-        items = saveSystem.GetObject<List<ShopItem>>();
-        saveSystem.Clear();
-    }
-
-    public void saveItems()
-    {
-        saveSystem.Clear();
-        saveSystem.Add(items);
-        saveSystem.Save(Files.ITEMS_FNAME);
-        saveSystem.Clear();
-    }
-
-    public void saveCoins()
-    {
         gameStats.Save();
-    }
-
-    public ShopItem getShopItem(string name)
-    {
-        foreach(ShopItem item in items)
-        {
-            if(item.name == name)
-            {
-                return item;
-            }
-        }
-
-        return null;
+        itemManager.Save();
     }
 
     public void buyItem(string itemName)
     {
-        ShopItem item = getShopItem(itemName);
+        ShopItem item = itemManager.getItem(itemName);
 
         if (item.price <= gameStats.coins && !item.isOwned)
         {
             gameStats.DecreaseCoins(item.price);
-            item.isOwned = true;
+            itemManager.BuyItem(itemName);
         }
     }
 
     public void equipItem(string itemName)
     {
-        ShopItem item = getShopItem(itemName);
+        ShopItem item = itemManager.getItem(itemName);
 
         if (item.isOwned)
         {
-            item.isEquiped = true;
-        }
-    }
-
-    public void unequipItem(string itemName)
-    {
-        ShopItem item = getShopItem(itemName);
-
-        if (item.isEquiped)
-        {
-            item.isEquiped = false;
+            itemManager.EquipItem(itemName, !item.isEquiped);
         }
     }
 }

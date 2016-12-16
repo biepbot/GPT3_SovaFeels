@@ -12,7 +12,6 @@ public class MainMenuScript : MonoBehaviour
     public void Start()
     {
         GenerateStats();
-        GenerateItems();
     }
 
     public void StartNewPlaythrough()
@@ -138,35 +137,5 @@ public class MainMenuScript : MonoBehaviour
         }
 
         locking = false;
-    }
-
-    public void GenerateItems()
-    {
-        if (locking) return;
-
-        locking = true;
-
-        saveSystem.Clear();
-        bool itemsExist = saveSystem.Load(Files.ITEMS_FNAME);
-        saveSystem.Clear();
-
-        if (!itemsExist)
-        {
-            saveSystem.Clear();
-            Debug.Log("Creating new Items file");
-            List<ShopItem> items = new List<ShopItem>();
-
-            items = new List<ShopItem>();
-
-            items.Add(new ShopItem("Red Shirt", 2, false, false));
-            items.Add(new ShopItem("Blue Pants", 3, false, false));
-
-            saveSystem.Add(items);
-            saveSystem.Save(Files.ITEMS_FNAME);
-            saveSystem.Clear();
-        }
-
-        locking = false;
-
     }
 }

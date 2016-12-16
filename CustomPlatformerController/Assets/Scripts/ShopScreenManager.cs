@@ -33,15 +33,11 @@ public class ShopScreenManager : MenusController
         }
 
         shopManager.gameStats = gameStats;
-    }
 
-    // Use this for initialization
-    void Start ()
-    {
-        shopManager.loadData();
         fillItemDropdown();
         selectItem(0);
-	}
+
+    }
 	
 	// Update is called once per frame
 	void FixedUpdate()
@@ -78,7 +74,7 @@ public class ShopScreenManager : MenusController
     {
         List<string> itemNames = new List<string>();
 
-        foreach(ShopItem item in shopManager.items)
+        foreach(ShopItem item in shopManager.itemManager.items)
         {
             itemNames.Add(item.name);
         }
@@ -108,7 +104,7 @@ public class ShopScreenManager : MenusController
 
     public void selectItem(int index)
     {
-        selectedItem = shopManager.items[index];
+        selectedItem = shopManager.itemManager.items[index];
     }
 
     public void buyItem()
@@ -118,14 +114,7 @@ public class ShopScreenManager : MenusController
 
     public void equipItem()
     {
-        if(!selectedItem.isEquiped)
-        {
-            shopManager.equipItem(selectedItem.name);
-        }
-        else
-        {
-            shopManager.unequipItem(selectedItem.name);
-        }
+        shopManager.equipItem(selectedItem.name);
     }
 
     public void backToMenu()
