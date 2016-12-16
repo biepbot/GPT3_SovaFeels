@@ -58,4 +58,9 @@ public class StatsSceneManager : MonoBehaviour
             }          
         }
     }
+
+    public void ReturnToMain()
+    {
+        LevelLoader.LoadMainMenu();
+    }
 }
