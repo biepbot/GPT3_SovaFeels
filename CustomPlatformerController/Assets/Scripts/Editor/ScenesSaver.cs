@@ -39,8 +39,14 @@ public class ScenesSaver : MonoBehaviour
     static void SaveScenes()
     {
         if (locking) return;
-
         locking = true;
+
+        int delin = -1;
+        while (PlayerPrefs.HasKey((++delin).ToString()))
+        {
+            PlayerPrefs.DeleteKey(delin.ToString());
+        }
+
         List<TinyScene> saveData = new List<TinyScene>();
         EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
         sceneAmount = scenes.Length;
