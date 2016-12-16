@@ -25,5 +25,7 @@ public class LevelController : MonoBehaviour
                 minY = y > minY ? minY : y;
             }
         }
+
+        Debug.Log("Level dimension: {" + minX + "," + minY + "},{" + maxX + "," + maxY + "}");
     }
 }

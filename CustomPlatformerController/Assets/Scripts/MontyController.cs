@@ -22,10 +22,14 @@ public class MontyController : BaseController
 	{
 		base.Awake();
 		if (NPC != null) NPCScript = NPC.GetComponent<NPCController>();
-		canvasScript = canvas.GetComponent<CanvasScript>();
 	}
 
-	protected override void Start()
+    public void SetCanvas(CanvasScript canvas)
+    {
+        canvasScript = canvas;
+    }
+
+    protected override void Start()
 	{
 		base.Start();
 		rayCaster.UpdateRayCastOrigins(InnerBounds());

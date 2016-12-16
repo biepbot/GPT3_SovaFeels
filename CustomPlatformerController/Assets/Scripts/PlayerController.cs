@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 
 public class PlayerController : BaseController
@@ -34,6 +35,11 @@ public class PlayerController : BaseController
         foreach (GameObject c in GameObject.FindGameObjectsWithTag("NPC"))
         {
             c.GetComponent<NPCController>().SetCanvas(canvasScript);
+        }
+
+        foreach (GameObject c in GameObject.FindGameObjectsWithTag("Monty"))
+        {
+            c.GetComponent<MontyController>().SetCanvas(canvasScript);
         }
     }
 
