@@ -13,12 +13,24 @@ namespace Assets.Scripts.Base
 
         static LevelLoader()
         {
+#if UNITY_EDITOR
             saveSystem = new SaveSystem();
-
-            saveSystem.Clear();
             saveSystem.Load(Files.SCENES_FNAME);
             AllScenes = saveSystem.GetObject<List<TinyScene>>();
             saveSystem.Clear();
+#else
+            var numScenes = SceneManager.sceneCount;
+            List<TinyScene> saveData = new List<TinyScene>(numScenes);
+
+            for (int i = 0; i < numScenes; ++i)
+            {
+                saveData.Add(new TinyScene()
+                    {
+                        name = SceneManager.GetSceneAt(i).name,
+                        index = i
+                    });
+            }
+#endif
         }
 
         public const int DEFAULT_LEVEL_AMOUNT = 5;
@@ -27,6 +39,15 @@ namespace Assets.Scripts.Base
         public const string OPTIONSCENE_NAME = "options";
         public const string MAINMENUSCENE_NAME = "mainmenu";
         public const string TUTORIALSCENE_NAME = "tutoral";
+        public const string SHOPSCENE_NAME = "shop";
+
+        /// <summary>
+        /// Loads the shop scene in the builder
+        /// </summary>
+        public static void LoadShop()
+        {
+            SceneManager.LoadScene(FindLevel(SHOPSCENE_NAME));
+        }
 
         /// <summary>
         /// Loads the first scene in the builder
@@ -197,6 +218,7 @@ namespace Assets.Scripts.Base
         {
             bool found = false;
             int c = -1;
+            int ret = -1;
             foreach (TinyScene s in AllScenes)
             {
                 c++;
@@ -210,6 +232,7 @@ namespace Assets.Scripts.Base
                     else
                     {
                         found = true;
+                        ret = c;
                     }
                 }
             }
@@ -219,7 +242,7 @@ namespace Assets.Scripts.Base
             }
             else
             {
-                return c;
+                return ret;
             }
         }
 

@@ -124,9 +124,6 @@ public class ShopScreenManager : MonoBehaviour
 
     public void backToMenu()
     {
-        shopManager.saveItems();
-        shopManager.saveCoins();
-
-        print("saved and ready to quit");
+        shopManager.saveData();
     }
 }

@@ -1,18 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
-public class ObjectSound : MonoBehaviour {
+public class ObjectSound : MonoBehaviour
+{
 
     public AudioParamater audioChannel = AudioParamater.Master;
+    public bool ChangeAudioMixerChannel = false;
+    public bool GetAudioMixerParentChannel = false;
     public AudioClip[] audioClips;
     public AudioSource audioSource;
     public bool loop;
     public bool playOnAwake;
     public AudioClip clipToPlayOnAwake;
 
-	// Use this for initialization
-	void Start () {
+    private AudioMixer audioMixer;
+
+    // Use this for initialization
+    void Start()
+    {
+        SetupAudioMixer();
+
         if (loop) audioSource.loop = loop;
 
         if (playOnAwake)
@@ -25,12 +34,79 @@ public class ObjectSound : MonoBehaviour {
         {
             audioSource.clip = audioClips[0];
         }
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+#if UNITY_EDITOR
+        SetChangesAudio();
+#endif
+    }
+
+#if UNITY_EDITOR
+    public void SetChangesAudio()
+    {
+        if (GetAudioMixerParentChannel)
+        {
+            AudioMixerGroup amg = Volume.GetMixerParentGroup(audioMixer, audioChannel);
+            if(audioSource.outputAudioMixerGroup != amg)
+            {
+                audioSource.outputAudioMixerGroup = amg;
+            }
+        }
+        else
+        {
+            AudioMixerGroup amg = Volume.GetMixerGroup(audioMixer, audioChannel);
+            if (audioSource.outputAudioMixerGroup != amg)
+            {
+                audioSource.outputAudioMixerGroup = amg;
+            }
+        }
+    }
+#endif
+
+    /// <summary>
+    /// Setups the AudioMixer
+    /// </summary>
+    private void SetupAudioMixer()
+    {
+        audioMixer = Resources.Load("Audio/MasterMixer") as AudioMixer;
+
+        if (audioSource == null)
+        {
+            gameObject.GetComponent<AudioSource>();
+        }
+
+        if (ChangeAudioMixerChannel)
+        {
+            if (GetAudioMixerParentChannel)
+            {
+                audioSource.outputAudioMixerGroup = Volume.GetMixerParentGroup(audioMixer, audioChannel);
+            }
+            else
+            {
+                audioSource.outputAudioMixerGroup = Volume.GetMixerGroup(audioMixer, audioChannel);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Changes the audiosources mixergroup.
+    /// </summary>
+    /// <param name="ap">The audiochannel you want to change the mixergroup to.</param>
+    /// <param name="parent">If you want to change it to it's parent channel.</param>
+    private void ChangeAudioMixerGroup(AudioParamater ap, bool parent = false)
+    {
+        if (parent)
+        {
+            audioSource.outputAudioMixerGroup = Volume.GetMixerParentGroup(audioMixer, ap);
+        }
+        else
+        {
+            audioSource.outputAudioMixerGroup = Volume.GetMixerGroup(audioMixer, ap);
+        }
+    }
 
     /// <summary>
     /// Plays the audiosource.
