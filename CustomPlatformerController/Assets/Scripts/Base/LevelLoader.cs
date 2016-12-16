@@ -27,6 +27,15 @@ namespace Assets.Scripts.Base
         public const string OPTIONSCENE_NAME = "options";
         public const string MAINMENUSCENE_NAME = "mainmenu";
         public const string TUTORIALSCENE_NAME = "tutoral";
+        public const string SHOPSCENE_NAME = "shop";
+
+        /// <summary>
+        /// Loads the shop scene in the builder
+        /// </summary>
+        public static void LoadShop()
+        {
+            SceneManager.LoadScene(FindLevel(SHOPSCENE_NAME));
+        }
 
         /// <summary>
         /// Loads the first scene in the builder
