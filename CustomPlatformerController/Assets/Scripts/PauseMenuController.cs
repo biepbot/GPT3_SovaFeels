@@ -30,6 +30,8 @@ public class PauseMenuController : MonoBehaviour
     public void ReturnToMain()
     {
         // ToDo: save all character stuff that hasnt been saved
+        Time.timeScale = 1;
+
         SceneManager.LoadScene("MainMenuScene");
     }
 }
