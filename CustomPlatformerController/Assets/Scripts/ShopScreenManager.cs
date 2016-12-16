@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopScreenManager
+public class ShopScreenManager : MenusController
 {
     public ShopManager shopManager;
 
@@ -20,13 +20,14 @@ public class ShopScreenManager
 
     public Text coins;
 
-    private ShopItem selectedItem = new ShopItem("NAN", 0, false, false);
+    private ShopItem selectedItem = null;
 
 	// Use this for initialization
 	void Start ()
     {
         shopManager.loadData();
         fillItemDropdown();
+        selectItem(0);
 	}
 	
 	// Update is called once per frame
@@ -36,7 +37,7 @@ public class ShopScreenManager
 
         fillItemInfo();
 
-        if (selectedItem.name != "NAN")
+        if (selectedItem != null)
         {
             buyBtn.enabled = !selectedItem.isOwned;
             equipBtn.enabled = selectedItem.isOwned;
@@ -62,8 +63,6 @@ public class ShopScreenManager
     //fills item dropdown with items
     public void fillItemDropdown()
     {
-        dropdown.AddOptions(new List<string>() { "item" });
-
         List<string> itemNames = new List<string>();
 
         foreach(ShopItem item in shopManager.items)
@@ -76,7 +75,7 @@ public class ShopScreenManager
 
     public void fillItemInfo()
     {
-        if(selectedItem.name != "NAN")
+        if(selectedItem != null)
         {
             itemName.text = selectedItem.name;
             itemPrice.text = selectedItem.price.ToString();
@@ -96,14 +95,7 @@ public class ShopScreenManager
 
     public void selectItem(int index)
     {
-        if(index > 0)
-        {
-            selectedItem = shopManager.items[index - 1];
-        }
-        else
-        {
-            selectedItem = new ShopItem("NAN", 0, false, false);
-        }
+        selectedItem = shopManager.items[index];
     }
 
     public void buyItem()
