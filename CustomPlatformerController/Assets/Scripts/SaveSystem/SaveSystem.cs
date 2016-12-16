@@ -217,12 +217,14 @@ public class SaveSystem : ISave
         if (File.Exists(path))
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream fs = File.OpenRead(path);
-
-            List<object> deserializedObjects = (List<object>)bf.Deserialize(fs);
-            foreach (object o in deserializedObjects)
+            using (FileStream fs = File.OpenRead(path))
             {
-                objects.Add(o);
+
+                List<object> deserializedObjects = (List<object>)bf.Deserialize(fs);
+                foreach (object o in deserializedObjects)
+                {
+                    objects.Add(o);
+                }
             }
             return true;
         }

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Base;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
@@ -10,7 +11,6 @@ public class ScenesSaver : MonoBehaviour
 {
     private static SaveSystem saveSystem = new SaveSystem();
     private static int sceneAmount = 0;
-    private static bool locking = false;
 
     private const int wait = 300;
     private static int currentwait = 0;
@@ -38,15 +38,6 @@ public class ScenesSaver : MonoBehaviour
     [MenuItem("Scenes/Save")]
     static void SaveScenes()
     {
-        if (locking) return;
-        locking = true;
-
-        int delin = -1;
-        while (PlayerPrefs.HasKey((++delin).ToString()))
-        {
-            PlayerPrefs.DeleteKey(delin.ToString());
-        }
-
         List<TinyScene> saveData = new List<TinyScene>();
         EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
         sceneAmount = scenes.Length;
@@ -62,18 +53,22 @@ public class ScenesSaver : MonoBehaviour
                     name = scenes[i].path,
                     index = ind
                 });
-                PlayerPrefs.SetString(ind.ToString(), scenes[i].path);
             }
             else
             {
                 Debug.LogWarning("Scene #" + i + " : " + scenes[i].path + " is not enabled\r\nIf you want to be able to load this scene, enable it");
             }
         }
-        Debug.Log(j + " scenes saved to file");
+        string filePath = Application.dataPath + "/Resources/" + Files.SCENES_FNAME;
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+        }
 
-        saveSystem.Add(saveData);
-        saveSystem.Save(Files.SCENES_FNAME);
-        saveSystem.Clear();
-        locking = false;
+        FileStream fs = new FileStream(filePath, FileMode.CreateNew);
+        BinaryFormatter bf = new BinaryFormatter();
+        bf.Serialize(fs, saveData);
+        fs.Close();
+        Debug.Log(j + " scenes saved to file");
     }
 }
