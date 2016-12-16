@@ -20,6 +20,7 @@ public class NPCController : MonoBehaviour
 
     public void Talk()
     {
+		canvasScript.SetEmotionImage(currentEmotion);
         if (currentDialogNumber == -1)
         {
             canvasScript.DisableAllButtons();
