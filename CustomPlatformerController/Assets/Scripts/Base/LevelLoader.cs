@@ -36,7 +36,7 @@ namespace Assets.Scripts.Base
         public const string RANDOMLEVEL_NAME = "level";
         public const string OPTIONSCENE_NAME = "options";
         public const string MAINMENUSCENE_NAME = "mainmenu";
-        public const string TUTORIALSCENE_NAME = "tutoral";
+        public const string TUTORIALSCENE_NAME = "tutorial";
         public const string SHOPSCENE_NAME = "shop";
 
         /// <summary>

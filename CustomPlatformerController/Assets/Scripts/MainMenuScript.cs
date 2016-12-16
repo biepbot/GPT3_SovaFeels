@@ -34,6 +34,18 @@ public class MainMenuScript : MonoBehaviour
         //SaveStats(); // Delete this later on
     }
 
+    public void ShowShop()
+    {
+        //Loads the statistics scene
+        LevelLoader.LoadShop();
+    }
+
+    public void StartTutorial()
+    {
+        //Loads the tutorial scene
+        LevelLoader.LoadTutorial();
+    }
+
     private static SaveSystem saveSystem = new SaveSystem();
     private static bool locking = false;
 
