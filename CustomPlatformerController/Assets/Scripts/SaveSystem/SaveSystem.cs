@@ -21,6 +21,8 @@ public class SaveSystem : ISave
     /// </summary>
     public static SaveSystem Instance { get { return instance = (instance == null) ? new SaveSystem() : instance; } } */
 
+    public int ItemCount { get { return objects.Count; } }
+
     private List<object> objects;
 
     public SaveSystem()
@@ -208,9 +210,10 @@ public class SaveSystem : ISave
     /// Loads all objects from the given FileName.
     /// </summary>
     /// <param name="FileName">The name of the file you want to load.</param>
-    public void Load(string FileName)
+    /// <returns>Wether the file has been loaded or not.</returns>
+    public bool Load(string fileName)
     {
-        string path = Application.persistentDataPath + defaultPath + FileName;
+        string path = Application.persistentDataPath + defaultPath + fileName;
         if (File.Exists(path))
         {
             BinaryFormatter bf = new BinaryFormatter();
@@ -221,6 +224,11 @@ public class SaveSystem : ISave
             {
                 objects.Add(o);
             }
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -283,6 +291,20 @@ public class SaveSystem : ISave
                 objects.Remove(o);
             }
         }
+    }
+
+    /// <summary>
+    /// Returns a set with all the types of objects in the buffer.
+    /// </summary>
+    /// <returns>The types of objects currently in the buffer.</returns>
+    public HashSet<Type> GetTypes()
+    {
+        HashSet<Type> types = new HashSet<Type>();
+        foreach(object o in objects)
+        {
+            types.Add(o.GetType());
+        }
+        return types;
     }
 }
 

@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
-public class ObjectSound : MonoBehaviour {
+public class ObjectSound : MonoBehaviour
+{
 
     public AudioParamater audioChannel = AudioParamater.Master;
     public AudioClip[] audioClips;
@@ -11,8 +13,13 @@ public class ObjectSound : MonoBehaviour {
     public bool playOnAwake;
     public AudioClip clipToPlayOnAwake;
 
-	// Use this for initialization
-	void Start () {
+    private AudioMixer audioMixer;
+
+    // Use this for initialization
+    void Start()
+    {
+        SetupAudioMixer();
+
         if (loop) audioSource.loop = loop;
 
         if (playOnAwake)
@@ -25,12 +32,25 @@ public class ObjectSound : MonoBehaviour {
         {
             audioSource.clip = audioClips[0];
         }
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    private void SetupAudioMixer()
+    {
+        audioMixer = Resources.Load("Audio/MasterMixer") as AudioMixer;
+
+        if (audioSource == null)
+        {
+            gameObject.GetComponent<AudioSource>();
+        }
+
+        audioSource.outputAudioMixerGroup = Volume.GetMixerGroup(audioMixer, audioChannel);
+    }
 
     /// <summary>
     /// Plays the audiosource.

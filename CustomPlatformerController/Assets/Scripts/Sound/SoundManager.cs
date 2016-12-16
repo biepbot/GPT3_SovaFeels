@@ -241,14 +241,23 @@ public class SoundManager : MonoBehaviour
 
 public static class Volume
 {
-    public const string MASTER = "masterVolume";
-    public const string MENU = "menuVolume";
-    public const string MUSIC = "musicVolume";
-    public const string GAME = "gameVolume";
-    public const string AMBIENT = "ambientVolume";
-    public const string HELPER = "helperVolume";
-    public const string PLAYER = "playerVolume";
-    public const string CHARACTERS = "characterVolume";
+    private const string MASTER = "masterVolume";
+    private const string MENU = "menuVolume";
+    private const string MUSIC = "musicVolume";
+    private const string GAME = "gameVolume";
+    private const string AMBIENT = "ambientVolume";
+    private const string HELPER = "helperVolume";
+    private const string PLAYER = "playerVolume";
+    private const string CHARACTERS = "characterVolume";
+
+    private const string MASTERPATH = "Master";
+    private const string MENUPATH = "Master/Menu";
+    private const string MUSICPATH = "Master/Music";
+    private const string GAMEPATH = "Master/Game";
+    private const string AMBIENTPATH = "Master/Game/Ambient";
+    private const string HELPERPATH = "Master/Game/Helper";
+    private const string PLAYERPATH = "Master/Game/Player";
+    private const string CHARACTERSPATH = "Master/Game/Characters";
 
     public static string GetVolumeParamater(AudioParamater ap)
     {
@@ -270,6 +279,31 @@ public static class Volume
                 return MUSIC;
             case AudioParamater.Player:
                 return PLAYER;
+            default:
+                return null;
+        }
+    }
+
+    public static AudioMixerGroup GetMixerGroup(AudioMixer mixer, AudioParamater ap)
+    {
+        switch (ap)
+        {
+            case AudioParamater.Ambient:
+                return mixer.FindMatchingGroups(AMBIENTPATH)[0];
+            case AudioParamater.Characters:
+                return mixer.FindMatchingGroups(CHARACTERSPATH)[0];
+            case AudioParamater.Game:
+                return mixer.FindMatchingGroups(GAMEPATH)[0];
+            case AudioParamater.Helper:
+                return mixer.FindMatchingGroups(HELPERPATH)[0];
+            case AudioParamater.Master:
+                return mixer.FindMatchingGroups(MASTERPATH)[0];
+            case AudioParamater.Menu:
+                return mixer.FindMatchingGroups(MENUPATH)[0];
+            case AudioParamater.Music:
+                return mixer.FindMatchingGroups(MUSICPATH)[0];
+            case AudioParamater.Player:
+                return mixer.FindMatchingGroups(PLAYERPATH)[0];
             default:
                 return null;
         }
