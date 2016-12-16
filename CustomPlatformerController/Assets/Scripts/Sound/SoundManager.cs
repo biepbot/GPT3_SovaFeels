@@ -84,6 +84,15 @@ public class SoundManager : MonoBehaviour
 #endif
 
     /// <summary>
+    /// Finds all objects using the ObjectSound script.
+    /// </summary>
+    public void FindAudioObjects()
+    {
+        objectSounds = FindObjectsOfType<ObjectSound>();
+    }
+
+
+    /// <summary>
     /// Plays all audiosources.
     /// </summary>
     public void Play()
