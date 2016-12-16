@@ -19,6 +19,15 @@ public class NPCController : MonoBehaviour
     private void Awake()
     {
         gameStats = GameObject.FindObjectOfType<GameStats>();
+
+        if (gameStats == null)
+        {
+            gameStats = (Instantiate(Resources.Load("Stats/GameStats", typeof(GameObject))) as GameObject).GetComponent<GameStats>();
+        }
+
+        gameStats.RewardCoins(100);
+        gameStats.Save();
+
     }
 
     public void SetCanvas(CanvasScript canvas)

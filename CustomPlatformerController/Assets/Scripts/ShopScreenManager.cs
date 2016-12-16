@@ -23,9 +23,15 @@ public class ShopScreenManager : MenusController
 
     private ShopItem selectedItem = null;
 
-    private void Awake()
+     void Awake()
     {
         gameStats = GameObject.FindObjectOfType<GameStats>();
+
+        if (gameStats == null)
+        {
+            gameStats = (Instantiate(Resources.Load("Stats/GameStats", typeof(GameObject))) as GameObject).GetComponent<GameStats>();
+        }
+
         shopManager.gameStats = gameStats;
     }
 
