@@ -126,6 +126,6 @@ public class ShopScreenManager : MonoBehaviour
     public void backToMenu()
     {
         shopManager.saveData();
-        //LevelLoader.LoadMainMenu();
+        LevelLoader.LoadMainMenu();
     }
 }
