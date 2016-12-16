@@ -5,12 +5,20 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.Base;
 
-public class PauseMenuController : MonoBehaviour
+public class PauseMenuController : MenusController
 {
     public Button pausebutton;
     public Button resumebutton;
     public Button mainmenubutton;
     public GameObject pausepanel;
+
+    protected override bool ShouldGoBack
+    {
+        get
+        {
+            return false;
+        }
+    }
 
     public void PauseGame()
     {

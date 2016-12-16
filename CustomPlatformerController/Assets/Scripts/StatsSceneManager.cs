@@ -4,7 +4,7 @@ using Assets.Scripts.Base;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StatsSceneManager : MonoBehaviour
+public class StatsSceneManager : MenusController
 {
     public GameObject categoryText;
     public GameObject content;
