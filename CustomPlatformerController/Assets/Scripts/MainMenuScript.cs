@@ -111,7 +111,7 @@ public class MainMenuScript : MonoBehaviour
             saveData.Add(new Stats()
             {
                 levelDifficulty = 1,
-                coins = 0,
+                coins = 100,
                 amountOfPlaythroughs = 0,
                 lastFinishedPlaythrough = DateTime.Now
             });

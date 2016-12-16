@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopScreenManager : MonoBehaviour
+public class ShopScreenManager
 {
     public ShopManager shopManager;
 

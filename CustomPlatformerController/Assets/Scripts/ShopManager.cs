@@ -5,17 +5,23 @@ using System;
 
 public class ShopManager : MonoBehaviour
 {
-    private SaveSystem saveSystem = new SaveSystem();
+    private SaveSystem saveSystem;
+
     private List<Stats> categories;
 
     public List<ShopItem> items { get; set; }
-    public int coins { get; set; }
+    //public int coins { get; set; }
 
 	// Use this for initialization
 	void Start(){}
-	
-	// Update is called once per frame
-	void Update(){}
+
+    void Awake()
+    {
+        saveSystem = new SaveSystem();
+    }
+
+    // Update is called once per frame
+    void Update(){}
 
     public void loadData()
     {
@@ -71,13 +77,14 @@ public class ShopManager : MonoBehaviour
 
     public void saveCoins()
     {
-        Stats stat;
+        //Stats stat;
 
         foreach(Stats statsLine in categories)
         {
             if(statsLine.categoryName == null)
             {
-                stat = statsLine;
+                //stat = statsLine;
+                statsLine.coins = coins;
             }
         }
 
