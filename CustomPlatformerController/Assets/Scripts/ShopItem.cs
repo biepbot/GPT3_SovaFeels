@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
+[Serializable]
 public class ShopItem
 {
     public string name { get; set; }
@@ -22,10 +21,4 @@ public class ShopItem
     {
         return name;
     }
-
-	// Use this for initialization
-//	void Start(){}
-	
-	// Update is called once per frame
-//	void Update(){}
 }

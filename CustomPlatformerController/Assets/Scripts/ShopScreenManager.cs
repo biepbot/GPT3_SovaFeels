@@ -19,7 +19,7 @@ public class ShopScreenManager : MonoBehaviour
 
     public Text coins;
 
-    private ShopItem selectedItem;
+    private ShopItem selectedItem = new ShopItem("NAN", 0, false, false);
 
 	// Use this for initialization
 	void Start ()
@@ -35,7 +35,7 @@ public class ShopScreenManager : MonoBehaviour
 
         fillItemInfo();
 
-        if (selectedItem != null)
+        if (selectedItem.name != "NAN")
         {
             buyBtn.enabled = !selectedItem.isOwned;
             equipBtn.enabled = selectedItem.isOwned;
@@ -75,7 +75,7 @@ public class ShopScreenManager : MonoBehaviour
 
     public void fillItemInfo()
     {
-        if(selectedItem != null)
+        if(selectedItem.name != "NAN")
         {
             itemName.text = selectedItem.name;
             itemPrice.text = selectedItem.price.ToString();
@@ -101,7 +101,7 @@ public class ShopScreenManager : MonoBehaviour
         }
         else
         {
-            selectedItem = null;
+            selectedItem = new ShopItem("NAN", 0, false, false);
         }
     }
 
@@ -120,5 +120,13 @@ public class ShopScreenManager : MonoBehaviour
         {
             shopManager.unequipItem(selectedItem.name);
         }
+    }
+
+    public void backToMenu()
+    {
+        shopManager.saveItems();
+        shopManager.saveCoins();
+
+        print("saved and ready to quit");
     }
 }
