@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Base;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -125,5 +126,6 @@ public class ShopScreenManager : MonoBehaviour
     public void backToMenu()
     {
         shopManager.saveData();
+        //LevelLoader.LoadMainMenu();
     }
 }

@@ -35,15 +35,6 @@ public class ShopManager : MonoBehaviour
         saveSystem.Load(Files.ITEMS_FNAME);
         items = saveSystem.GetObject<List<ShopItem>>();
         saveSystem.Clear();
-
-        if(items == null)
-        {
-            items = new List<ShopItem>();
-
-            items.Add(new ShopItem("Red Shirt", 2, false, false));
-            items.Add(new ShopItem("Blue Pants", 3, false, false));
-        }
-
     }
 
     public void saveItems()
