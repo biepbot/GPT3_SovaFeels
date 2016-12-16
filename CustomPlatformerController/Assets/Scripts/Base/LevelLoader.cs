@@ -206,6 +206,7 @@ namespace Assets.Scripts.Base
         {
             bool found = false;
             int c = -1;
+            int ret = -1;
             foreach (TinyScene s in AllScenes)
             {
                 c++;
@@ -219,6 +220,7 @@ namespace Assets.Scripts.Base
                     else
                     {
                         found = true;
+                        ret = c;
                     }
                 }
             }
@@ -228,7 +230,7 @@ namespace Assets.Scripts.Base
             }
             else
             {
-                return c;
+                return ret;
             }
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Assets.Scripts.Base;
 
 public class PauseMenuController : MonoBehaviour
 {
@@ -31,7 +32,6 @@ public class PauseMenuController : MonoBehaviour
     {
         // ToDo: save all character stuff that hasnt been saved
         Time.timeScale = 1;
-
-        SceneManager.LoadScene("MainMenuScene");
+        LevelLoader.LoadMainMenu();
     }
 }
