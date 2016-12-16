@@ -9,25 +9,23 @@ namespace Assets.Scripts.Base
     {
         private static List<TinyScene> AllScenes = new List<TinyScene>();
         private static Playthrough currentPlayThrough;
-        private static SaveSystem saveSystem;
+        private static SaveSystem saveSystem = new SaveSystem();
 
         static LevelLoader()
         {
 #if UNITY_EDITOR
-            saveSystem = new SaveSystem();
             saveSystem.Load(Files.SCENES_FNAME);
             AllScenes = saveSystem.GetObject<List<TinyScene>>();
             saveSystem.Clear();
 #else
-            var numScenes = SceneManager.sceneCount;
-            List<TinyScene> saveData = new List<TinyScene>(numScenes);
-
-            for (int i = 0; i < numScenes; ++i)
+            int i = -1;
+            while (PlayerPrefs.HasKey((++i).ToString()))
             {
-                saveData.Add(new TinyScene()
+                AllScenes.Add(
+                    new TinyScene()
                     {
-                        name = SceneManager.GetSceneAt(i).name,
-                        index = i
+                        index = i,
+                        name = PlayerPrefs.GetString(i.ToString())
                     });
             }
 #endif

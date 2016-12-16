@@ -1,12 +1,13 @@
 ﻿using Assets.Scripts.Base;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 [InitializeOnLoad]
 public class ScenesSaver : MonoBehaviour
 {
-#if UNITY_EDITOR
     private static SaveSystem saveSystem = new SaveSystem();
     private static int sceneAmount = 0;
     private static bool locking = false;
@@ -23,7 +24,7 @@ public class ScenesSaver : MonoBehaviour
     {
         if (!Application.isEditor) return;
 
-        if(++currentwait == wait)
+        if (++currentwait == wait)
         {
             EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
             if (scenes.Length != sceneAmount)
@@ -33,7 +34,7 @@ public class ScenesSaver : MonoBehaviour
             currentwait = 0;
         }
     }
-    
+
     [MenuItem("Scenes/Save")]
     static void SaveScenes()
     {
@@ -55,6 +56,7 @@ public class ScenesSaver : MonoBehaviour
                     name = scenes[i].path,
                     index = ind
                 });
+                PlayerPrefs.SetString(ind.ToString(), scenes[i].path);
             }
             else
             {
@@ -68,5 +70,4 @@ public class ScenesSaver : MonoBehaviour
         saveSystem.Clear();
         locking = false;
     }
-#endif
 }
