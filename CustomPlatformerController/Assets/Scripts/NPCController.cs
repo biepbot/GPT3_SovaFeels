@@ -61,6 +61,11 @@ public class NPCController : MonoBehaviour
         {
             lastOption = selectedResponse;
             currentDialogNumber = -1;
+			ShopManager shop = new ShopManager();
+
+			shop.loadCoins();
+			shop.increaseCoins(1);
+			shop.saveCoins();
         }
         currentEmotion = selectedResponse.resultedEmotion;
         Talk();

@@ -33,22 +33,36 @@ public class StraightMovementController : PlatformController
 
 		if (platformDirection == MovableDirection.Up || platformDirection == MovableDirection.Down)
 		{
-			VerticleMovement(velocity);
 			currentlyMovedDistance += Mathf.Abs(velocity.y);
+
+			if (currentlyMovedDistance >= moveDistance)
+			{
+				velocity = (velocity.y > 0) ? new Vector3(velocity.x, velocity.y - (currentlyMovedDistance - moveDistance)) : new Vector3(velocity.x, velocity.y + (currentlyMovedDistance - moveDistance));
+				SwapMoveDirections();
+				currentlyMovedDistance = 0;
+				Wait();
+			}
+
+			VerticleMovement(velocity);
+			
 		}
 
 		if (platformDirection == MovableDirection.Right || platformDirection == MovableDirection.Left)
 		{
-			HorizontalMovement(velocity);
 			currentlyMovedDistance += Mathf.Abs(velocity.x);
+
+			if (currentlyMovedDistance >= moveDistance)
+			{
+				velocity = (velocity.x > 0) ? new Vector3(velocity.x - (currentlyMovedDistance - moveDistance), velocity.y) : new Vector3(velocity.x + (currentlyMovedDistance - moveDistance), velocity.y);
+				SwapMoveDirections();
+				currentlyMovedDistance = 0;
+				Wait();
+			}
+			HorizontalMovement(velocity);
+			
 		}
 
-		if (currentlyMovedDistance >= moveDistance)
-		{
-			SwapMoveDirections();
-			currentlyMovedDistance = 0;
-			Wait();
-		}
+		
 
 		thisTransform.Translate(velocity);
 	}
