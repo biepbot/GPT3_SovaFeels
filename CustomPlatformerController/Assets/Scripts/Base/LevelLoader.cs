@@ -2,33 +2,27 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts.Base.Exceptions;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+using System.IO.Compression;
 
 namespace Assets.Scripts.Base
 {
     public abstract class LevelLoader
     {
-        private static List<TinyScene> AllScenes = new List<TinyScene>();
+        public static List<TinyScene> AllScenes = new List<TinyScene>();
         private static Playthrough currentPlayThrough;
         private static SaveSystem saveSystem = new SaveSystem();
 
         static LevelLoader()
         {
-#if UNITY_EDITOR
-            saveSystem.Load(Files.SCENES_FNAME);
-            AllScenes = saveSystem.GetObject<List<TinyScene>>();
-            saveSystem.Clear();
-#else
-            int i = -1;
-            while (PlayerPrefs.HasKey((++i).ToString()))
+            TextAsset what = (TextAsset)Resources.Load(Files.SCENES_FNAME.Split('.')[0]);
+
+            BinaryFormatter bf = new BinaryFormatter();
+            using (var ms = new MemoryStream(what.bytes))
             {
-                AllScenes.Add(
-                    new TinyScene()
-                    {
-                        index = i,
-                        name = PlayerPrefs.GetString(i.ToString())
-                    });
+                AllScenes = (List<TinyScene>)bf.Deserialize(ms);
             }
-#endif
         }
 
         public const int DEFAULT_LEVEL_AMOUNT = 5;
