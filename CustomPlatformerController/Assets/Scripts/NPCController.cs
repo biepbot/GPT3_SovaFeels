@@ -39,6 +39,12 @@ public class NPCController : MonoBehaviour
         }
     }
 
+    void OnMouseDown()
+    {
+        //If able to talk. Talk
+        Talk();
+    }
+
     private void LoadDialog(int i, Dialog currentDialog)
     {
         if (currentDialog.answers[i].answerType != SolutionTypes.Confrontation)
