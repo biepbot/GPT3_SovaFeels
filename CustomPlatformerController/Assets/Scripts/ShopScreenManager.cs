@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ShopScreenManager : MenusController
 {
     public ShopManager shopManager;
+    private GameStats gameStats;
 
     public Dropdown dropdown;
 
@@ -22,8 +23,14 @@ public class ShopScreenManager : MenusController
 
     private ShopItem selectedItem = null;
 
-	// Use this for initialization
-	void Start ()
+    private void Awake()
+    {
+        gameStats = GameObject.FindObjectOfType<GameStats>();
+        shopManager.gameStats = gameStats;
+    }
+
+    // Use this for initialization
+    void Start ()
     {
         shopManager.loadData();
         fillItemDropdown();
@@ -33,7 +40,7 @@ public class ShopScreenManager : MenusController
 	// Update is called once per frame
 	void FixedUpdate()
     {
-        coins.text = shopManager.coins.ToString();
+        coins.text = gameStats.coins.ToString();
 
         fillItemInfo();
 

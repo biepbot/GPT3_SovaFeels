@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 public class NPCController : MonoBehaviour
 {
+    private GameStats gameStats;
+    private const int REWARDSIZE = 1;
+
     public GameObject canvas;
     public Dialog[] dialogList;
     public Emotion currentEmotion;
@@ -12,6 +15,11 @@ public class NPCController : MonoBehaviour
     private CanvasScript canvasScript;
     private int currentDialogNumber = 0;
     private Option lastOption;
+
+    private void Awake()
+    {
+        gameStats = GameObject.FindObjectOfType<GameStats>();
+    }
 
     public void SetCanvas(CanvasScript canvas)
     {
@@ -70,9 +78,8 @@ public class NPCController : MonoBehaviour
             currentDialogNumber = -1;
 			ShopManager shop = new ShopManager();
 
-			shop.loadCoins();
-			shop.increaseCoins(1);
-			shop.saveCoins();
+
+            gameStats.RewardCoins(REWARDSIZE);
         }
         currentEmotion = selectedResponse.resultedEmotion;
         Talk();

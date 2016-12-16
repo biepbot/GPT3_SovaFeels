@@ -6,27 +6,20 @@ using System;
 public class ShopManager : MonoBehaviour
 {
     private SaveSystem saveSystem;
+    public GameStats gameStats;
 
     private List<Stats> categories;
 
     public List<ShopItem> items { get; set; }
-    //public int coins { get; set; }
-
-	// Use this for initialization
-	void Start(){}
 
     void Awake()
     {
         saveSystem = new SaveSystem();
     }
 
-    // Update is called once per frame
-    void Update(){}
-
     public void loadData()
     {
         loadItems();
-        loadCoins();
     }
 
     public void saveData()
@@ -51,49 +44,9 @@ public class ShopManager : MonoBehaviour
         saveSystem.Clear();
     }
 
-    public void loadCoins()
-    {
-        saveSystem.Clear();
-        saveSystem.Load(Files.STATS_FNAME);
-        categories = saveSystem.GetObject<List<Stats>>();
-        saveSystem.Clear();
-
-        if (categories != null)
-        {
-            foreach (Stats statsLine in categories)
-            {
-                if (statsLine.categoryName == null)
-                {
-                    coins = statsLine.coins;
-                }
-            }
-        }
-        //else
-        //{
-            //for testing only, remove when coins are earned by playing the game
-        //    coins = 100;
-        //}
-    }
-
     public void saveCoins()
     {
-        //Stats stat;
-
-        foreach(Stats statsLine in categories)
-        {
-            if(statsLine.categoryName == null)
-            {
-                //stat = statsLine;
-                statsLine.coins = coins;
-            }
-        }
-
-        stat.coins = coins;
-
-        saveSystem.Clear();
-        saveSystem.Add(categories);
-        saveSystem.Save();
-        saveSystem.Clear();
+        gameStats.Save();
     }
 
     public ShopItem getShopItem(string name)
@@ -113,11 +66,10 @@ public class ShopManager : MonoBehaviour
     {
         ShopItem item = getShopItem(itemName);
 
-        if (item.price <= coins && !item.isOwned)
+        if (item.price <= gameStats.coins && !item.isOwned)
         {
-            decreaseCoins(item.price);
+            gameStats.DecreaseCoins(item.price);
             item.isOwned = true;
-            print(item.ToString());
         }
     }
 
@@ -139,19 +91,5 @@ public class ShopManager : MonoBehaviour
         {
             item.isEquiped = false;
         }
-    }
-
-    public void decreaseCoins(int coins)
-    {
-        if(this.coins - coins >= 0)
-        {
-            this.coins -= coins;
-            print(this.coins.ToString());
-        }
-    }
-
-    public void increaseCoins(int coins)
-    {
-        this.coins += coins;
     }
 }
