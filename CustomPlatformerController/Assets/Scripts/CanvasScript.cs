@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class CanvasScript : MonoBehaviour
 {
@@ -8,11 +9,17 @@ public class CanvasScript : MonoBehaviour
 	public GameObject interactableIcon;
 	public Text saidField;
 	public Button[] answerButtons = new Button[4];
+	public Image EmotionField;
 
 	public GameObject dialogPannel;
 
 	private bool isActive = false;
 	private Transform interactableTransform;
+
+	public Sprite Angry;
+	public Sprite Sad;
+	public Sprite Happy;
+	public Sprite Scared;
 
 	void Start()
 	{
@@ -63,5 +70,13 @@ public class CanvasScript : MonoBehaviour
 			dialogPannel.SetActive(false);
 			DisableAllButtons();
 		}
+	}
+
+	public void SetEmotionImage(NPCController.Emotion emotion)
+	{
+		if (emotion == NPCController.Emotion.Angry) EmotionField.sprite = Angry;
+		if (emotion == NPCController.Emotion.Sad) EmotionField.sprite = Sad;
+		if (emotion == NPCController.Emotion.Happy) EmotionField.sprite = Happy;
+		if (emotion == NPCController.Emotion.Scared) EmotionField.sprite = Scared;
 	}
 }
