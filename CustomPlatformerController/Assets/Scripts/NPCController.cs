@@ -24,7 +24,7 @@ public class NPCController : MonoBehaviour
             gameStats = (Instantiate(Resources.Load("Stats/GameStats", typeof(GameObject))) as GameObject).GetComponent<GameStats>();
         }
 
-        gameStats.RewardCoins(100);
+        gameStats.RewardCoins(REWARDSIZE);
         gameStats.Save();
 
     }

@@ -9,10 +9,33 @@ public class ItemManager : MonoBehaviour
     
     private static SaveSystem ss = new SaveSystem();
 
+    private static ItemManager instance = null;
+    public static ItemManager Instance { get { return instance; } }
+
+    public bool destroy = false;
+
     private void Awake()
     {
+        DontDestroyObject();
         Load();
+    }
 
+
+    private void DontDestroyObject()
+    {
+        if (!destroy)
+        {
+            if (instance != null && instance != this)
+            {
+                Destroy(this.gameObject);
+                return;
+            }
+            else
+            {
+                instance = this;
+            }
+            DontDestroyOnLoad(this.gameObject);
+        }
     }
 
     public bool Load()
