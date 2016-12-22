@@ -87,7 +87,7 @@ public class CanvasScript : MonoBehaviour
 	public void SetSolutionType(NPCController.SolutionTypes solution)
 	{
 		if (solution == NPCController.SolutionTypes.Fight) EmotionField.sprite = Fight;
-		if (solution == NPCController.SolutionTypes.Flight || solution == NPCController.SolutionTypes.Flight) EmotionField.sprite = Flight;
+		if (solution == NPCController.SolutionTypes.Flight || solution == NPCController.SolutionTypes.Ignore) EmotionField.sprite = Flight;
 		if (solution == NPCController.SolutionTypes.Confrontation) EmotionField.sprite = Confront;
 	}
 }
