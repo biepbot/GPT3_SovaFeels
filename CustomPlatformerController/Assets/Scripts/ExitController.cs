@@ -7,10 +7,18 @@ using UnityEngine.SceneManagement;
 public class ExitController : MonoBehaviour {
 
     public GameObject endGamePrefab;
+    public GameStats gameStats;
 
     private void Awake()
     {
-        if(endGamePrefab == null)
+        gameStats = GameObject.FindObjectOfType<GameStats>();
+
+        if (gameStats == null)
+        {
+            gameStats = (Instantiate(Resources.Load("Stats/GameStats", typeof(GameObject))) as GameObject).GetComponent<GameStats>();
+        }
+
+        if (endGamePrefab == null)
         {
             endGamePrefab = Instantiate(Resources.Load("EndMenu/EndGameMenu", typeof(GameObject))) as GameObject;
 
@@ -30,6 +38,8 @@ public class ExitController : MonoBehaviour {
 		}
 		else
 		{
+            gameStats.RewardCoins(5);
+            gameStats.Save();
             endGamePrefab.SetActive(true);
 
             /*
