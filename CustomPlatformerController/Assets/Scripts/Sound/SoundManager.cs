@@ -37,22 +37,32 @@ public class SoundManager : MonoBehaviour
     public int characters = 80;
 #endif
 
+    public bool destroy = false;
+
     private ObjectSound[] objectSounds;
 
     public ObjectSound[] ObjectSounds { get { return objectSounds; } }
 
     private void Awake()
     {
-        if (instance != null && instance != this)
+        DontDestroyObject();
+    }
+
+    private void DontDestroyObject()
+    {
+        if (!destroy)
         {
-            Destroy(this.gameObject);
-            return;
+            if (instance != null && instance != this)
+            {
+                Destroy(this.gameObject);
+                return;
+            }
+            else
+            {
+                instance = this;
+            }
+            DontDestroyOnLoad(this.gameObject);
         }
-        else
-        {
-            instance = this;
-        }
-        DontDestroyOnLoad(this.gameObject);
     }
 
     // Use this for initialization
@@ -97,9 +107,16 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     public void Play()
     {
-        foreach (ObjectSound objSound in objectSounds)
+        if (objectSounds.Length > 0)
         {
-            objSound.Play();
+            foreach (ObjectSound objSound in objectSounds)
+            {
+                objSound.Play();
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No audio object found!");
         }
     }
 
@@ -109,12 +126,19 @@ public class SoundManager : MonoBehaviour
     /// <param name="ap">The audiochannel</param>
     public void Play(AudioParamater ap)
     {
-        foreach (ObjectSound objSound in objectSounds)
+        if (objectSounds.Length > 0)
         {
-            if (objSound.audioChannel == ap)
+            foreach (ObjectSound objSound in objectSounds)
             {
-                objSound.Play();
+                if (objSound.audioChannel == ap)
+                {
+                    objSound.Play();
+                }
             }
+        }
+        else
+        {
+            Debug.LogWarning("No audio objects found!");
         }
     }
 
@@ -123,9 +147,16 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     public void Stop()
     {
-        foreach (ObjectSound objSound in objectSounds)
+        if (objectSounds.Length > 0)
         {
-            objSound.Stop();
+            foreach (ObjectSound objSound in objectSounds)
+            {
+                objSound.Stop();
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No audio object found!");
         }
     }
 
@@ -135,12 +166,20 @@ public class SoundManager : MonoBehaviour
     /// <param name="ap">The audiochannel</param>
     public void Stop(AudioParamater ap)
     {
-        foreach (ObjectSound objSound in objectSounds)
+        if (objectSounds.Length > 0)
         {
-            if (objSound.audioChannel == ap)
+            foreach (ObjectSound objSound in objectSounds)
             {
-                objSound.Stop();
+                if (objSound.audioChannel == ap)
+                {
+                    objSound.Stop();
+                }
             }
+        }
+        else
+        {
+            Debug.LogWarning("No audio object found!");
+
         }
     }
 
@@ -149,9 +188,16 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     public void Pause()
     {
-        foreach (ObjectSound objSound in objectSounds)
+        if (objectSounds.Length > 0)
         {
-            objSound.Pause();
+            foreach (ObjectSound objSound in objectSounds)
+            {
+                objSound.Pause();
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No audio object found!");
         }
     }
 
@@ -161,12 +207,19 @@ public class SoundManager : MonoBehaviour
     /// <param name="ap">The audiochannel</param>
     public void Pause(AudioParamater ap)
     {
-        foreach (ObjectSound objSound in objectSounds)
+        if (objectSounds.Length > 0)
         {
-            if (objSound.audioChannel == ap)
+            foreach (ObjectSound objSound in objectSounds)
             {
-                objSound.Pause();
+                if (objSound.audioChannel == ap)
+                {
+                    objSound.Pause();
+                }
             }
+        }
+        else
+        {
+            Debug.LogWarning("No audio object found!");
         }
     }
 
@@ -175,9 +228,16 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     public void UnPause()
     {
-        foreach (ObjectSound objSound in objectSounds)
+        if (objectSounds.Length > 0)
         {
-            objSound.UnPause();
+            foreach (ObjectSound objSound in objectSounds)
+            {
+                objSound.UnPause();
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No audio object found!");
         }
     }
 
@@ -187,14 +247,21 @@ public class SoundManager : MonoBehaviour
     /// <param name="ap">The audiochannel</param>
     public void UnPause(AudioParamater ap)
     {
-        foreach (ObjectSound objSound in objectSounds)
+        if (objectSounds.Length > 0)
         {
-            if (objSound.audioChannel == ap)
+            foreach (ObjectSound objSound in objectSounds)
             {
-                objSound.UnPause();
+                if (objSound.audioChannel == ap)
+                {
+                    objSound.UnPause();
+                }
             }
+                    }
+        else
+        {
+            Debug.LogWarning("No audio object found!");
         }
-    }
+        }
 
     /// <summary>
     /// Gets the volume of the given channel.

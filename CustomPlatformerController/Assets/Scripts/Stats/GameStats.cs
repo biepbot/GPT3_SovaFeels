@@ -17,11 +17,34 @@ public class GameStats : MonoBehaviour
     public int coins;
     public int amountOfPlaythroughs;
 
+    public bool destroy = false;
+
     private static SaveSystem ss = new SaveSystem();
+
+    private static GameStats instance = null;
+    public static GameStats Instance { get { return instance; } }
 
     private void Awake()
     {
         Load();
+        DontDestroyObject();
+    }
+
+    private void DontDestroyObject()
+    {
+        if (!destroy)
+        {
+            if (instance != null && instance != this)
+            {
+                Destroy(this.gameObject);
+                return;
+            }
+            else
+            {
+                instance = this;
+            }
+            DontDestroyOnLoad(this.gameObject);
+        }
     }
 
     public int Total
