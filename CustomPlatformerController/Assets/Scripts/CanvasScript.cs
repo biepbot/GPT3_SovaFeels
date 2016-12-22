@@ -21,6 +21,10 @@ public class CanvasScript : MonoBehaviour
 	public Sprite Happy;
 	public Sprite Scared;
 
+	public Sprite Fight;
+	public Sprite Flight;
+	public Sprite Confront;
+
 	void Start()
 	{
 		interactableTransform = interactableIcon.transform;
@@ -78,5 +82,12 @@ public class CanvasScript : MonoBehaviour
 		if (emotion == NPCController.Emotion.Sad) EmotionField.sprite = Sad;
 		if (emotion == NPCController.Emotion.Happy) EmotionField.sprite = Happy;
 		if (emotion == NPCController.Emotion.Scared) EmotionField.sprite = Scared;
+	}
+
+	public void SetSolutionType(NPCController.SolutionTypes solution)
+	{
+		if (solution == NPCController.SolutionTypes.Fight) EmotionField.sprite = Fight;
+		if (solution == NPCController.SolutionTypes.Flight || solution == NPCController.SolutionTypes.Flight) EmotionField.sprite = Flight;
+		if (solution == NPCController.SolutionTypes.Confrontation) EmotionField.sprite = Confront;
 	}
 }

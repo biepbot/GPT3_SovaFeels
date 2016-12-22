@@ -58,6 +58,9 @@ public class MontyController : BaseController
 		if (NPC != null)
 		{
 			NPCController.SolutionTypes solution = NPCScript.GetSolution();
+
+			canvasScript.SetSolutionType(solution);
+
 			if (solution == NPCController.SolutionTypes.Ignore)
 			{
 				canvasScript.SetDialogBox(ignoreMontyFeedBack);
