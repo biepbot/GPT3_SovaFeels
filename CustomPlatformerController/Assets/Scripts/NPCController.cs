@@ -22,10 +22,8 @@ public class NPCController : MonoBehaviour
         if (gameStats == null)
         {
             gameStats = (Instantiate(Resources.Load("Stats/GameStats", typeof(GameObject))) as GameObject).GetComponent<GameStats>();
-        }
-
-        gameStats.RewardCoins(REWARDSIZE);
-        gameStats.Save();
+			gameStats.Save();
+		}
 
     }
 
@@ -88,8 +86,9 @@ public class NPCController : MonoBehaviour
 
 
             gameStats.RewardCoins(REWARDSIZE);
-        }
-        currentEmotion = selectedResponse.resultedEmotion;
+			gameStats.Save();
+		}
+		currentEmotion = selectedResponse.resultedEmotion;
         Talk();
     }
 
