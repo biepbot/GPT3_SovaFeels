@@ -8,7 +8,6 @@ public class NPCController : MonoBehaviour
     private GameStats gameStats;
     private const int REWARDSIZE = 1;
 
-    public GameObject canvas;
     public Dialog[] dialogList;
     public Emotion currentEmotion;
 
