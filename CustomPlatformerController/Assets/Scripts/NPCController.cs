@@ -15,6 +15,7 @@ public class NPCController : MonoBehaviour
     private int currentDialogNumber = 0;
     private Option lastOption;
 
+    /*
     private void Awake()
     {
         gameStats = GameObject.FindObjectOfType<GameStats>();
@@ -25,7 +26,7 @@ public class NPCController : MonoBehaviour
 			gameStats.Save();
 		}
 
-    }
+    }*/
 
     public void SetCanvas(CanvasScript canvas)
     {
@@ -84,9 +85,9 @@ public class NPCController : MonoBehaviour
             currentDialogNumber = -1;
 			ShopManager shop = new ShopManager();
 
-
-            gameStats.RewardCoins(REWARDSIZE);
-			gameStats.Save();
+            /*
+            gameStats.RewardCoins(REWARDSIZE); Veranderen in volgende sprint
+			gameStats.Save();*/
 		}
 		currentEmotion = selectedResponse.resultedEmotion;
         Talk();

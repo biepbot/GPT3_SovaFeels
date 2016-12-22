@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ExitController : MonoBehaviour {
+public class ExitController : MonoBehaviour
+{
 
     public GameObject endGamePrefab;
     public GameStats gameStats;
+
+    public bool playthroughEnded = false;
 
     private void Awake()
     {
@@ -33,13 +36,14 @@ public class ExitController : MonoBehaviour {
             LevelLoader.LoadNextLevel();
         }
         else if (SceneManager.GetActiveScene().name == "Tutorial")
-		{
-			SceneManager.LoadScene("MainMenuScene");
-		}
-		else
-		{
+        {
+            SceneManager.LoadScene("MainMenuScene");
+        }
+        else if (!playthroughEnded)
+        {
             gameStats.RewardCoins(5);
             gameStats.Save();
+            playthroughEnded = true;
             endGamePrefab.SetActive(true);
 
             /*
