@@ -217,9 +217,9 @@ namespace Assets.Scripts.Base
             currentPlayThrough.IncreaseCoinsAfterLevelEnded();
             GameStats.Instance.RewardCoins(currentPlayThrough.PlaythroughCoins);
             GameStats.Instance.Save();
-            currentPlayThrough = null;
             saveSystem.Clear();
-            saveSystem.Add(currentPlayThrough);
+            saveSystem.Load(Files.PLAYTHROUGH_FNAME);
+            saveSystem.Add(new Playthrough());
             saveSystem.Save();
             saveSystem.Clear();
         }
