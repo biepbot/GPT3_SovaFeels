@@ -14,6 +14,8 @@ namespace Assets.Scripts.Base
         private static Playthrough currentPlayThrough;
         private static SaveSystem saveSystem = new SaveSystem();
 
+        public const string DIFFICULTY = "d";
+
         static LevelLoader()
         {
             TextAsset what = (TextAsset)Resources.Load(Files.SCENES_FNAME.Split('.')[0]);
