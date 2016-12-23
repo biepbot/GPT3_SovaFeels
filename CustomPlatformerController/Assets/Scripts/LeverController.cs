@@ -9,7 +9,12 @@ public class LeverController : MonoBehaviour {
 
 	private int currentHitCount = 0;
 
-	public void Hit()
+    void OnMouseDown()
+    {
+        Hit();
+    }
+
+    public void Hit()
 	{
 		if(currentHitCount < allowedHits)
 		{
