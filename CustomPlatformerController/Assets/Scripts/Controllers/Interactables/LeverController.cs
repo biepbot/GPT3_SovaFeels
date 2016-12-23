@@ -29,6 +29,10 @@ public class LeverController : MonoBehaviour {
 
 				cObject.objectToChange.SetActive(cObject.enabled);
 			}
+            //Change sprite
+            Texture triggered = (Texture)Resources.Load("leverLeft");
+            Debug.Log(triggered);
+            gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", triggered);
 		} 
 	}
 
