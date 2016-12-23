@@ -13,6 +13,7 @@ public class PlayerController : BaseController
     public LayerMask interactMask;
     public LayerMask exitMask;
 
+    public GameObject background;
     private GameObject interactable;
     private GameObject exit;
 
@@ -28,7 +29,7 @@ public class PlayerController : BaseController
         {
             canvas = (GameObject)Instantiate(Resources.Load("PlayerMenu"));
         }
-        
+
         Instantiate(Resources.Load("LevelDetails"));
 
         canvasScript = canvas.GetComponent<CanvasScript>();
