@@ -34,6 +34,11 @@ public class ExitController : MonoBehaviour
         }
         else if (!playthroughEnded)
         {
+            RewardsText rewardsText = endGamePrefab.GetComponentInChildren<RewardsText>();
+            if(rewardsText != null)
+            {
+                rewardsText.SetText();
+            }
             LevelLoader.EndPlaythrough();
             playthroughEnded = true;
             endGamePrefab.SetActive(true);
