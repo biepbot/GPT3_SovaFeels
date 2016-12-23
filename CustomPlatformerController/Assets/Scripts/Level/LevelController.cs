@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Base;
+using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class LevelController : MonoBehaviour
             }
         }
 
-        Debug.Log("Level dimension: {" + minX + "," + minY + "},{" + maxX + "," + maxY + "}");
+        if (MobileHelper.OnEditor)
+            Debug.Log("Level dimension: {" + minX + "," + minY + "},{" + maxX + "," + maxY + "}");
     }
 }
