@@ -6,7 +6,7 @@ using System;
 public class ShopManager : MonoBehaviour
 {
     private SaveSystem saveSystem;
-    public GameStats gameStats;
+    public GameStats gameStats { get { return GameStats.Instance; } }
     public ItemManager itemManager;
 
     void Awake()

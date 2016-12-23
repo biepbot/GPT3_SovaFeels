@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStats : MonoBehaviour
+public class GameStats
 {
 
     private const int minDiff = 1;
@@ -22,29 +22,21 @@ public class GameStats : MonoBehaviour
     private static SaveSystem ss = new SaveSystem();
 
     private static GameStats instance = null;
-    public static GameStats Instance { get { return instance; } }
-
-    private void Awake()
+    public static GameStats Instance
     {
-        Load();
-        DontDestroyObject();
+        get
+        {
+            if (instance == null)
+            {
+                instance = new GameStats();
+            }
+            return instance;
+        }
     }
 
-    private void DontDestroyObject()
+    private GameStats()
     {
-        if (!destroy)
-        {
-            if (instance != null && instance != this)
-            {
-                Destroy(this.gameObject);
-                return;
-            }
-            else
-            {
-                instance = this;
-            }
-            DontDestroyOnLoad(this.gameObject);
-        }
+        Load();
     }
 
     public int Total

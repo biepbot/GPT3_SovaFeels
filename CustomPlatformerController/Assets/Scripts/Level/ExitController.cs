@@ -8,19 +8,12 @@ public class ExitController : MonoBehaviour
 {
 
     public GameObject endGamePrefab;
-    public GameStats gameStats;
+    public GameStats gameStats { get { return GameStats.Instance; } }
 
     public bool playthroughEnded = false;
 
     private void Awake()
     {
-        gameStats = GameObject.FindObjectOfType<GameStats>();
-
-        if (gameStats == null)
-        {
-            gameStats = (Instantiate(Resources.Load("Stats/GameStats", typeof(GameObject))) as GameObject).GetComponent<GameStats>();
-        }
-
         if (endGamePrefab == null)
         {
             endGamePrefab = Instantiate(Resources.Load("EndMenu/EndGameMenu", typeof(GameObject))) as GameObject;

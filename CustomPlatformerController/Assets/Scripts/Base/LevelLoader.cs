@@ -13,15 +13,14 @@ namespace Assets.Scripts.Base
         public static List<TinyScene> AllScenes = new List<TinyScene>();
         private static Playthrough currentPlayThrough;
         private static SaveSystem saveSystem = new SaveSystem();
-
-        public const string DIFFICULTY = "d";
+        private static int Difficulty { get { return GameStats.Instance.levelDifficulty; } }
 
         static LevelLoader()
         {
-            TextAsset what = (TextAsset)Resources.Load(Files.SCENES_FNAME.Split('.')[0]);
+            TextAsset levels = (TextAsset)Resources.Load(Files.SCENES_FNAME.Split('.')[0]);
 
             BinaryFormatter bf = new BinaryFormatter();
-            using (var ms = new MemoryStream(what.bytes))
+            using (var ms = new MemoryStream(levels.bytes))
             {
                 AllScenes = (List<TinyScene>)bf.Deserialize(ms);
             }
@@ -84,6 +83,11 @@ namespace Assets.Scripts.Base
         {
             currentPlayThrough = new Playthrough();
             LoadRandomLevelSet(instantplay, true, DEFAULT_LEVEL_AMOUNT, true);
+
+            if (MobileHelper.OnEditor)
+            {
+                Debug.Log("Current playthrough difficulty: " + Difficulty);
+            }
         }
 
         /// <summary>
@@ -245,7 +249,7 @@ namespace Assets.Scripts.Base
         /// </summary>
         /// <param name="contains"></param>
         /// <returns></returns>
-        private static List<int> FindLevels(string contains)
+        private static List<int> FindLevels(string contains, bool checkDifficulty = true)
         {
             List<int> ret = new List<int>();
             int c = -1;
@@ -254,7 +258,11 @@ namespace Assets.Scripts.Base
                 c++;
                 if (s.name.ToLower().Contains(contains))
                 {
-                    ret.Add(c);
+                    if ((s.Difficulty == Difficulty && checkDifficulty)
+                        || (!checkDifficulty))
+                    {
+                        ret.Add(c);
+                    }
                 }
             }
             if (ret.Count == 0)

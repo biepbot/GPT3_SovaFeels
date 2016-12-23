@@ -6,7 +6,10 @@ using UnityEngine.UI;
 public class ShopScreenManager : MenusController
 {
     public ShopManager shopManager;
-    private GameStats gameStats;
+    private GameStats gameStats
+    {
+        get { return GameStats.Instance; }
+    }
 
     public Dropdown dropdown;
 
@@ -23,24 +26,15 @@ public class ShopScreenManager : MenusController
 
     private ShopItem selectedItem = null;
 
-     void Awake()
+    void Awake()
     {
-        gameStats = GameObject.FindObjectOfType<GameStats>();
-
-        if (gameStats == null)
-        {
-            gameStats = (Instantiate(Resources.Load("Stats/GameStats", typeof(GameObject))) as GameObject).GetComponent<GameStats>();
-        }
-
-        shopManager.gameStats = gameStats;
-
         fillItemDropdown();
         selectItem(0);
 
     }
-	
-	// Update is called once per frame
-	void FixedUpdate()
+
+    // Update is called once per frame
+    void FixedUpdate()
     {
         coins.text = gameStats.coins.ToString();
 
@@ -51,7 +45,7 @@ public class ShopScreenManager : MenusController
             buyBtn.enabled = !selectedItem.isOwned;
             equipBtn.enabled = selectedItem.isOwned;
 
-            if(selectedItem.isEquiped)
+            if (selectedItem.isEquiped)
             {
                 equipBtnTxt.text = "unequip";
             }
@@ -74,7 +68,7 @@ public class ShopScreenManager : MenusController
     {
         List<string> itemNames = new List<string>();
 
-        foreach(ShopItem item in shopManager.itemManager.items)
+        foreach (ShopItem item in shopManager.itemManager.items)
         {
             itemNames.Add(item.name);
         }
@@ -84,7 +78,7 @@ public class ShopScreenManager : MenusController
 
     public void fillItemInfo()
     {
-        if(selectedItem != null)
+        if (selectedItem != null)
         {
             itemName.text = selectedItem.name;
             itemPrice.text = selectedItem.price.ToString();
