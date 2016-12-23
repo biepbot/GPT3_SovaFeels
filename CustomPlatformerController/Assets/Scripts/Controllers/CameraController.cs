@@ -47,6 +47,8 @@ public class CameraController : MonoBehaviour
             hhmaxy += 2;
             lowerHill = background.transform.GetChild(2);
             lhmaxy = lowerHill.position.y;
+
+            Camera.main.backgroundColor = new Color(135/255f, 205/255f, 1);
         }
 
         thisTransfrom = this.transform;
