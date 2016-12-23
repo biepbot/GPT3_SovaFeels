@@ -14,6 +14,7 @@ namespace Assets.Scripts.Base
         private static Playthrough currentPlayThrough;
         private static SaveSystem saveSystem = new SaveSystem();
         private static int Difficulty { get { return GameStats.Instance.levelDifficulty; } }
+        public static Playthrough CurrentPlayThrough { get { return currentPlayThrough; } }
 
         static LevelLoader()
         {
@@ -194,6 +195,7 @@ namespace Assets.Scripts.Base
         public static void LoadNextLevel()
         {
             LoadRandomLevelSet(false);
+            currentPlayThrough.IncreaseCoinsAfterLevelEnded();
             SceneManager.LoadScene(currentPlayThrough.NextLevel());
             SavePlayThrough();
         }
@@ -205,6 +207,21 @@ namespace Assets.Scripts.Base
         {
             List<int> selectable = FindLevels(RANDOMLEVEL_NAME);
             SceneManager.LoadScene(selectable[Random.Range(0, selectable.Count - 1)]);
+        }
+
+        /// <summary>
+        /// Ends the playthrough and rewards the player with coins.
+        /// </summary>
+        public static void EndPlaythrough()
+        {
+            currentPlayThrough.IncreaseCoinsAfterLevelEnded();
+            GameStats.Instance.RewardCoins(currentPlayThrough.PlaythroughCoins);
+            GameStats.Instance.Save();
+            currentPlayThrough = null;
+            saveSystem.Clear();
+            saveSystem.Add(currentPlayThrough);
+            saveSystem.Save();
+            saveSystem.Clear();
         }
 
         /// <summary>

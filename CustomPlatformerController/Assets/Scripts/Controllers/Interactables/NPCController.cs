@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Assets.Scripts.Base;
 
 public class NPCController : MonoBehaviour
 {
@@ -85,9 +86,7 @@ public class NPCController : MonoBehaviour
             currentDialogNumber = -1;
 			ShopManager shop = new ShopManager();
 
-            /*
-            gameStats.RewardCoins(REWARDSIZE); Veranderen in volgende sprint
-			gameStats.Save();*/
+            LevelLoader.CurrentPlayThrough.IncreaseCoinsCurrentLevel(REWARDSIZE);
 		}
 		currentEmotion = selectedResponse.resultedEmotion;
         Talk();

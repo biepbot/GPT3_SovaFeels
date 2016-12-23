@@ -34,15 +34,9 @@ public class ExitController : MonoBehaviour
         }
         else if (!playthroughEnded)
         {
-            gameStats.RewardCoins(5);
-            gameStats.Save();
+            LevelLoader.EndPlaythrough();
             playthroughEnded = true;
             endGamePrefab.SetActive(true);
-
-            /*
-			Debug.LogWarning("Game finished. All " + LevelLoader.DEFAULT_LEVEL_AMOUNT + " levels were finished\r\nUh. Do something now");
-            //TODO
-            //Code for completing the game.*/
         }
     }
 }

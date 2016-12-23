@@ -45,11 +45,20 @@ namespace Assets.Scripts.Base
         {
             get
             {
-                return currentLevel == -1? levels[0] : levels[currentLevel];
+                return currentLevel == -1 ? levels[0] : levels[currentLevel];
             }
         }
 
         private int currentLevel = -1;
+
+        [NonSerialized]
+        private int levelGainedCoins = 0;
+
+        public int LevelGainedCoins { get { return levelGainedCoins; } }
+
+        private int playthroughCoins = 0;
+
+        public int PlaythroughCoins { get { return playthroughCoins; } }
 
         public Playthrough()
         {
@@ -67,6 +76,26 @@ namespace Assets.Scripts.Base
                 throw new NotEnoughLevelsException();
             }
             return levels[++currentLevel];
+        }
+
+        /// <summary>
+        /// Increases the coins in the current level.
+        /// Can be used when a player gives the right answer to a NPC in a level.
+        /// </summary>
+        /// <param name="coins">The amount of coins you want to give the player</param>
+        public void IncreaseCoinsCurrentLevel(int coins)
+        {
+            this.playthroughCoins += coins;
+        }
+
+        /// <summary>
+        /// This method is used to move the currently gained coins from the level to the gained coins from the playthrough.
+        /// After the levelgainedcoins have been added to the playthroughcoins the levelgainedcoins will be reset.
+        /// </summary>
+        public void IncreaseCoinsAfterLevelEnded()
+        {
+            this.playthroughCoins += levelGainedCoins;
+            levelGainedCoins = 0;
         }
     }
 }
