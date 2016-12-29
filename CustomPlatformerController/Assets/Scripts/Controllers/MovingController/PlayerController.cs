@@ -89,8 +89,8 @@ public class PlayerController : BaseController
     {
         if (interactable != null)
         {
-            if(interactable.CompareTag("NPC")) interactable.GetComponent<NPCController>().Talk();
-			if (interactable.CompareTag("Lever")) interactable.GetComponent<LeverController>().Hit();
+            if (interactable.CompareTag("NPC")) interactable.GetComponent<NPCController>().Talk();
+            if (interactable.CompareTag("Lever")) interactable.GetComponent<LeverController>().Hit();
 		}
     }
 

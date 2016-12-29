@@ -54,8 +54,10 @@ public class Player : MonoBehaviour
         //Move the player with the adjusted speeds
         playerController.Move(velocity);
 
-        if (Input.GetAxis("Interact") == 1) playerController.Interact();
-
+        if (Input.GetAxis("Interact") == 1)
+        {
+            playerController.Interact();
+        }
     }
 
     /// <summary>

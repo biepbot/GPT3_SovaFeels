@@ -18,20 +18,24 @@ public class LeverController : MonoBehaviour {
 	{
 		if(currentHitCount < allowedHits)
 		{
-			currentHitCount++;
+            currentHitCount++;
 
-			foreach (ChangingObject cObject in objectList)
+            // Play sound
+            SoundManager.Instance.ObjectSounds[0].PlayAudioClip(1);
+
+            foreach (ChangingObject cObject in objectList)
 			{
 				if (cObject.amount != 0)
 				{
 					cObject.objectToChange.GetComponent<StraightMovementController>().moveSpeed += cObject.amount;
 				}
 
-				cObject.objectToChange.SetActive(cObject.enabled);
+
+                cObject.objectToChange.SetActive(cObject.enabled);
 			}
-            //Change sprite
+
+            // Change sprite
             Texture triggered = (Texture)Resources.Load("leverLeft");
-            Debug.Log(triggered);
             gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", triggered);
 		} 
 	}
