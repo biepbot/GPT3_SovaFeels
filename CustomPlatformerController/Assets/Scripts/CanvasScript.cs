@@ -41,7 +41,7 @@ public class CanvasScript : MonoBehaviour
 	{
 		isActive = true;
 		Vector3 NewPos = playerCamera.WorldToScreenPoint(worldPos);
-		interactableTransform.position = NewPos;
+	    interactableTransform.position = NewPos;
 	}
 
 	public void SetDialogBox(string text)

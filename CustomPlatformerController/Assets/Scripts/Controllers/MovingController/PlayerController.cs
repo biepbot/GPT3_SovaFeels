@@ -16,6 +16,7 @@ public class PlayerController : BaseController
     public GameObject background;
     private GameObject interactable;
     private GameObject exit;
+    private bool interactionPossibleSoundPlayed;
 
     public GameObject canvas;
 
@@ -126,6 +127,7 @@ public class PlayerController : BaseController
     private void CheckInteractable()
     {
         interactable = null;
+
         for (int i = 0; i < rayCaster.horizontalRayCount; i++)
         {
             Vector2 rayOffset = Vector2.up * (rayCaster.horizontalSpacing * i);
@@ -139,11 +141,17 @@ public class PlayerController : BaseController
 				{
 					Vector3 interactablePos = interactable.transform.position;
 					canvasScript.SetInteractable(new Vector3(interactablePos.x, interactablePos.y + 2, interactablePos.z));
+				    if (!interactionPossibleSoundPlayed)
+				    {
+				        SoundManager.Instance.ObjectSounds[0].PlayAudioClip(2);
+				        interactionPossibleSoundPlayed = true;
+				    }
 				}
                 return;
             }
         }
         canvasScript.RemoveDialog();
+        interactionPossibleSoundPlayed = false;
     }
 
     /// <summary>
