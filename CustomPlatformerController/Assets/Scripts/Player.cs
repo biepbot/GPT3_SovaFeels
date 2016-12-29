@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     private float smoothVelocity;
 
     private PlayerController playerController;
+    private SoundManager soundManager;
 
     void Awake()
     {
@@ -32,6 +33,11 @@ public class Player : MonoBehaviour
         {
             Instantiate(Resources.Load("MobileSingleStickControl"));
         }
+    }
+
+    void Start()
+    {
+        soundManager = GameObject.FindObjectOfType<SoundManager>();
     }
 
     void Update()
@@ -72,7 +78,11 @@ public class Player : MonoBehaviour
         }
 
         //If the player needs to jump, and is able to, jump.
-        if (doJump && playerController.collInfo.below) velocity.y = jumpingHeight;
+        if (doJump && playerController.collInfo.below)
+        {
+            velocity.y = jumpingHeight;
+            SoundManager.Instance.ObjectSounds[0].PlayAudioClip(0);
+        }
     }
 
     /// <summary>
