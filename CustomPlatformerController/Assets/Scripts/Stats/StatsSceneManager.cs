@@ -62,5 +62,6 @@ public class StatsSceneManager : MenusController
     public void ReturnToMain()
     {
         LevelLoader.LoadMainMenu();
+        SoundManager.Instance.PlayButtonClickSound();
     }
 }

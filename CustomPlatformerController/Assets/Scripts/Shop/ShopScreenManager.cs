@@ -104,16 +104,19 @@ public class ShopScreenManager : MenusController
     public void buyItem()
     {
         shopManager.buyItem(selectedItem.name);
+        SoundManager.Instance.PlayButtonClickSound();
     }
 
     public void equipItem()
     {
         shopManager.equipItem(selectedItem.name);
+        SoundManager.Instance.PlayButtonClickSound();
     }
 
     public void backToMenu()
     {
         shopManager.saveData();
         LevelLoader.LoadMainMenu();
+        SoundManager.Instance.PlayButtonClickSound();
     }
 }

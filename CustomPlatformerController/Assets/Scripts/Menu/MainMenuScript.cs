@@ -18,31 +18,35 @@ public class MainMenuScript : MonoBehaviour
     {
         //Forces a new playthrough
         LevelLoader.NewPlayThrough(true);
+        SoundManager.Instance.PlayButtonClickSound();
     }
 
     public void ContinueOldPlaythrough()
     {
         //Loads the old, if any, else, loads a new one
         LevelLoader.LoadPlayThrough(true);
+        SoundManager.Instance.PlayButtonClickSound();
     }
 
     public void ViewStats()
     {
         //Loads the statistics scene
         LevelLoader.LoadStatistics();
-        //SaveStats(); // Delete this later on
+        SoundManager.Instance.PlayButtonClickSound();
     }
 
     public void ShowShop()
     {
         //Loads the statistics scene
         LevelLoader.LoadShop();
+        SoundManager.Instance.PlayButtonClickSound();
     }
 
     public void StartTutorial()
     {
         //Loads the tutorial scene
         LevelLoader.LoadTutorial();
+        SoundManager.Instance.PlayButtonClickSound();
     }
 
     private static SaveSystem saveSystem = new SaveSystem();

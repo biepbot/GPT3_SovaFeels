@@ -313,6 +313,14 @@ public class SoundManager : MonoBehaviour
         Debug.Log("Setting volume to:" + apVolume + " on " + Volume.GetVolumeParamater(ap));
         audioMixer.SetFloat(Volume.GetVolumeParamater(ap), apVolume);
     }
+
+    /// <summary>
+    /// Plays button click sound.
+    /// </summary>
+    public void PlayButtonClickSound()
+    {
+        Instance.ObjectSounds[0].PlayAudioClip(3);
+    }
 }
 
 public static class Volume

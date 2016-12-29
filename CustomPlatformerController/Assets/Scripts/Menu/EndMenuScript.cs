@@ -8,10 +8,12 @@ public class EndMenuScript : MonoBehaviour {
 	public void LoadMainMenu()
     {
         LevelLoader.LoadMainMenu();
+        SoundManager.Instance.PlayButtonClickSound();
     }
 
     public void LoadStatistics()
     {
         LevelLoader.LoadStatistics();
+        SoundManager.Instance.PlayButtonClickSound();
     }
 }
