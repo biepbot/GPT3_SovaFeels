@@ -69,6 +69,7 @@ public class SoundManager : MonoBehaviour
     void Start()
     {
         objectSounds = FindObjectsOfType<ObjectSound>();
+        Instance.Play(AudioParamater.Ambient);
     }
 
 

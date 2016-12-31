@@ -32,7 +32,7 @@ public class ObjectSound : MonoBehaviour
         }
         else
         {
-            audioSource.clip = audioClips[0];
+            audioSource.clip = audioClips[4];
         }
     }
 
