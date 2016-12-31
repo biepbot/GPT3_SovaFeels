@@ -210,6 +210,7 @@ namespace Assets.Scripts.Base
             currentPlayThrough.IncreaseCoinsAfterLevelEnded();
             SceneManager.LoadScene(currentPlayThrough.NextLevel());
             SavePlayThrough();
+            ExitController.endLevelSoundPlayed = false;
         }
 
         /// <summary>

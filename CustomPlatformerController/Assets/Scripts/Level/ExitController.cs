@@ -6,11 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class ExitController : MonoBehaviour
 {
-
     public GameObject endGamePrefab;
     public GameStats gameStats { get { return GameStats.Instance; } }
 
     public bool playthroughEnded = false;
+
+    public static bool endLevelSoundPlayed;
 
     private void Awake()
     {
@@ -24,6 +25,12 @@ public class ExitController : MonoBehaviour
 
     public void NextLevel()
     {
+        if (!endLevelSoundPlayed)
+        {
+            SoundManager.Instance.ObjectSounds[0].PlayAudioClip(5);
+            endLevelSoundPlayed = true;
+        }
+
         if (LevelLoader.HasMoreLevels)
         {
             LevelLoader.LoadNextLevel();
@@ -31,6 +38,7 @@ public class ExitController : MonoBehaviour
         else if (SceneManager.GetActiveScene().name == "Tutorial")
         {
             SceneManager.LoadScene("MainMenuScene");
+            endLevelSoundPlayed = false;
         }
         else if (!playthroughEnded)
         {
@@ -42,6 +50,7 @@ public class ExitController : MonoBehaviour
             LevelLoader.EndPlaythrough();
             playthroughEnded = true;
             endGamePrefab.SetActive(true);
+            endLevelSoundPlayed = false;
         }
     }
 }
