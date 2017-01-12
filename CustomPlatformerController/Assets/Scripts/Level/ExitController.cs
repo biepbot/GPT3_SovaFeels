@@ -27,7 +27,8 @@ public class ExitController : MonoBehaviour
     {
         if (!endLevelSoundPlayed)
         {
-            SoundManager.Instance.ObjectSounds[0].PlayAudioClip(5);
+            if(SoundManager.Instance != null)
+                SoundManager.Instance.ObjectSounds[0].PlayAudioClip(5);
             endLevelSoundPlayed = true;
         }
 

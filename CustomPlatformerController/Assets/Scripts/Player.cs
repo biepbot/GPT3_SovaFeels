@@ -83,7 +83,10 @@ public class Player : MonoBehaviour
         if (doJump && playerController.collInfo.below)
         {
             velocity.y = jumpingHeight;
-            SoundManager.Instance.ObjectSounds[0].PlayAudioClip(0);
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.ObjectSounds[0].PlayAudioClip(0);
+            }
         }
     }
 

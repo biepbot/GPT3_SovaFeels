@@ -143,7 +143,10 @@ public class PlayerController : BaseController
 					canvasScript.SetInteractable(new Vector3(interactablePos.x, interactablePos.y + 2, interactablePos.z));
 				    if (!interactionPossibleSoundPlayed)
 				    {
-				        SoundManager.Instance.ObjectSounds[0].PlayAudioClip(2);
+                        if (SoundManager.Instance != null)
+                        {
+                            SoundManager.Instance.ObjectSounds[0].PlayAudioClip(2);
+                        }
 				        interactionPossibleSoundPlayed = true;
 				    }
 				}

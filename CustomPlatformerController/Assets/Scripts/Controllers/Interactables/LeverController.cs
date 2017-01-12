@@ -21,7 +21,10 @@ public class LeverController : MonoBehaviour {
             currentHitCount++;
 
             // Play sound
-            SoundManager.Instance.ObjectSounds[0].PlayAudioClip(1);
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.ObjectSounds[0].PlayAudioClip(1);
+            }
 
             foreach (ChangingObject cObject in objectList)
 			{

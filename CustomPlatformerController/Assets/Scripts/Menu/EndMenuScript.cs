@@ -3,17 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EndMenuScript : MonoBehaviour {
+public class EndMenuScript : MonoBehaviour
+{
 
-	public void LoadMainMenu()
+    public void LoadMainMenu()
     {
         LevelLoader.LoadMainMenu();
-        SoundManager.Instance.PlayButtonClickSound();
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.PlayButtonClickSound();
     }
 
     public void LoadStatistics()
     {
         LevelLoader.LoadStatistics();
-        SoundManager.Instance.PlayButtonClickSound();
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.PlayButtonClickSound();
     }
 }
