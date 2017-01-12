@@ -13,6 +13,7 @@ public class MontyController : BaseController
 	public string fightMontyFeedBack;
 	public string flightMontyFeedBack;
 	public string confrontMontyFeedBack;
+    public static bool montyTalking;
 
 	public GameObject NPC;
 	private NPCController NPCScript;
@@ -54,7 +55,6 @@ public class MontyController : BaseController
 
 	private void GiveFeedback()
 	{
-		
 		if (NPC != null)
 		{
 			NPCController.SolutionTypes solution = NPCScript.GetSolution();
@@ -63,13 +63,46 @@ public class MontyController : BaseController
 
 			if (solution == NPCController.SolutionTypes.Ignore)
 			{
-				canvasScript.SetDialogBox(ignoreMontyFeedBack);
+			    if (!montyTalking)
+			    {
+			        montyTalking = true;
+			        SoundManager.Instance.ObjectSounds[0].PlayAudioClip(8);
+			    }
+			    canvasScript.SetDialogBox(ignoreMontyFeedBack);
 				NPC.SetActive(false);
 			}
 
-			if (solution == NPCController.SolutionTypes.Flight) canvasScript.SetDialogBox(flightMontyFeedBack);
-			if (solution == NPCController.SolutionTypes.Fight) canvasScript.SetDialogBox(fightMontyFeedBack);
-			if (solution == NPCController.SolutionTypes.Confrontation) canvasScript.SetDialogBox(confrontMontyFeedBack);
+		    if (solution == NPCController.SolutionTypes.Flight)
+		    {
+                if (!montyTalking)
+                {
+                    montyTalking = true;
+                    SoundManager.Instance.ObjectSounds[0].PlayAudioClip(8);
+                }
+                canvasScript.SetDialogBox(flightMontyFeedBack);
+		    }
+
+		    if (solution == NPCController.SolutionTypes.Fight)
+		    {
+                if (!montyTalking)
+                {
+                    montyTalking = true;
+                    SoundManager.Instance.ObjectSounds[0].PlayAudioClip(7);
+                }
+                canvasScript.SetDialogBox(fightMontyFeedBack);
+		    }
+
+		    if (solution == NPCController.SolutionTypes.Confrontation)
+		    {
+                if (!montyTalking)
+                {
+                    montyTalking = true;
+                    SoundManager.Instance.ObjectSounds[0].PlayAudioClip(6);
+                }
+                canvasScript.SetDialogBox(confrontMontyFeedBack);
+		    }
+
+		    StartCoroutine(ResetMontyTalking(2.0f));
 		}
 		else
 		{
@@ -77,4 +110,17 @@ public class MontyController : BaseController
 		}
 		canvasScript.DisableAllButtons();
 	}
+
+
+
+
+    // every 2 seconds perform the print()
+    public static IEnumerator ResetMontyTalking(float waitTime)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(waitTime);
+            montyTalking = false;
+        }
+    }
 }

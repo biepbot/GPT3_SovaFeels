@@ -71,7 +71,7 @@ public class CanvasScript : MonoBehaviour
 	{
 		if (dialogPannel.activeSelf)
 		{
-			dialogPannel.SetActive(false);
+            dialogPannel.SetActive(false);
 			DisableAllButtons();
 		}
 	}

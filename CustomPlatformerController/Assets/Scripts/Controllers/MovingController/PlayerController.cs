@@ -92,7 +92,7 @@ public class PlayerController : BaseController
         {
             if (interactable.CompareTag("NPC")) interactable.GetComponent<NPCController>().Talk();
             if (interactable.CompareTag("Lever")) interactable.GetComponent<LeverController>().Hit();
-		}
+        }
     }
 
     /// <summary>
@@ -137,22 +137,23 @@ public class PlayerController : BaseController
             if (hit)
             {
                 interactable = hit.transform.gameObject;
-				if (!interactable.CompareTag("Monty")) 
-				{
-					Vector3 interactablePos = interactable.transform.position;
-					canvasScript.SetInteractable(new Vector3(interactablePos.x, interactablePos.y + 2, interactablePos.z));
-				    if (!interactionPossibleSoundPlayed)
-				    {
+                if (!interactable.CompareTag("Monty"))
+                {
+                    Vector3 interactablePos = interactable.transform.position;
+                    canvasScript.SetInteractable(new Vector3(interactablePos.x, interactablePos.y + 2, interactablePos.z));
+                    if (!interactionPossibleSoundPlayed)
+                    {
                         if (SoundManager.Instance != null)
                         {
                             SoundManager.Instance.ObjectSounds[0].PlayAudioClip(2);
                         }
-				        interactionPossibleSoundPlayed = true;
-				    }
-				}
+                        interactionPossibleSoundPlayed = true;
+                    }
+                }
                 return;
             }
         }
+
         canvasScript.RemoveDialog();
         interactionPossibleSoundPlayed = false;
     }
