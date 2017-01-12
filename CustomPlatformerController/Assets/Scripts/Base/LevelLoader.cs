@@ -231,10 +231,9 @@ namespace Assets.Scripts.Base
             GameStats.Instance.RewardCoins(currentPlayThrough.PlaythroughCoins);
             GameStats.Instance.Save();
             saveSystem.Clear();
-            saveSystem.Load(Files.PLAYTHROUGH_FNAME);
             currentPlayThrough = new Playthrough();
             saveSystem.Add(currentPlayThrough);
-            saveSystem.Save();
+            saveSystem.Save(Files.PLAYTHROUGH_FNAME);
             saveSystem.Clear();
         }
 
