@@ -102,7 +102,7 @@ public class MontyController : BaseController
                 canvasScript.SetDialogBox(confrontMontyFeedBack);
 		    }
 
-		    StartCoroutine(ResetMontyTalking(2.0f));
+		    //StartCoroutine(ResetMontyTalking(2.0f));
 		}
 		else
 		{
