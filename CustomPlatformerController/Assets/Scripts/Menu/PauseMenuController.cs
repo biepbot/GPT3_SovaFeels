@@ -26,7 +26,10 @@ public class PauseMenuController : MenusController
         pausebutton.gameObject.SetActive(false);
 
         Time.timeScale = 0;
-        SoundManager.Instance.PlayButtonClickSound();
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayButtonClickSound();
+        }
     }
 
     public void ResumeGame()
@@ -35,7 +38,10 @@ public class PauseMenuController : MenusController
         pausebutton.gameObject.SetActive(true);
 
         Time.timeScale = 1;
-        SoundManager.Instance.PlayButtonClickSound();
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayButtonClickSound();
+        }
     }
 
     public void ReturnToMain()
@@ -43,6 +49,9 @@ public class PauseMenuController : MenusController
         // ToDo: save all character stuff that hasnt been saved
         Time.timeScale = 1;
         LevelLoader.LoadMainMenu();
-        SoundManager.Instance.PlayButtonClickSound();
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayButtonClickSound();
+        }
     }
 }

@@ -27,8 +27,10 @@ public class ExitController : MonoBehaviour
     {
         if (!endLevelSoundPlayed)
         {
-            if(SoundManager.Instance != null)
+            if (SoundManager.Instance != null)
+            {
                 SoundManager.Instance.ObjectSounds[0].PlayAudioClip(5);
+            }
             endLevelSoundPlayed = true;
         }
 
@@ -44,7 +46,7 @@ public class ExitController : MonoBehaviour
         else if (!playthroughEnded)
         {
             RewardsText rewardsText = endGamePrefab.GetComponentInChildren<RewardsText>();
-            if(rewardsText != null)
+            if (rewardsText != null)
             {
                 rewardsText.SetText();
             }

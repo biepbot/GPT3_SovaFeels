@@ -9,7 +9,7 @@ public class SoundManager : MonoBehaviour
     public AudioMixer audioMixer;
 
     private static SoundManager instance = null;
-    public static SoundManager Instance { get { return instance; } }
+    public static SoundManager Instance { get { return (instance != null) ? instance : (Instantiate(Resources.Load("Audio/AudioManager", typeof(GameObject))) as GameObject).GetComponent<SoundManager>(); } }
 
 #if UNITY_EDITOR
     [Range(0, 100)]
