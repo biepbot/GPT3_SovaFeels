@@ -114,7 +114,6 @@ public class PlayerController : BaseController
                 if (exit.CompareTag("Finish"))
                 {
                     exit.GetComponent<ExitController>().NextLevel();
-                    MontyController.montyTalking = false;
                 }
                 return;
             }
