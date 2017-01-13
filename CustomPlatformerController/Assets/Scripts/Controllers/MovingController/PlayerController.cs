@@ -213,19 +213,6 @@ public class PlayerController : BaseController
         }
     }
 
-	public bool CheckInAir()
-	{
-		for (int i = 0; i < rayCaster.horizontalRayCount; i++)
-		{
-			Vector2 rayOrigin = rayCaster.rayCastOrigins.bottomLeft;
-			rayOrigin += Vector2.right * rayCaster.horizontalSpacing * i;
-			RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector3.up *-1, 1f, collisionMask);
-
-			if (hit) return false;
-		}
-
-		return true;
-	}
     public struct CollisionInfo
     {
         public bool above, below, left, right;

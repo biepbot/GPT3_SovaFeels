@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
 	public Sprite jump;
 
 	private float spriteTimer = 0;
-
+	private float lastJump = 0;
 	void Awake()
 	{
 		sR = spriteTransform.GetComponent<SpriteRenderer>();
@@ -96,6 +96,8 @@ public class Player : MonoBehaviour
 		if (doJump && playerController.collInfo.below)
 		{
 			velocity.y = jumpingHeight;
+			sR.sprite = jump;
+			lastJump = 0;
 			if (SoundManager.Instance != null)
 			{
 				SoundManager.Instance.ObjectSounds[0].PlayAudioClip(0);
@@ -131,27 +133,29 @@ public class Player : MonoBehaviour
 	{
 		if (playerInfo.direction == 1) spriteTransform.eulerAngles = Vector3.zero;
 		else if (playerInfo.direction == -1) spriteTransform.eulerAngles = Vector3.up * 180;
-		if (!playerController.CheckInAir())
+
+		if (playerController.collInfo.below && lastJump > 0.1f)
 		{
 			if (playerInfo.direction != 0)
 			{
-				if (spriteTimer > 0.15f)
+				if (spriteTimer > 0.13f)
 				{
 					spriteTimer = 0;
 					if (sR.sprite == walk1) sR.sprite = walk2;
 					else if (sR.sprite != walk1) sR.sprite = walk1;
 				}
-				spriteTimer += Time.deltaTime;
+				else spriteTimer += Time.deltaTime;
 
 			}
 			else
 			{
 				sR.sprite = stand;
+				spriteTimer = 1;
 			}
 		}
 		else
 		{
-			sR.sprite = jump;
+			lastJump += Time.deltaTime;
 		}
 
 	}
