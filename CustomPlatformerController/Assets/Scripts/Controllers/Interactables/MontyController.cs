@@ -19,6 +19,8 @@ public class MontyController : BaseController
 	private NPCController NPCScript;
 	private CanvasScript canvasScript;
 
+	private bool alreadyGaveFeedback = false;
+
 	protected override void Awake()
 	{
 		base.Awake();
@@ -43,18 +45,30 @@ public class MontyController : BaseController
 
 	private void CheckForPlayer()
 	{
+		bool playerStillHere = false;
 		for (int i = 0; i < rayCaster.horizontalRayCount; i++)
 		{
 			Vector2 rayOffset = Vector2.up * (rayCaster.horizontalSpacing * i);
 			RaycastHit2D hit = Physics2D.Raycast(rayCaster.rayCastOrigins.bottomRight + rayOffset, Vector2.right, range, collisionMask);
 			if (!hit) hit = Physics2D.Raycast(rayCaster.rayCastOrigins.bottomLeft + rayOffset, Vector2.right * -1, range, collisionMask);
 
-			if (hit) GiveFeedback();
+			if (hit)
+			{
+				GiveFeedback();
+				playerStillHere = true;
+				break;
+			}
+			else
+			{
+				playerStillHere = false;
+			}
 		}
+		montyTalking = playerStillHere;
 	}
 
 	private void GiveFeedback()
 	{
+		alreadyGaveFeedback = true;
 		if (NPC != null)
 		{
 			NPCController.SolutionTypes solution = NPCScript.GetSolution();
@@ -65,7 +79,6 @@ public class MontyController : BaseController
 			{
 			    if (!montyTalking)
 			    {
-			        montyTalking = true;
 			        SoundManager.Instance.ObjectSounds[0].PlayAudioClip(8);
 			    }
 			    canvasScript.SetDialogBox(ignoreMontyFeedBack);
@@ -76,7 +89,6 @@ public class MontyController : BaseController
 		    {
                 if (!montyTalking)
                 {
-                    montyTalking = true;
                     SoundManager.Instance.ObjectSounds[0].PlayAudioClip(8);
                 }
                 canvasScript.SetDialogBox(flightMontyFeedBack);
@@ -86,7 +98,6 @@ public class MontyController : BaseController
 		    {
                 if (!montyTalking)
                 {
-                    montyTalking = true;
                     SoundManager.Instance.ObjectSounds[0].PlayAudioClip(7);
                 }
                 canvasScript.SetDialogBox(fightMontyFeedBack);
@@ -96,7 +107,6 @@ public class MontyController : BaseController
 		    {
                 if (!montyTalking)
                 {
-                    montyTalking = true;
                     SoundManager.Instance.ObjectSounds[0].PlayAudioClip(6);
                 }
                 canvasScript.SetDialogBox(confrontMontyFeedBack);
