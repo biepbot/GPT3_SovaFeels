@@ -13,13 +13,13 @@ public class MontyController : BaseController
 	public string fightMontyFeedBack;
 	public string flightMontyFeedBack;
 	public string confrontMontyFeedBack;
-    public static bool montyTalking;
 
 	public GameObject NPC;
 	private NPCController NPCScript;
 	private CanvasScript canvasScript;
 
 	private bool alreadyGaveFeedback = false;
+	private bool montyTalking;
 
 	protected override void Awake()
 	{
@@ -120,17 +120,4 @@ public class MontyController : BaseController
 		}
 		canvasScript.DisableAllButtons();
 	}
-
-
-
-
-    // every 2 seconds perform the print()
-    public static IEnumerator ResetMontyTalking(float waitTime)
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(waitTime);
-            montyTalking = false;
-        }
-    }
 }
