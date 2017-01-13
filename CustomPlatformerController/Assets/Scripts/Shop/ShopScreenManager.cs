@@ -47,11 +47,11 @@ public class ShopScreenManager : MenusController
 
             if (selectedItem.isEquiped)
             {
-                equipBtnTxt.text = "Selecteer";
+                equipBtnTxt.text = "Deselecteer";
             }
             else
             {
-                equipBtnTxt.text = "Deselecteer";
+                equipBtnTxt.text = "Selecteer";
             }
         }
         else

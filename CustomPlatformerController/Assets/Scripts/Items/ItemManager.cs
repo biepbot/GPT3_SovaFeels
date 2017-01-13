@@ -51,7 +51,7 @@ public class ItemManager : MonoBehaviour
 			items = new List<ShopItem>();
 
 			items.Add(new ShopItem("Rode shirt", 2, false, false, 1));
-			items.Add(new ShopItem("groene broek", 3, false, false, 2));
+			items.Add(new ShopItem("Groene broek", 3, false, false, 2));
 
 			ss.Clear();
 			ss.Add(items);
