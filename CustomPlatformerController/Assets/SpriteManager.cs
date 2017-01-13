@@ -23,7 +23,7 @@ public class SpriteManager : MonoBehaviour {
 		int finalNumber = 0;
 		foreach(ShopItem item in itemManager.items)
 		{
-			if (item.isOwned) finalNumber += item.itemID;
+			if (item.isEquiped) finalNumber += item.itemID;
 		}
 
 		playerPlayer.stand = spriteSets[finalNumber].stand;
