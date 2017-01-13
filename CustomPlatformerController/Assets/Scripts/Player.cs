@@ -20,10 +20,18 @@ public class Player : MonoBehaviour
 	private SoundManager soundManager;
 
 	public Transform spriteTransform;
+	private SpriteRenderer sR;
+
+	public Sprite stand;
+	public Sprite walk1;
+	public Sprite walk2;
+	public Sprite jump;
+
+	private float spriteTimer = 0;
 
 	void Awake()
 	{
-		playerInfo.direction = -2;
+		sR = spriteTransform.GetComponent<SpriteRenderer>();
 		playerController = GetComponent<PlayerController>();
 
 		if (Camera.main.GetComponent<CameraController>() == null)
@@ -50,6 +58,8 @@ public class Player : MonoBehaviour
 		CheckXMovement();
 
 		CheckJump();
+
+		setPlayerSprite();
 
 		//Enable gravity to the player, if the player is not standing on a platform
 		if (!playerController.collInfo.below) velocity.y -= gravity * Time.deltaTime;
@@ -111,10 +121,39 @@ public class Player : MonoBehaviour
 		//The movement over the X axis is defined by the input of the Horizontal axis
 		if (inputX > 0.1f) playerInfo.direction = 1;
 		else if (inputX < -0.1f) playerInfo.direction = -1;
-		if (playerInfo.direction == 1) spriteTransform.eulerAngles = Vector3.zero;
-		else if (playerInfo.direction == -1) spriteTransform.eulerAngles = Vector3.up * 180;
+		else playerInfo.direction = 0;
+		
 		velocityTarget = inputX * moveSpeed;
 		velocity.x = Mathf.SmoothDamp(velocity.x, velocityTarget, ref smoothVelocity, smoothTime);
+	}
+
+	private void setPlayerSprite()
+	{
+		if (playerInfo.direction == 1) spriteTransform.eulerAngles = Vector3.zero;
+		else if (playerInfo.direction == -1) spriteTransform.eulerAngles = Vector3.up * 180;
+		if (!playerController.CheckInAir())
+		{
+			if (playerInfo.direction != 0)
+			{
+				if (spriteTimer > 0.15f)
+				{
+					spriteTimer = 0;
+					if (sR.sprite == walk1) sR.sprite = walk2;
+					else if (sR.sprite != walk1) sR.sprite = walk1;
+				}
+				spriteTimer += Time.deltaTime;
+
+			}
+			else
+			{
+				sR.sprite = stand;
+			}
+		}
+		else
+		{
+			sR.sprite = jump;
+		}
+
 	}
 
 	/// <summary>
