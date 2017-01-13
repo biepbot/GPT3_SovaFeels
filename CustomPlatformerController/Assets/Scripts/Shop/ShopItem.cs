@@ -8,13 +8,15 @@ public class ShopItem
 
     public bool isEquiped { get; set; }
     public bool isOwned { get; set; }
+	public int itemID { get; set; }
 
-    public ShopItem(string name, int price, bool isEquiped, bool isOwned)
+    public ShopItem(string name, int price, bool isEquiped, bool isOwned, int itemID)
     {
         this.name = name;
         this.price = price;
         this.isEquiped = isEquiped;
         this.isOwned = isOwned;
+		this.itemID = itemID;
     }
 
     public override string ToString()
