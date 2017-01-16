@@ -33,7 +33,14 @@ public class MainMenuScript : MonoBehaviour
 
     public void ViewStats()
     {
-        saveSystem.Save(Files.STATS_FNAME);
+        // Checks whether the stats file exists or not
+        bool statsExist = saveSystem.Load(Files.STATS_FNAME);
+        if (!statsExist)
+        {
+            saveSystem.Save(Files.STATS_FNAME);
+            Debug.Log("Creating new Stats file");
+        }
+
         //Loads the statistics scene
         LevelLoader.LoadStatistics();
         if (SoundManager.Instance != null)
