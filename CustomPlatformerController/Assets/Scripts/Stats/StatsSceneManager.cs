@@ -65,7 +65,7 @@ public class StatsSceneManager : MenusController
                 else
                 {
                     lastFinishedPlaythroughText.text = "Laatste playthrough voltooid: " +
-                                                       statsLine.lastFinishedPlaythrough.ToString("dd-MM-yyyy hh:mm");
+                                                       statsLine.lastFinishedPlaythrough.ToString("dd-MM-yyyy HH:mm");
                 }
             }
         }
