@@ -12,14 +12,13 @@ public class GameStats
 
     [Range(minDiff, maxDiff)]
     public int levelDifficulty;
-    public int handle;
-    public int fight;
-    public int hide;
     public int coins;
     public int amountOfPlaythroughs;
     public DateTime lastFinishedPlaythrough;
 
     public bool destroy = false;
+
+    public List<Stats> stats;
 
     private static SaveSystem ss = new SaveSystem();
 
@@ -41,66 +40,154 @@ public class GameStats
         Load();
     }
 
-    public int Total
-    {
-        get
-        {
-            return (fight + handle + hide);
-        }
-    }
-
-    public Stats GetStats()
-    {
-        Stats stats = new Stats()
-        {
-            amountOfPlaythroughs = this.amountOfPlaythroughs,
-            handle = this.handle,
-            fight = this.fight,
-            hide = this.hide,
-            levelDifficulty = this.levelDifficulty,
-            coins = this.coins,
-            lastFinishedPlaythrough = this.lastFinishedPlaythrough
-        };
-        return stats;
-    }
-
     public void RewardCoins(int coins)
     {
-        this.coins += coins;
+        foreach (Stats stat in stats)
+        {
+            if (stat.categoryName == null)
+            {
+                stat.coins += coins;
+            }
+        }
     }
 
     public void DecreaseCoins(int coins)
     {
-        this.coins -= coins;
+        foreach (Stats stat in stats)
+        {
+            if (stat.categoryName == null)
+            {
+                stat.coins -= coins;
+            }
+        }
     }
 
     public void DecreaseDifficulty()
     {
-        levelDifficulty = (levelDifficulty > minDiff) ? --levelDifficulty : minDiff;
+        foreach (Stats stat in stats)
+        {
+            if (stat.categoryName == null)
+            {
+                stat.levelDifficulty = (stat.levelDifficulty > minDiff) ? --stat.levelDifficulty : minDiff;
+            }
+        }
     }
 
     public void IncreaseDifficulty()
     {
-        levelDifficulty = (levelDifficulty < maxDiff) ? ++levelDifficulty : maxDiff;
+        foreach (Stats stat in stats)
+        {
+            if (stat.categoryName == null)
+            {
+                stat.levelDifficulty = (stat.levelDifficulty < maxDiff) ? ++stat.levelDifficulty : maxDiff;
+            }
+        }
+    }
+
+    public void IncreaseConfrontation(string level)
+    {
+        foreach (Stats stat in stats)
+        {
+            if (stat.categoryName != null)
+            {
+                if (stat.categoryName.Equals(level))
+                {
+                    stat.handle++;
+                }
+            }
+        }
+    }
+
+    public void IncreaseIgnoreFlight(string level)
+    {
+        foreach (Stats stat in stats)
+        {
+            if (stat.categoryName != null)
+            {
+                if (stat.categoryName.Equals(level))
+                {
+                    stat.hide++;
+                }
+            }
+        }
+    }
+
+    public void IncreaseFight(string level)
+    {
+        foreach (Stats stat in stats)
+        {
+            if (stat.categoryName != null)
+            {
+                if (stat.categoryName.Equals(level))
+                {
+                    stat.fight++;
+                }
+            }
+        }
+    }
+
+    public void EndPlaythrough(DateTime date)
+    {
+        foreach (Stats stat in stats)
+        {
+            if (stat.categoryName == null)
+            {
+                stat.amountOfPlaythroughs++;
+                stat.lastFinishedPlaythrough = date;
+            }
+        }
     }
 
     public bool Load()
     {
         ss.Clear();
         bool statsExist = ss.Load(Files.STATS_FNAME);
-        ss.Clear();
 
         if (!statsExist)
         {
             Debug.Log("Creating new Stats file");
 
-            List<Stats> stats = new List<Stats>();
+            stats = new List<Stats>();
+
+            levelDifficulty = 1;
 
             stats.Add(new Stats()
             {
                 amountOfPlaythroughs = 0,
-                levelDifficulty = 1,
+                levelDifficulty = this.levelDifficulty,
                 coins = 0
+            });
+
+            stats.Add(new Stats()
+            {
+                categoryName = "1",
+                handle = 0,
+                hide = 0,
+                fight = 0
+            });
+
+            stats.Add(new Stats()
+            {
+                categoryName = "2",
+                handle = 0,
+                hide = 0,
+                fight = 0
+            });
+
+            stats.Add(new Stats()
+            {
+                categoryName = "3",
+                handle = 0,
+                hide = 0,
+                fight = 0
+            });
+
+            stats.Add(new Stats()
+            {
+                categoryName = "4",
+                handle = 0,
+                hide = 0,
+                fight = 0
             });
 
             ss.Clear();
@@ -109,10 +196,9 @@ public class GameStats
             ss.Clear();
         }
 
-
         if (ss.Load(Files.STATS_FNAME))
         {
-            List<Stats> stats = ss.GetObject<List<Stats>>();
+            stats = ss.GetObject<List<Stats>>();
             if (stats != null)
             {
                 foreach (Stats s in stats)
@@ -120,9 +206,6 @@ public class GameStats
                     if (s.categoryName == null)
                     {
                         levelDifficulty = s.levelDifficulty;
-                        handle = s.handle;
-                        fight = s.fight;
-                        hide = s.hide;
                         coins = s.coins;
                         amountOfPlaythroughs = s.amountOfPlaythroughs;
                         lastFinishedPlaythrough = s.lastFinishedPlaythrough;
@@ -143,17 +226,12 @@ public class GameStats
 
     public bool Save()
     {
-        List<Stats> stats = ss.GetObject<List<Stats>>();
         if (stats != null)
         {
-            for (int i = 0; i < stats.Count; i++)
-            {
-                if (stats[i].categoryName == null)
-                {
-                    stats[i] = GetStats();
-                }
-            }
+            ss.Clear();
+            ss.Add(stats);
             ss.Save(Files.STATS_FNAME);
+            ss.Clear();
             return true;
         }
         else

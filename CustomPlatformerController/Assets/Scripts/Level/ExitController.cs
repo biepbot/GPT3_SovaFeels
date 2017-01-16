@@ -37,6 +37,23 @@ public class ExitController : MonoBehaviour
 
         if (LevelLoader.HasMoreLevels)
         {
+            NPCController.SolutionTypes solution = MontyController.GetSolution();
+            switch (solution)
+            {
+                case NPCController.SolutionTypes.Confrontation:
+                    gameStats.IncreaseConfrontation(gameStats.levelDifficulty.ToString());
+                    break;
+                case NPCController.SolutionTypes.Ignore:
+                case NPCController.SolutionTypes.Flight:
+                    gameStats.IncreaseIgnoreFlight(gameStats.levelDifficulty.ToString());
+                    break;
+                case NPCController.SolutionTypes.Fight:
+                    gameStats.IncreaseFight(gameStats.levelDifficulty.ToString());
+                    break;
+            }
+
+            gameStats.Save();
+
             LevelLoader.LoadNextLevel();
         }
         else if (SceneManager.GetActiveScene().name == "Tutorial")
@@ -46,17 +63,32 @@ public class ExitController : MonoBehaviour
         }
         else if (!playthroughEnded)
         {
+            NPCController.SolutionTypes solution = MontyController.GetSolution();
+            switch (solution)
+            {
+                case NPCController.SolutionTypes.Confrontation:
+                    gameStats.IncreaseConfrontation(gameStats.levelDifficulty.ToString());
+                    break;
+                case NPCController.SolutionTypes.Ignore:
+                case NPCController.SolutionTypes.Flight:
+                    gameStats.IncreaseIgnoreFlight(gameStats.levelDifficulty.ToString());
+                    break;
+                case NPCController.SolutionTypes.Fight:
+                    gameStats.IncreaseFight(gameStats.levelDifficulty.ToString());
+                    break;
+            }
+
             RewardsText rewardsText = endGamePrefab.GetComponentInChildren<RewardsText>();
             if (rewardsText != null)
             {
                 rewardsText.SetText();
             }
+
             LevelLoader.EndPlaythrough();
             playthroughEnded = true;
             endGamePrefab.SetActive(true);
             endLevelSoundPlayed = false;
-            gameStats.amountOfPlaythroughs++;
-            gameStats.lastFinishedPlaythrough = DateTime.Now;
+            gameStats.EndPlaythrough(DateTime.Now);
             gameStats.Save();
         }
     }

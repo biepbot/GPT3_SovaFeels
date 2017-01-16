@@ -15,7 +15,7 @@ public class MontyController : BaseController
 	public string confrontMontyFeedBack;
 
 	public GameObject NPC;
-	private NPCController NPCScript;
+	private static NPCController NPCScript;
 	private CanvasScript canvasScript;
 
 	private bool alreadyGaveFeedback = false;
@@ -111,8 +111,6 @@ public class MontyController : BaseController
                 }
                 canvasScript.SetDialogBox(confrontMontyFeedBack);
 		    }
-
-		    //StartCoroutine(ResetMontyTalking(2.0f));
 		}
 		else
 		{
@@ -120,4 +118,9 @@ public class MontyController : BaseController
 		}
 		canvasScript.DisableAllButtons();
 	}
+
+    public static NPCController.SolutionTypes GetSolution()
+    {
+        return NPCScript.GetSolution();
+    }
 }

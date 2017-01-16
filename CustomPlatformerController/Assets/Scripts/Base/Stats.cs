@@ -3,7 +3,7 @@
 namespace Assets.Scripts.Base
 {
     [Serializable]
-    public struct Stats
+    public class Stats
     {
         public string categoryName;
         public int handle;
