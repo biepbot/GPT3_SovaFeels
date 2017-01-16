@@ -87,6 +87,29 @@ public class GameStats
     public bool Load()
     {
         ss.Clear();
+        bool statsExist = ss.Load(Files.STATS_FNAME);
+        ss.Clear();
+
+        if (!statsExist)
+        {
+            Debug.Log("Creating new Stats file");
+
+            List<Stats> stats = new List<Stats>();
+
+            stats.Add(new Stats()
+            {
+                amountOfPlaythroughs = 0,
+                levelDifficulty = 1,
+                coins = 0
+            });
+
+            ss.Clear();
+            ss.Add(stats);
+            ss.Save(Files.STATS_FNAME);
+            ss.Clear();
+        }
+
+
         if (ss.Load(Files.STATS_FNAME))
         {
             List<Stats> stats = ss.GetObject<List<Stats>>();
@@ -116,7 +139,6 @@ public class GameStats
         {
             return false;
         }
-
     }
 
     public bool Save()

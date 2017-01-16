@@ -36,43 +36,38 @@ public class StatsSceneManager : MenusController
 
         int counter = 0;
 
-        try
+        foreach (Stats statsLine in categories)
         {
-            foreach (Stats statsLine in categories)
+            if (statsLine.categoryName != null)
             {
-                if (statsLine.categoryName != null)
+                categoryText = Instantiate(Resources.Load("CategoryText")) as GameObject;
+                categoryText.name = statsLine.categoryName;
+                categoryText.GetComponent<Text>().text = statsLine.categoryName + " - Totaal: " + statsLine.Total +
+                                                            " - A: " + statsLine.handle + ", K: " + statsLine.fight +
+                                                            ", W: " +
+                                                            statsLine.hide;
+                categoryText.transform.SetParent(content.transform);
+                categoryText.transform.localPosition = new Vector3(5, 0, 0);
+                categoryText.transform.localPosition += new Vector3(0, -spaceBetweenRows * counter, 0);
+                categoryText.GetComponent<RectTransform>().sizeDelta = new Vector2(textBoxWidth, textBoxLength);
+                counter++;
+            }
+            else
+            {
+                levelDifficultyText.text = "Huidige moeilijkheidsgraad: " + statsLine.levelDifficulty;
+                coins.text = "Aantal verzamelde muntjes: " + statsLine.coins;
+                amountOfPlaythroughsText.text = "Aantal gespeelde playthroughs: " + statsLine.amountOfPlaythroughs;
+
+                if (statsLine.lastFinishedPlaythrough.ToString("dd-MM-yyyy hh:mm").Equals("01-01-0001 12:00"))
                 {
-                    categoryText = Instantiate(Resources.Load("CategoryText")) as GameObject;
-                    categoryText.name = statsLine.categoryName;
-                    categoryText.GetComponent<Text>().text = statsLine.categoryName + " - Totaal: " + statsLine.Total +
-                                                             " - A: " + statsLine.handle + ", K: " + statsLine.fight +
-                                                             ", W: " +
-                                                             statsLine.hide;
-                    categoryText.transform.SetParent(content.transform);
-                    categoryText.transform.localPosition = new Vector3(5, 0, 0);
-                    categoryText.transform.localPosition += new Vector3(0, -spaceBetweenRows * counter, 0);
-                    categoryText.GetComponent<RectTransform>().sizeDelta = new Vector2(textBoxWidth, textBoxLength);
-                    counter++;
+                    lastFinishedPlaythroughText.text = "Laatste playthrough voltooid: " + "-";
                 }
                 else
                 {
-                    levelDifficultyText.text = "Huidige moeilijkheidsgraad: " + statsLine.levelDifficulty;
-                    coins.text = "Aantal verzamelde muntjes: " + statsLine.coins;
-                    amountOfPlaythroughsText.text = "Aantal gespeelde playthroughs: " + statsLine.amountOfPlaythroughs;
                     lastFinishedPlaythroughText.text = "Laatste playthrough voltooid: " +
                                                        statsLine.lastFinishedPlaythrough.ToString("dd-MM-yyyy hh:mm");
                 }
             }
-        }
-        catch (NullReferenceException ex)
-        {
-            Debug.Log(ex.Message);
-            categoryText = Instantiate(Resources.Load("CategoryText")) as GameObject;
-            categoryText.GetComponent<Text>().text = "Er is zijn nog geen statistieken opgeslagen.";
-            categoryText.transform.SetParent(content.transform);
-            categoryText.transform.localPosition = new Vector3(5, 0, 0);
-            categoryText.transform.localPosition += new Vector3(0, -spaceBetweenRows * counter, 0);
-            categoryText.GetComponent<RectTransform>().sizeDelta = new Vector2(textBoxWidth, textBoxLength);
         }
     }
 

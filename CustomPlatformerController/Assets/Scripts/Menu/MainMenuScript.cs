@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 public class MainMenuScript : MonoBehaviour
 {
     private static SaveSystem saveSystem = new SaveSystem();
+    public GameStats gameStats { get { return GameStats.Instance; } }
 
     public void StartNewPlaythrough()
     {
@@ -33,14 +34,6 @@ public class MainMenuScript : MonoBehaviour
 
     public void ViewStats()
     {
-        // Checks whether the stats file exists or not
-        bool statsExist = saveSystem.Load(Files.STATS_FNAME);
-        if (!statsExist)
-        {
-            saveSystem.Save(Files.STATS_FNAME);
-            Debug.Log("Creating new Stats file");
-        }
-
         //Loads the statistics scene
         LevelLoader.LoadStatistics();
         if (SoundManager.Instance != null)

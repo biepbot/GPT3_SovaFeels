@@ -94,6 +94,7 @@ namespace Assets.Scripts.Base
         /// <param name="instantplay">Whether to launch a level from the set</param>
         public static void NewPlayThrough(bool instantplay)
         {
+            Debug.Log("Current playthrough difficulty: " + Difficulty);
             currentPlayThrough = new Playthrough();
             LoadRandomLevelSet(instantplay, true, DEFAULT_LEVEL_AMOUNT, true);
 
