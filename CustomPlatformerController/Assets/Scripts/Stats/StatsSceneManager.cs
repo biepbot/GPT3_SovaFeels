@@ -15,7 +15,7 @@ public class StatsSceneManager : MenusController
     public Text lastFinishedPlaythroughText;
     public int spaceBetweenRows = 70;
     public int textBoxWidth = 1660;
-    public int textBoxLength = 100;
+    public int textBoxLength = 158;
 
     private static SaveSystem saveSystem = new SaveSystem();
     private List<Stats> categories;
@@ -34,18 +34,20 @@ public class StatsSceneManager : MenusController
         categories = saveSystem.GetObject<List<Stats>>();
         saveSystem.Clear();
 
+        spaceBetweenRows = 170;
+        textBoxWidth = 1660;
+        textBoxLength = 158;
+
         int counter = 0;
 
         foreach (Stats statsLine in categories)
         {
-            if (statsLine.categoryName != null)
+            if (statsLine.categoryName != null && statsLine.Total > 0)
             {
                 categoryText = Instantiate(Resources.Load("CategoryText")) as GameObject;
                 categoryText.name = statsLine.categoryName;
-                categoryText.GetComponent<Text>().text = statsLine.categoryName + " - Totaal: " + statsLine.Total +
-                                                            " - A: " + statsLine.handle + ", K: " + statsLine.fight +
-                                                            ", W: " +
-                                                            statsLine.hide;
+                categoryText.GetComponent<Text>().text = "Moeilijkheidsgraad " + statsLine.categoryName + " (" + statsLine.Total + " situaties totaal):\nAanpakken: " + statsLine.handle 
+                    + " - Knokken: " + statsLine.fight + " - Wegkruipen: " + statsLine.hide;
                 categoryText.transform.SetParent(content.transform);
                 categoryText.transform.localPosition = new Vector3(5, 0, 0);
                 categoryText.transform.localPosition += new Vector3(0, -spaceBetweenRows * counter, 0);
