@@ -12,12 +12,15 @@ public class ItemManager : MonoBehaviour
 	private static ItemManager instance = null;
 	public static ItemManager Instance { get { return instance; } }
 
-	public bool destroy = false;
+    public GameStats gameStats { get { return GameStats.Instance; } }
+
+    public bool destroy = false;
 
 	private void Awake()
 	{
 		DontDestroyObject();
 		Load();
+	    gameStats.Load();
 	}
 
 
