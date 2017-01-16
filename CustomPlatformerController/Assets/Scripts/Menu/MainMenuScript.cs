@@ -9,6 +9,8 @@ using Random = UnityEngine.Random;
 
 public class MainMenuScript : MonoBehaviour
 {
+    private static SaveSystem saveSystem = new SaveSystem();
+
     public void StartNewPlaythrough()
     {
         //Forces a new playthrough
@@ -31,6 +33,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void ViewStats()
     {
+        saveSystem.Save(Files.STATS_FNAME);
         //Loads the statistics scene
         LevelLoader.LoadStatistics();
         if (SoundManager.Instance != null)

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Base;
 using UnityEngine;
@@ -34,28 +35,44 @@ public class StatsSceneManager : MenusController
         saveSystem.Clear();
 
         int counter = 0;
-        foreach (Stats statsLine in categories)
+
+        try
         {
-            if (statsLine.categoryName != null)
+            foreach (Stats statsLine in categories)
             {
-                categoryText = Instantiate(Resources.Load("CategoryText")) as GameObject;
-                categoryText.name = statsLine.categoryName;
-                categoryText.GetComponent<Text>().text = statsLine.categoryName + " - Totaal: " + statsLine.Total +
-                                                         " - A: " + statsLine.handle + ", K: " + statsLine.fight + ", W: " +
-                                                         statsLine.hide;
-                categoryText.transform.SetParent(content.transform);
-                categoryText.transform.localPosition = new Vector3(5, 0, 0);
-                categoryText.transform.localPosition += new Vector3(0, -spaceBetweenRows*counter, 0);
-                categoryText.GetComponent<RectTransform>().sizeDelta = new Vector2(textBoxWidth, textBoxLength);
-                counter++;
+                if (statsLine.categoryName != null)
+                {
+                    categoryText = Instantiate(Resources.Load("CategoryText")) as GameObject;
+                    categoryText.name = statsLine.categoryName;
+                    categoryText.GetComponent<Text>().text = statsLine.categoryName + " - Totaal: " + statsLine.Total +
+                                                             " - A: " + statsLine.handle + ", K: " + statsLine.fight +
+                                                             ", W: " +
+                                                             statsLine.hide;
+                    categoryText.transform.SetParent(content.transform);
+                    categoryText.transform.localPosition = new Vector3(5, 0, 0);
+                    categoryText.transform.localPosition += new Vector3(0, -spaceBetweenRows * counter, 0);
+                    categoryText.GetComponent<RectTransform>().sizeDelta = new Vector2(textBoxWidth, textBoxLength);
+                    counter++;
+                }
+                else
+                {
+                    levelDifficultyText.text = "Huidige moeilijkheidsgraad: " + statsLine.levelDifficulty;
+                    coins.text = "Aantal verzamelde muntjes: " + statsLine.coins;
+                    amountOfPlaythroughsText.text = "Aantal gespeelde playthroughs: " + statsLine.amountOfPlaythroughs;
+                    lastFinishedPlaythroughText.text = "Laatste playthrough voltooid: " +
+                                                       statsLine.lastFinishedPlaythrough.ToString("dd-MM-yyyy hh:mm");
+                }
             }
-            else
-            {
-                levelDifficultyText.text = "Huidige moeilijkheidsgraad: " + statsLine.levelDifficulty;
-                coins.text = "Aantal verzamelde muntjes: " + statsLine.coins;
-                amountOfPlaythroughsText.text = "Aantal gespeelde playthroughs: " + statsLine.amountOfPlaythroughs;
-                lastFinishedPlaythroughText.text = "Laatste playthrough voltooid: " + statsLine.lastFinishedPlaythrough.ToString("dd-MM-yyyy hh:mm");
-            }          
+        }
+        catch (NullReferenceException ex)
+        {
+            Debug.Log(ex.Message);
+            categoryText = Instantiate(Resources.Load("CategoryText")) as GameObject;
+            categoryText.GetComponent<Text>().text = "Er is zijn nog geen statistieken opgeslagen.";
+            categoryText.transform.SetParent(content.transform);
+            categoryText.transform.localPosition = new Vector3(5, 0, 0);
+            categoryText.transform.localPosition += new Vector3(0, -spaceBetweenRows * counter, 0);
+            categoryText.GetComponent<RectTransform>().sizeDelta = new Vector2(textBoxWidth, textBoxLength);
         }
     }
 
