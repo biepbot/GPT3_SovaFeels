@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Base;
+﻿using System;
+using Assets.Scripts.Base;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class GameStats
     public int hide;
     public int coins;
     public int amountOfPlaythroughs;
+    public DateTime lastFinishedPlaythrough;
 
     public bool destroy = false;
 
@@ -57,6 +59,7 @@ public class GameStats
             hide = this.hide,
             levelDifficulty = this.levelDifficulty,
             coins = this.coins,
+            lastFinishedPlaythrough = this.lastFinishedPlaythrough
         };
         return stats;
     }
@@ -99,6 +102,7 @@ public class GameStats
                         hide = s.hide;
                         coins = s.coins;
                         amountOfPlaythroughs = s.amountOfPlaythroughs;
+                        lastFinishedPlaythrough = s.lastFinishedPlaythrough;
                     }
                 }
                 return true;

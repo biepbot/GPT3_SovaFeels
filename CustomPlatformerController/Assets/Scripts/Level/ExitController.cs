@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Base;
+﻿using System;
+using Assets.Scripts.Base;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -54,6 +55,9 @@ public class ExitController : MonoBehaviour
             playthroughEnded = true;
             endGamePrefab.SetActive(true);
             endLevelSoundPlayed = false;
+            gameStats.amountOfPlaythroughs++;
+            gameStats.lastFinishedPlaythrough = DateTime.Now;
+            gameStats.Save();
         }
     }
 }
