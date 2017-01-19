@@ -9,7 +9,7 @@ namespace Assets.Scripts.Base
         public int handle;
         public int fight;
         public int hide;
-        public int levelDifficulty;
+        public float levelDifficulty;
         public int coins;
         public int amountOfPlaythroughs;
         public DateTime lastFinishedPlaythrough;
