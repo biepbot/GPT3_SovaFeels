@@ -92,16 +92,20 @@ public class Player : MonoBehaviour
 			doJump = Input.GetAxis("Vertical") == 1 || Input.GetAxis("Jump") == 1;
 		}
 
+		lastJump += Time.deltaTime;
+
 		//If the player needs to jump, and is able to, jump.
 		if (doJump && playerController.collInfo.below)
 		{
 			velocity.y = jumpingHeight;
 			sR.sprite = jump;
-			lastJump = 0;
-			if (SoundManager.Instance != null)
+
+			if (SoundManager.Instance != null && lastJump > 0.1f)
 			{
 				SoundManager.Instance.ObjectSounds[0].PlayAudioClip(0);
 			}
+
+			lastJump = 0;
 		}
 	}
 
@@ -153,11 +157,6 @@ public class Player : MonoBehaviour
 				spriteTimer = 1;
 			}
 		}
-		else
-		{
-			lastJump += Time.deltaTime;
-		}
-
 	}
 
 	/// <summary>
