@@ -22,17 +22,10 @@ public class GameStats
 
     private static SaveSystem ss = new SaveSystem();
 
-    private static GameStats instance = null;
+    private static GameStats instance = new GameStats();
     public static GameStats Instance
     {
-        get
-        {
-            if (instance == null)
-            {
-                instance = new GameStats();
-            }
-            return instance;
-        }
+        get { return instance ?? (instance = new GameStats()); }
     }
 
     private GameStats()
@@ -42,22 +35,17 @@ public class GameStats
 
     public void RewardCoins(int coins)
     {
-        foreach (Stats stat in stats)
-        {
-            if (stat.categoryName == null)
-            {
-                stat.coins += coins;
-            }
-        }
+        DecreaseCoins(-coins);
     }
 
     public void DecreaseCoins(int coins)
     {
+        this.coins -= coins;
         foreach (Stats stat in stats)
         {
             if (stat.categoryName == null)
             {
-                stat.coins -= coins;
+                stat.coins = this.coins;
             }
         }
     }

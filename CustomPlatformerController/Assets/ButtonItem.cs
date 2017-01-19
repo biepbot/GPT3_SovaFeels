@@ -18,6 +18,5 @@ public class ButtonItem : MonoBehaviour {
     public void Trigger()
     {
         man.selectItem(index);
-        Debug.Log(index);
     }
 }
