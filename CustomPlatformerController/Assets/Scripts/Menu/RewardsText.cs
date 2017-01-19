@@ -18,6 +18,13 @@ public class RewardsText : MonoBehaviour {
 	
 	public void SetText()
     {
-        text.text = "Je hebt " + LevelLoader.CurrentPlayThrough.PlaythroughCoins + " coins ontvangen";
+        if (LevelLoader.CurrentPlayThrough.PlaythroughCoins == 1)
+        {
+            text.text = "Je hebt " + LevelLoader.CurrentPlayThrough.PlaythroughCoins + " coin ontvangen";
+        }
+        else
+        {
+            text.text = "Je hebt " + LevelLoader.CurrentPlayThrough.PlaythroughCoins + " coins ontvangen";
+        }
     }
 }
