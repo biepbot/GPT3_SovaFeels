@@ -42,17 +42,23 @@ public class StatsSceneManager : MenusController
 
         foreach (Stats statsLine in categories)
         {
-            if (statsLine.categoryName != null && statsLine.Total > 0)
+            if (statsLine.categoryName != null)
             {
-                categoryText = Instantiate(Resources.Load("CategoryText")) as GameObject;
-                categoryText.name = statsLine.categoryName;
-                categoryText.GetComponent<Text>().text = "Moeilijkheidsgraad " + statsLine.categoryName + " (" + statsLine.Total + " situaties totaal):\nAanpakken: " + statsLine.handle 
-                    + " - Knokken: " + statsLine.fight + " - Wegkruipen: " + statsLine.hide;
-                categoryText.transform.SetParent(content.transform);
-                categoryText.transform.localPosition = new Vector3(5, 0, 0);
-                categoryText.transform.localPosition += new Vector3(0, -spaceBetweenRows * counter, 0);
-                categoryText.GetComponent<RectTransform>().sizeDelta = new Vector2(textBoxWidth, textBoxLength);
-                counter++;
+                if (statsLine.Total > 0)
+                {
+                    categoryText = Instantiate(Resources.Load("CategoryText")) as GameObject;
+                    categoryText.name = statsLine.categoryName;
+                    categoryText.GetComponent<Text>().text = "Moeilijkheidsgraad " + statsLine.categoryName + " (" +
+                                                             statsLine.Total + " situaties totaal):\nAanpakken: " +
+                                                             statsLine.handle
+                                                             + " - Knokken: " + statsLine.fight + " - Wegkruipen: " +
+                                                             statsLine.hide;
+                    categoryText.transform.SetParent(content.transform);
+                    categoryText.transform.localPosition = new Vector3(5, 0, 0);
+                    categoryText.transform.localPosition += new Vector3(0, -spaceBetweenRows * counter, 0);
+                    categoryText.GetComponent<RectTransform>().sizeDelta = new Vector2(textBoxWidth, textBoxLength);
+                    counter++;
+                }
             }
             else
             {
