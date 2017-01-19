@@ -44,8 +44,8 @@ public class StatsSceneManager : MenusController
         {
             if (statsLine.categoryName != null)
             {
-                //if (statsLine.Total > 0)
-                //{
+                if (statsLine.Total > 0)
+                {
                     categoryText = Instantiate(Resources.Load("CategoryText")) as GameObject;
                     categoryText.name = statsLine.categoryName;
                     categoryText.GetComponent<Text>().text = "Moeilijkheidsgraad " + statsLine.categoryName + " (" +
@@ -58,7 +58,7 @@ public class StatsSceneManager : MenusController
                     categoryText.transform.localPosition += new Vector3(0, -spaceBetweenRows * counter, 0);
                     categoryText.GetComponent<RectTransform>().sizeDelta = new Vector2(textBoxWidth, textBoxLength);
                     counter++;
-                //}
+                }
             }
             else
             {
