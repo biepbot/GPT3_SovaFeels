@@ -18,9 +18,9 @@ public class ShopScreenManager : MenusController
     public Toggle isOwned;
     public Toggle isEquiped;
 
-    public Button buyBtn;
+    public Button Btn;
     public Button equipBtn;
-    public Text equipBtnTxt;
+    public Text BtnTxt;
 
     public Text coins;
 
@@ -42,24 +42,14 @@ public class ShopScreenManager : MenusController
 
         if (selectedItem != null)
         {
-            buyBtn.enabled = !selectedItem.isOwned;
-            equipBtn.enabled = selectedItem.isOwned;
-
-            if (selectedItem.isEquiped)
-            {
-                equipBtnTxt.text = "Deselecteer";
-            }
-            else
-            {
-                equipBtnTxt.text = "Selecteer";
-            }
+			if (!selectedItem.isOwned) BtnTxt.text = "Koop";
+			else if (selectedItem.isEquiped) BtnTxt.text = "Deselecteer";
+			else BtnTxt.text = "Selecteer";
         }
         else
         {
-            equipBtnTxt.text = "Selecteer";
-
-            buyBtn.enabled = false;
-            equipBtn.enabled = false;
+            BtnTxt.text = "";           
+            Btn.enabled = false;
         }
     }
 
@@ -101,7 +91,14 @@ public class ShopScreenManager : MenusController
         selectedItem = shopManager.itemManager.items[index];
     }
 
-    public void buyItem()
+	public void BuyOrEquip()
+	{
+		if (!selectedItem.isOwned) shopManager.buyItem(selectedItem.name);
+		else shopManager.equipItem(selectedItem.name);
+		SoundManager.Instance.PlayButtonClickSound();
+	}
+
+	public void buyItem()
     {
         shopManager.buyItem(selectedItem.name);
         SoundManager.Instance.PlayButtonClickSound();
