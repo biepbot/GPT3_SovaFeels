@@ -28,13 +28,10 @@ public class ShopScreenManager : MenusController
 
     void Awake()
     {
-        fillItemDropdown();
         selectItem(0);
-
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    void UpdateInfo()
     {
         coins.text = gameStats.coins.ToString();
 
@@ -51,19 +48,6 @@ public class ShopScreenManager : MenusController
             BtnTxt.text = "";           
             Btn.enabled = false;
         }
-    }
-
-    //fills item dropdown with items
-    public void fillItemDropdown()
-    {
-        List<string> itemNames = new List<string>();
-
-        foreach (ShopItem item in shopManager.itemManager.items)
-        {
-            itemNames.Add(item.name);
-        }
-
-        dropdown.AddOptions(itemNames);
     }
 
     public void fillItemInfo()
@@ -89,6 +73,7 @@ public class ShopScreenManager : MenusController
     public void selectItem(int index)
     {
         selectedItem = shopManager.itemManager.items[index];
+        UpdateInfo();
     }
 
 	public void BuyOrEquip()
@@ -96,18 +81,21 @@ public class ShopScreenManager : MenusController
 		if (!selectedItem.isOwned) shopManager.buyItem(selectedItem.name);
 		else shopManager.equipItem(selectedItem.name);
 		SoundManager.Instance.PlayButtonClickSound();
+        UpdateInfo();
 	}
 
 	public void buyItem()
     {
         shopManager.buyItem(selectedItem.name);
         SoundManager.Instance.PlayButtonClickSound();
+        UpdateInfo();
     }
 
     public void equipItem()
     {
         shopManager.equipItem(selectedItem.name);
         SoundManager.Instance.PlayButtonClickSound();
+        UpdateInfo();
     }
 
     public void backToMenu()
