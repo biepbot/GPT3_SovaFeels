@@ -7,14 +7,11 @@ using UnityEngine;
 public class GameStats
 {
 
-    private const float minDiff = 1f;
-    private const float maxDiff = 3f;
-
-    private const float difficultyIncreaseStep = 0.1f;
-    private const float difficultyDecreaseStep = 0.1f;
+    private const int minDiff = 1;
+    private const int maxDiff = 4;
 
     [Range(minDiff, maxDiff)]
-    public float levelDifficulty;
+    public int levelDifficulty;
     public int coins;
     public int amountOfPlaythroughs;
     public DateTime lastFinishedPlaythrough;
@@ -71,7 +68,7 @@ public class GameStats
         {
             if (stat.categoryName == null)
             {
-                stat.levelDifficulty = ((stat.levelDifficulty - difficultyDecreaseStep) > minDiff) ? stat.levelDifficulty - difficultyDecreaseStep : minDiff;
+                stat.levelDifficulty = (stat.levelDifficulty > minDiff) ? --stat.levelDifficulty : minDiff;
             }
         }
     }
@@ -82,7 +79,7 @@ public class GameStats
         {
             if (stat.categoryName == null)
             {
-                stat.levelDifficulty = ((stat.levelDifficulty + difficultyIncreaseStep) < maxDiff) ? stat.levelDifficulty + difficultyIncreaseStep : maxDiff;
+                stat.levelDifficulty = (stat.levelDifficulty < maxDiff) ? ++stat.levelDifficulty : maxDiff;
             }
         }
     }

@@ -12,7 +12,7 @@ namespace Assets.Scripts.Base
     {
         public static List<TinyScene> AllScenes = new List<TinyScene>();
         private static SaveSystem saveSystem = new SaveSystem();
-        private static float Difficulty { get { return GameStats.Instance.levelDifficulty; } }
+        private static int Difficulty { get { return GameStats.Instance.levelDifficulty; } }
 
         private static Playthrough currentPlayThrough;
         public static Playthrough CurrentPlayThrough
@@ -149,7 +149,6 @@ namespace Assets.Scripts.Base
             if (currentPlayThrough.LacksLevels && newsetIfIsRequired || newset)
             {
                 List<int> selectable = FindLevels(RANDOMLEVEL_NAME);
-                //selectable = GetRandomLevelSet(selectable);
 
                 if (selectable.Count < amount)
                 {
@@ -159,7 +158,7 @@ namespace Assets.Scripts.Base
                 //Generate new set
                 for (int i = 0; i < amount; i++)
                 {
-                    int index = Random.Range(0, selectable.Count);
+                    int index = Random.Range(0, selectable.Count - 1);
 
                     //Pick a random one
                     int pick = selectable[index];
@@ -306,24 +305,5 @@ namespace Assets.Scripts.Base
                 return ret;
             }
         }
-
-        private static List<int> GetRandomLevelSet(List<int> levelSet, int size = DEFAULT_LEVEL_AMOUNT)
-        {
-            if(levelSet.Count < size)
-            {
-                throw new NotEnoughLevelsException();
-            }
-
-            List<int> newLevels = new List<int>();
-            while(newLevels.Count < size)
-            {
-                int randomLevel = levelSet[Random.Range(0, levelSet.Count)];
-                levelSet.Remove(randomLevel);
-                newLevels.Add(randomLevel);
-            }
-
-            return newLevels;
-        }
-
     }
 }
