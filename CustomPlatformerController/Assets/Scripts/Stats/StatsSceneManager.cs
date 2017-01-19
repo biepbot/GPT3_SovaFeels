@@ -13,7 +13,7 @@ public class StatsSceneManager : MenusController
     public Text coins;
     public Text amountOfPlaythroughsText;
     public Text lastFinishedPlaythroughText;
-    public int spaceBetweenRows = 70;
+    public int spaceBetweenRows = 190;
     public int textBoxWidth = 1660;
     public int textBoxLength = 158;
 
@@ -34,7 +34,7 @@ public class StatsSceneManager : MenusController
         categories = saveSystem.GetObject<List<Stats>>();
         saveSystem.Clear();
 
-        spaceBetweenRows = 170;
+        spaceBetweenRows = 190;
         textBoxWidth = 1660;
         textBoxLength = 158;
 
@@ -44,8 +44,8 @@ public class StatsSceneManager : MenusController
         {
             if (statsLine.categoryName != null)
             {
-                if (statsLine.Total > 0)
-                {
+                //if (statsLine.Total > 0)
+                //{
                     categoryText = Instantiate(Resources.Load("CategoryText")) as GameObject;
                     categoryText.name = statsLine.categoryName;
                     categoryText.GetComponent<Text>().text = "Moeilijkheidsgraad " + statsLine.categoryName + " (" +
@@ -54,11 +54,11 @@ public class StatsSceneManager : MenusController
                                                              + " - Knokken: " + statsLine.fight + " - Wegkruipen: " +
                                                              statsLine.hide;
                     categoryText.transform.SetParent(content.transform);
-                    categoryText.transform.localPosition = new Vector3(5, 0, 0);
+                    categoryText.transform.localPosition = new Vector3(5, -100, 0);
                     categoryText.transform.localPosition += new Vector3(0, -spaceBetweenRows * counter, 0);
                     categoryText.GetComponent<RectTransform>().sizeDelta = new Vector2(textBoxWidth, textBoxLength);
                     counter++;
-                }
+                //}
             }
             else
             {
