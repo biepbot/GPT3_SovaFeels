@@ -8,7 +8,7 @@ public class GameStats
 {
 
     private const int minDiff = 1;
-    private const int maxDiff = 4;
+    private const int maxDiff = 3;
 
     [Range(minDiff, maxDiff)]
     public int levelDifficulty;
