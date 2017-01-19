@@ -26,7 +26,7 @@ public class ShopScreenManager : MenusController
 
     private ShopItem selectedItem = null;
 
-    void Awake()
+    void Start()
     {
         selectItem(0);
     }
@@ -78,10 +78,14 @@ public class ShopScreenManager : MenusController
 
 	public void BuyOrEquip()
 	{
-		if (!selectedItem.isOwned) shopManager.buyItem(selectedItem.name);
-		else shopManager.equipItem(selectedItem.name);
-		SoundManager.Instance.PlayButtonClickSound();
-        UpdateInfo();
+	    if (!selectedItem.isOwned)
+	    {
+	        buyItem();
+        }
+	    else
+	    {
+	        equipItem();
+	    }
 	}
 
 	public void buyItem()

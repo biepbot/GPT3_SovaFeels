@@ -35,6 +35,7 @@ public class ShopManager : MonoBehaviour
         {
             gameStats.DecreaseCoins(item.price);
             itemManager.BuyItem(itemName);
+            saveData();
         }
     }
 
@@ -45,6 +46,7 @@ public class ShopManager : MonoBehaviour
         if (item.isOwned)
         {
             itemManager.EquipItem(itemName, !item.isEquiped);
+            saveData();
         }
     }
 }
